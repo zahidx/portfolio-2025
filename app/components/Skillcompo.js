@@ -3,16 +3,17 @@ import React from "react";
 
 export default function SkillsSection() {
   const skills = [
-    { name: "HTML", color: "bg-yellow-300" },
-    { name: "CSS", color: "bg-blue-300" },
-    { name: "JavaScript", color: "bg-yellow-500" },
-    { name: "React", color: "bg-blue-500" },
-    { name: "Node.js", color: "bg-green-500" },
-    { name: "MongoDB", color: "bg-green-300" },
-    { name: "Git", color: "bg-red-400" },
-    { name: "GitHub", color: "bg-gray-800" },
-    { name: "VS Code", color: "bg-blue-800" },
+    { name: "HTML", color: "bg-[#E54C21]" },  // Custom yellow
+    { name: "CSS", color: "bg-[#264EE4]" },   // Custom blue
+    { name: "JavaScript", color: "bg-[#F29111]" },  // Custom yellow
+    { name: "React", color: "bg-[#258aa1]" },  // Custom light blue
+    { name: "Node.js", color: "bg-[#3FC066]" },  // Custom green
+    { name: "MongoDB", color: "bg-[#12924F]" },  // Custom green
+    { name: "Git", color: "bg-[#E74E30]" },  // Custom red
+    { name: "GitHub", color: "bg-[#080808]" },  // Custom gray
+    { name: "VS Code", color: "bg-[#0889D2]" },  // Custom blue
   ];
+  
 
   return (
     <div className="relative min-h-screen bg-gray-100 py-12 overflow-hidden dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white">

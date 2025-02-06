@@ -2,18 +2,18 @@
 
 export default function SoftSkillPage() {
   const softSkills = [
-    { name: "Problem Solving", color: "bg-purple-500" },
-    { name: "Teamwork", color: "bg-blue-500" },
-    { name: "Communication", color: "bg-green-500" },
-    { name: "Time Management", color: "bg-yellow-500" },
-    { name: "MS Office", color: "bg-red-500" },
-    { name: "Critical Thinking", color: "bg-indigo-500" },
-    { name: "Adaptability", color: "bg-teal-500" },
-    { name: "Leadership", color: "bg-orange-500" },
-    { name: "Creativity", color: "bg-pink-500" }, // New item
-    { name: "Management", color: "bg-cyan-500" }, // New item
-    
+    { name: "Problem Solving", color: "bg-[#6A0DAD]" },  // Custom purple
+    { name: "Teamwork", color: "bg-[#1E40AF]" },  // Custom blue
+    { name: "Communication", color: "bg-[#2F855A]" },  // Custom green
+    { name: "Time Management", color: "bg-[#ba8c14]" },  // Custom yellow
+    { name: "MS Office", color: "bg-[#D32F2F]" },  // Custom red
+    { name: "Critical Thinking", color: "bg-[#4C51BF]" },  // Custom indigo
+    { name: "Adaptability", color: "bg-[#38B2AC]" },  // Custom teal
+    { name: "Leadership", color: "bg-[#DD6B20]" },  // Custom orange
+    { name: "Creativity", color: "bg-[#D61C72]" },  // Custom pink
+    { name: "Management", color: "bg-[#00B5D8]" },  // Custom cyan
   ];
+  
 
   return (
     <div
