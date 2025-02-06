@@ -102,7 +102,7 @@ export default function Hobbies() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-blue-400 to-[#D1C7FE] dark:bg-gradient-to-r dark:from-blue-700 dark:via-blue-700 dark:to-gray-800 text-gray-50 dark:text-gray-200 pt-28 pb-12 px-8 pl-28 pr-28 overflow-x-hidden">
+    <div className="bg-gradient-to-r from-blue-400 to-[#D1C7FE] dark:bg-gradient-to-r dark:from-blue-900 dark:via-blue-900 dark:to-[#0c0d51] text-gray-50 dark:text-gray-200 pt-28 pb-12 px-8 pl-28 pr-28 overflow-x-hidden">
       <h1 className="text-5xl font-extrabold text-center text-indigo-800 dark:text-red-100 mb-3 tracking-wide">
         Hobbies
       </h1>
