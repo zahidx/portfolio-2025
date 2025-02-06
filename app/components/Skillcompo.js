@@ -11,8 +11,12 @@ export default function SkillsSection() {
     { name: "MongoDB", color: "bg-[#12924F]" },  // Custom green
     { name: "Git", color: "bg-[#E74E30]" },  // Custom red
     { name: "GitHub", color: "bg-[#080808]" },  // Custom gray
-    { name: "VS Code", color: "bg-[#0889D2]" },  // Custom blue
+    { name: "VS Code", color: "bg-[#0889D2]" }, 
+    { name: "Bootstrap", color: "bg-[#7511F6]" }, // Custom blue
+    { name: "Vue.js", color: "bg-[#2a9666]" },  // Custom Vue.js green
+    { name: "TypeScript", color: "bg-[#3178C6]" },  // Custom blue
   ];
+  
   
 
   return (

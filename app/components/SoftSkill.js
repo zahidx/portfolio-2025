@@ -1,18 +1,23 @@
 "use client";
 
 export default function SoftSkillPage() {
-  const softSkills = [
-    { name: "Problem Solving", color: "bg-[#6A0DAD]" },  // Custom purple
-    { name: "Teamwork", color: "bg-[#1E40AF]" },  // Custom blue
-    { name: "Communication", color: "bg-[#2F855A]" },  // Custom green
-    { name: "Time Management", color: "bg-[#ba8c14]" },  // Custom yellow
-    { name: "MS Office", color: "bg-[#D32F2F]" },  // Custom red
-    { name: "Critical Thinking", color: "bg-[#4C51BF]" },  // Custom indigo
-    { name: "Adaptability", color: "bg-[#38B2AC]" },  // Custom teal
-    { name: "Leadership", color: "bg-[#DD6B20]" },  // Custom orange
-    { name: "Creativity", color: "bg-[#D61C72]" },  // Custom pink
-    { name: "Management", color: "bg-[#00B5D8]" },  // Custom cyan
-  ];
+const softSkills = [
+    { name: "Problem Solving", color: "bg-[#6A0DAD]", emoji: "🧩" },  // Custom purple
+    { name: "Teamwork", color: "bg-[#1E40AF]", emoji: "🤝" },  // Custom blue
+    { name: "Communication", color: "bg-[#2F855A]", emoji: "💬" },  // Custom green
+    { name: "Time Management", color: "bg-[#ba8c14]", emoji: "⏰" },  // Custom yellow
+    { name: "MS Office", color: "bg-[#D32F2F]", emoji: "💻" },  // Custom red
+    { name: "Critical Thinking", color: "bg-[#4C51BF]", emoji: "🤔" },  // Custom indigo
+    { name: "Adaptability", color: "bg-[#38B2AC]", emoji: "🌱" },  // Custom teal
+    { name: "Leadership", color: "bg-[#DD6B20]", emoji: "👑" },  // Custom orange
+    { name: "Creativity", color: "bg-[#D61C72]", emoji: "🎨" },  // Custom pink
+    { name: "Management", color: "bg-[#00B5D8]", emoji: "📈" },  // Custom cyan
+    { name: "Collaboration", color: "bg-[#a86a20]", emoji: "🤗" },  // Custom peach
+    { name: "Decision Making", color: "bg-[#2B6CB0]", emoji: "💡" },  // Custom blue
+    { name: "Attention to Detail", color: "bg-[#38B2AC]", emoji: "🔍" },  // Custom teal
+    { name: "Negotiation", color: "bg-[#9B2C2C]", emoji: "🤝💬" },  // Custom dark red
+];
+
   
 
   return (
