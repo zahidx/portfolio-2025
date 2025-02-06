@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect } from "react";
 import { FaRobot, FaTasks, FaShoppingCart, FaFilm, FaBook, FaRocket, FaRegClipboard, FaDollarSign, FaUtensils, FaCloudSun, FaNewspaper, FaTools } from "react-icons/fa";
 import AOS from "aos";
@@ -92,30 +91,22 @@ const projects = [
 ];
 
 export default function ProjectsResearchPage() {
-  useEffect(() => {
-    // Initialize AOS with configurations
-    AOS.init({
-      duration: 200, // Animation duration
-      easing: "ease-out", // Easing function for smooth transitions
-      once: false, // Allow animation to be triggered every time the element is in view
-      anchorPlacement: "top-bottom", // Animation triggers when the element reaches the top of the viewport
-    });
-  }, []);
-
   return (
     <div className="pl-14 pr-14 bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen" id="projects">
-      <h1 className="text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 pt-16 tracking-wide">Projects</h1>
-
+      <h1 className="text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 pt-16 tracking-wide">
+        Projects
+      </h1>
+  
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 px-6 py-8">
         {projects.map((project, index) => (
           <div
             key={index}
-            className={`bg-white dark:bg-gray-800 shadow-lg transition-transform duration-500 p-6 rounded-lg text-center
-            transform-gpu hover:scale-110 hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFFFFF] hover:to-[#FFFFFF] dark:hover:from-[#1F2937] dark:hover:to-[#1F2937] hover:z-10
-            ${index % 3 === 0 ? "hover:-rotate-3" : index % 3 === 2 ? "hover:rotate-3" : ""}`}
-            data-aos="fade-up" // Apply animation on scroll
-            data-aos-delay={index * 100} // Delay based on index
-            data-aos-duration="1500" // Duration for each animation
+            className={`
+              bg-white dark:bg-gray-800 shadow-lg transition-transform duration-500 p-6 rounded-lg text-center 
+              transform-gpu hover:scale-110 hover:shadow-2xl hover:bg-gradient-to-r 
+              hover:from-[#FFFFFF] hover:to-[#FFFFFF] dark:hover:from-[#1F2937] dark:hover:to-[#1F2937] hover:z-10
+              ${index % 3 === 0 ? 'hover:-rotate-3' : index % 3 === 2 ? 'hover:rotate-3' : ''}
+            `}
           >
             <div className="icon-container">
               {project.icon}
