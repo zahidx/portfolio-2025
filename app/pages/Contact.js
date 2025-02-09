@@ -100,7 +100,7 @@ export default function Contact() {
       <div className="flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
-          className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md hover:shadow-lg transform transition-transform hover:scale-105 space-y-4 w-full max-w-lg"
+          className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md hover:shadow-lg transform transition-transform hover:scale-100 space-y-4 w-full max-w-lg"
         >
           <div className="space-y-2">
             <label
