@@ -70,16 +70,16 @@ export default function ExtraCurricularPage() {
     <div className="relative min-h-screen bg-gradient-to-r from-blue-100 to-cyan-50 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] overflow-x-hidden">
       {/* Page Heading */}
       <div className="relative z-10">
-        <h1 className="text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 -mb-14 tracking-wide pt-10">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 tracking-wide pt-10 mb-8 sm:mb-0">
           Extra-Curricular Activities
         </h1>
       </div>
-
+  
       {/* React Icon Inside Card */}
-      <div className="flex items-center justify-center h-32 w-32 rounded-full bg-blue-100 dark:bg-gray-800 ml-10">
-        <FaReact className="text-6xl text-indigo-600 dark:text-indigo-400 animate-rotate-icon" />
+      <div className=" items-center justify-center h-24 w-24 sm:h-32 sm:w-32 rounded-full -mb-10  ml-12 hidden md:block">
+        <FaReact className="text-4xl sm:text-6xl text-indigo-600 dark:text-indigo-400 animate-rotate-icon" />
       </div>
-
+  
       <style>{`
         @keyframes rotateIcon {
           0% {
@@ -93,7 +93,7 @@ export default function ExtraCurricularPage() {
           animation: rotateIcon 10s linear infinite; /* Increased duration to 10s for slower rotation */
         }
       `}</style>
-
+  
       {/* Scroll Cards */}
       <div className="pb-10 relative mx-auto max-w-4xl space-y-4">
         {sections.map((section, index) => (
@@ -108,15 +108,15 @@ export default function ExtraCurricularPage() {
           >
             {/* Icon on the left */}
             <div className="flex-shrink-0">{section.icon}</div>
-
+  
             {/* Content */}
             <div>
-              <h2 className="text-2xl font-semibold text-gray-50 dark:text-gray-200">{section.title}</h2>
-              <p className="mt-2 text-base text-gray-50 dark:text-gray-300 font-medium">{section.description}</p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-50 dark:text-gray-200">{section.title}</h2>
+              <p className="mt-2 text-sm sm:text-base text-gray-50 dark:text-gray-300 font-medium">{section.description}</p>
             </div>
           </div>
         ))}
       </div>
     </div>
   );
-}
+}  

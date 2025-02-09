@@ -92,18 +92,18 @@ const projects = [
 
 export default function ProjectsResearchPage() {
   return (
-    <div className="pl-14 pr-14 bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen" id="projects">
-      <h1 className="text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 pt-16 tracking-wide">
+    <div className="pl-4 pr-4 sm:pl-14 sm:pr-14 bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen" id="projects">
+      <h1 className="text-3xl sm:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 pt-8 sm:pt-16 tracking-wide">
         Projects
       </h1>
-  
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 px-6 py-8">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6 py-6 sm:py-8">
         {projects.map((project, index) => (
           <div
             key={index}
             className={`
-              bg-white dark:bg-gray-800 shadow-lg transition-transform duration-500 p-6 rounded-lg text-center 
-              transform-gpu hover:scale-110 hover:shadow-2xl hover:bg-gradient-to-r 
+              bg-white dark:bg-gray-800 shadow-lg transition-transform duration-500 p-4 sm:p-6 rounded-lg text-center
+              transform-gpu hover:scale-105 sm:hover:scale-110 hover:shadow-2xl hover:bg-gradient-to-r 
               hover:from-[#FFFFFF] hover:to-[#FFFFFF] dark:hover:from-[#1F2937] dark:hover:to-[#1F2937] hover:z-10
               ${index % 3 === 0 ? 'hover:-rotate-3' : index % 3 === 2 ? 'hover:rotate-3' : ''}
             `}
@@ -112,14 +112,14 @@ export default function ProjectsResearchPage() {
               {project.icon}
             </div>
             <div className="pt-4">
-              <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400">{project.title}</h3>
-              <p className="mt-2 text-gray-700 dark:text-gray-300">{project.description}</p>
-              <div className="flex justify-center gap-4 mt-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-blue-600 dark:text-blue-400">{project.title}</h3>
+              <p className="mt-2 text-gray-700 dark:text-gray-300 text-sm sm:text-base">{project.description}</p>
+              <div className="flex justify-center gap-4 mt-4 flex-wrap">
                 <a
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                  className="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm sm:text-base"
                 >
                   GitHub Link
                 </a>
@@ -127,7 +127,7 @@ export default function ProjectsResearchPage() {
                   href={project.livePreview}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-500 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+                  className="text-green-500 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm sm:text-base"
                 >
                   Live Preview
                 </a>
