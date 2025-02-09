@@ -10,28 +10,22 @@ import Hobby from "./pages/Hobby";
 import Contact from "./pages/Contact";
 import Footer from "./pages/Footer";
 import Home from "./pages/Home";
-import { Puff } from "react-loader-spinner"; // Corrected import for Puff loader
+import HashLoader from "react-spinners/HashLoader"; // Import HashLoader
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate a page loading time
     const timer = setTimeout(() => setLoading(false), 2000); // 2-second loader
-
-    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div>
       {loading ? (
-        <div className="loader-container">
-          <Puff
-            color="#00BFFF" // Color of the loader
-            height={100} // Height of the loader
-            width={100} // Width of the loader
-          />
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+          <HashLoader color="#00BFFF" size={80} />
         </div>
       ) : (
         <>
