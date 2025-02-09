@@ -14,15 +14,15 @@ const cardVariants = {
 
 export default function ServicePage() {
   return (
-    <div className="bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen -mb-24">
+    <div className="bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen sm:-mb-24 ">
       <h1 className="pt-12 pb-4 font-bold text-5xl text-center text-black dark:text-white">
         Services
       </h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-2 py-2 pt-16">
+  
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-4 py-2 pt-16">
         {/* Service Card 1: Web Development */}
         <motion.div
-          className="bg-gray-50 dark:bg-gray-800 shadow-md ml-36 p-6 rounded-lg w-full md:w-4/5 mx-auto"
+          className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.2 }}
@@ -46,10 +46,10 @@ export default function ServicePage() {
             </div>
           </div>
         </motion.div>
-
+  
         {/* Service Card 2: Photoshop */}
         <motion.div
-          className="bg-gray-50 dark:bg-gray-800 shadow-md mr-36 p-6 rounded-lg w-full md:w-4/5 mx-auto"
+          className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.2 }}
@@ -73,10 +73,10 @@ export default function ServicePage() {
             </div>
           </div>
         </motion.div>
-
+  
         {/* Service Card 3: Bug Fixing */}
         <motion.div
-          className="bg-gray-50 dark:bg-gray-800 shadow-md ml-36 p-6 rounded-lg w-full md:w-4/5 mx-auto"
+          className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.2 }}
@@ -100,10 +100,10 @@ export default function ServicePage() {
             </div>
           </div>
         </motion.div>
-
+  
         {/* Service Card 4: Email Template */}
         <motion.div
-          className="bg-gray-50 dark:bg-gray-800 shadow-md mr-36 p-6 rounded-lg w-full md:w-4/5 mx-auto"
+          className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.2 }}
@@ -130,4 +130,4 @@ export default function ServicePage() {
       </div>
     </div>
   );
-}
+}  
