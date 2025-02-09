@@ -157,3 +157,8 @@ html {
 .toast-error {
   background-color: #f44336;
 }
+
+
+html, body {
+  overflow-x: hidden;
+}

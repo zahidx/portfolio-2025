@@ -16,8 +16,6 @@ export default function SkillsSection() {
     { name: "Vue.js", color: "bg-[#2a9666]" },  // Custom Vue.js green
     { name: "TypeScript", color: "bg-[#3178C6]" },  // Custom blue
   ];
-  
-  
 
   return (
     <div className="relative min-h-screen bg-gray-100 py-12 overflow-hidden dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white">
@@ -39,7 +37,7 @@ export default function SkillsSection() {
         }
       `}</style>
 
-      <div className="max-w-5xl p-5 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 relative z-10">
+      <div className="max-w-5xl p-5 mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-6 relative z-10">
         {skills.map((skill, index) => (
           <div
             key={index}
