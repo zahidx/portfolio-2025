@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import About from "./pages/About";
 import Skills from "./pages/Skill";
@@ -16,9 +16,12 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+  const deferredPrompt = useRef(null);
+  const installButtonTimeout = useRef(null);
 
+  // Simulate loading effect
   useEffect(() => {
-    // Simulate loading effect
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -29,21 +32,61 @@ export default function Page() {
       navigator.serviceWorker
         .register("/sw.js")
         .then((reg) => console.log("Service Worker registered!", reg))
-        .catch((err) => console.log("Service Worker registration failed:", err));
+        .catch((err) =>
+          console.log("Service Worker registration failed:", err)
+        );
     }
   }, []);
 
+  // Listen for the beforeinstallprompt event
   useEffect(() => {
-    let deferredPrompt;
-    window.addEventListener("beforeinstallprompt", (e) => {
+    const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
-      deferredPrompt = e;
-      if (window.confirm("Would you like to install this app?")) {
-        deferredPrompt.prompt();
-      }
-    });
+      deferredPrompt.current = e;
+      setShowInstallButton(true); // Show button initially
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    // Clean up the event listener when the component unmounts
+    return () =>
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
   }, []);
-  
+
+  // Manage showing and hiding the install button every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (deferredPrompt.current) {
+        setShowInstallButton(true); // Show the button
+        // Hide the button after 2 seconds
+        installButtonTimeout.current = setTimeout(() => {
+          setShowInstallButton(false);
+        }, 2000);
+      }
+    }, 10000); // Every 10 seconds
+
+    // Clear the interval and timeout on cleanup
+    return () => {
+      clearInterval(interval);
+      if (installButtonTimeout.current) {
+        clearTimeout(installButtonTimeout.current);
+      }
+    };
+  }, []);
+
+  // Handler for the install button click
+  const handleInstallClick = async () => {
+    setShowInstallButton(false); // Hide the button
+    if (!deferredPrompt.current) return;
+    deferredPrompt.current.prompt();
+    const choiceResult = await deferredPrompt.current.userChoice;
+    if (choiceResult.outcome === "accepted") {
+      console.log("User accepted the install prompt");
+    } else {
+      console.log("User dismissed the install prompt");
+    }
+    deferredPrompt.current = null;
+  };
 
   return (
     <>
@@ -71,6 +114,16 @@ export default function Page() {
             <Contact />
             <Footer />
           </>
+        )}
+
+        {/* Conditionally render the install button */}
+        {showInstallButton && (
+          <button
+            onClick={handleInstallClick}
+            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-3 bg-blue-600 text-white rounded-lg shadow-xl transition-transform duration-300 transform hover:scale-105"
+          >
+            Install
+          </button>
         )}
       </div>
     </>
