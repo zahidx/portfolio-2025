@@ -27,12 +27,12 @@ export default function Page() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register("/service-worker.js")
+        .register("/sw.js")
         .then((reg) => console.log("Service Worker registered!", reg))
         .catch((err) => console.log("Service Worker registration failed:", err));
     }
   }, []);
-  
+
   useEffect(() => {
     let deferredPrompt;
     window.addEventListener("beforeinstallprompt", (e) => {
