@@ -23,7 +23,7 @@ const softSkills = [
   return (
     <div
       id="softSkills"
-      className="min-h-screen bg-gray-100 py-1 dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white "
+      className=" bg-gray-100 py-1 dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white"
     >
       {/* Page Heading */}
       <h1
