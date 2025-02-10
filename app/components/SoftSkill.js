@@ -23,12 +23,11 @@ const softSkills = [
   return (
     <div
       id="softSkills"
-      className="min-h-screen bg-gray-100 py-1 dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white"
+      className="min-h-screen bg-gray-100 py-1 dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white "
     >
       {/* Page Heading */}
       <h1
-  className="font-bold text-2xl text-center text-blue-600 dark:text-blue-300"
-  style={{ paddingTop: "4.2rem", paddingBottom: "3rem" }}
+  className="font-bold text-2xl text-center text-blue-600 dark:text-blue-300 pt-4 pb-0 sm:pt-16 sm:pb-12"
 >
   Soft Skills
 </h1>
@@ -50,7 +49,7 @@ const softSkills = [
       `}</style>
 
       {/* Soft Skills Section */}
-      <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-6 px-6 py-8">
+      <div className="w-full mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-6 px-6 py-8">
         {softSkills.map((skill, index) => (
           <div
             key={index}

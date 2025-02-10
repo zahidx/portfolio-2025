@@ -120,9 +120,9 @@ export default function Page() {
         {showInstallButton && (
           <button
             onClick={handleInstallClick}
-            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-3 bg-blue-600 text-white rounded-lg shadow-xl transition-transform duration-300 transform hover:scale-105"
+            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-3  text-white rounded-lg shadow-xl transition-transform duration-300 transform hover:scale-105 "
           >
-            Install
+            
           </button>
         )}
       </div>

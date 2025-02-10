@@ -17,9 +17,9 @@ export default function About() {
   return (
     <div
       id="about"
-      className="dark:bg-gradient-to-b dark:from-[#220E36] dark:to-[#270B4A] dark:text-gray-100 pt-20"
+      className="dark:bg-gradient-to-b dark:from-[#220E36] dark:to-[#270B4A] dark:text-gray-100 sm:pt-2"
     >
-      <h1 className="pb-12 font-bold text-4xl sm:text-5xl text-center dark:decoration-white">
+      <h1 className="pb-4 font-bold text-4xl sm:text-5xl text-center dark:decoration-white -pt-10">
         About Me
       </h1>
       <div className="pb-20 pt-8 px-6 flex flex-col lg:flex-row justify-between gap-8">

@@ -51,7 +51,7 @@ export default function SkillPage() {
       className="min-h-screen py-1 dark:bg-gradient-to-b dark:from-[#270C48] dark:to-[#220E36] dark:text-white"
     >
       {/* Page Heading */}
-      <h1 className="pt-14 pb-1 font-bold text-5xl text-center text-black dark:text-gray-50">
+      <h1 className="sm:pt-14 pb-1 font-bold text-5xl text-center text-black dark:text-gray-50">
         Skills
       </h1>
 
