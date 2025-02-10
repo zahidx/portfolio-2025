@@ -1,9 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
 import DarkModeToggle from "./components/DarkModeToggle";
 import Nav from "./pages/Nav";
-import Head from "next/head"; // Import the Head component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,9 +13,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// ✅ Correct way to add metadata in Next.js 13+
 export const metadata = {
-  title: "Portfolio", // Default title
+  title: "Portfolio",
   description: "This is my website description",
+  manifest: "/manifest.json", // ✅ Correct way to add manifest in Next.js
   icons: {
     icon: "/portfolio.svg", // Path to favicon (inside `public/` folder)
   },
@@ -26,14 +26,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {/* Add the PWA meta and link tags inside the Head component */}
-        <Head>
-          <link rel="manifest" href="/manifest.json" />
-        </Head>
-
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Navbar */}
         <Nav />
         {/* Dark Mode Toggle */}
