@@ -25,7 +25,7 @@ export default function Page() {
     <div>
       {loading ? (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-          <HashLoader color="#00BFFF" size={80} />
+          <HashLoader color="#0015ff" size={100} />
         </div>
       ) : (
         <>
