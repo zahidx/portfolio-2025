@@ -32,6 +32,18 @@ export default function Page() {
         .catch((err) => console.log("Service Worker registration failed:", err));
     }
   }, []);
+  
+  useEffect(() => {
+    let deferredPrompt;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (window.confirm("Would you like to install this app?")) {
+        deferredPrompt.prompt();
+      }
+    });
+  }, []);
+  
 
   return (
     <>
