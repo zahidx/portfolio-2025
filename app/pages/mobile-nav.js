@@ -10,6 +10,11 @@ export default function MobileNav() {
     setIsOpen(!isOpen);
   };
 
+  // Closes the menu
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative">
       {/* Mobile Navigation Bar */}
@@ -17,14 +22,16 @@ export default function MobileNav() {
         {/* Hamburger icon with animation */}
         <button
           onClick={toggleMenu}
-          className={`md:hidden p-4 text-2xl text-gray-900 dark:text-gray-100 transition-all duration-300 ease-in-out transform ${isOpen ? "rotate-45" : ""}`}
+          className={`md:hidden p-4 text-2xl text-gray-900 dark:text-gray-100 transition-all duration-300 ease-in-out transform ${
+            isOpen ? "rotate-45" : ""
+          }`}
         >
           ☰
         </button>
       </div>
 
       {/* Dark Mode Toggle outside menu toggle, placed to the left */}
-      <div className="absolute top-[26px] left-4 z-20 block lg:hidden"> {/* Show on mobile, hide on large screens */}
+      <div className="absolute top-[26px] left-4 z-20 block lg:hidden">
         <DarkModeToggle />
       </div>
 
@@ -50,7 +57,7 @@ export default function MobileNav() {
             ✖
           </button>
           <div className="flex items-center">
-            {/* Add User Profile Section */}
+            {/* User Profile Section */}
             <div className="flex items-center space-x-3">
               <img
                 src="/profile.png"
@@ -62,62 +69,69 @@ export default function MobileNav() {
           </div>
         </div>
 
-        <div className="flex flex-col items-start ml-20 space-y-8 mt-16">
+        <div className="flex flex-col items-start ml-16 space-y-8 mt-16">
           <Link
             href="/#home"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaHome className="text-xl dark:text-blue-500 group-hover:text-blue-500" />
+            <FaHome className="text-xl -mt-1 -mr-1 dark:text-blue-500 group-hover:text-blue-500" />
             <span>Home</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
           <Link
             href="/#about"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaUser className="text-xl dark:text-pink-500 group-hover:text-pink-500" />
+            <FaUser className="text-xl -mt-1 -mr-1 dark:text-pink-500 group-hover:text-pink-500" />
             <span>About Me</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
           <Link
             href="/#skills"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaLaptopCode className="text-xl dark:text-green-500 group-hover:text-green-500" />
+            <FaLaptopCode className="text-xl -mt-1 -mr-1 dark:text-green-500 group-hover:text-green-500" />
             <span>Skills</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
           <Link
             href="/#experience"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaHammer className="text-xl dark:text-yellow-500 group-hover:text-yellow-500" />
+            <FaHammer className="text-xl -mt-1 -mr-1 dark:text-yellow-500 group-hover:text-yellow-500" />
             <span>Experience</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
           <Link
             href="/#projects"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaFolder className="text-xl dark:text-purple-500 group-hover:text-purple-500" />
+            <FaFolder className="text-xl -mt-1 -mr-1 dark:text-purple-500 group-hover:text-purple-500" />
             <span>Projects</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
           <Link
             href="/#contact"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaPhone className="text-xl dark:text-teal-500 group-hover:text-teal-500" />
+            <FaPhone className="text-xl -mt-1 -mr-1 dark:text-teal-500 group-hover:text-teal-500" />
             <span>Contact</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
           <Link
             href="/blog"
+            onClick={closeMenu}
             className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
           >
-            <FaBlog className="text-xl dark:text-orange-500 group-hover:text-orange-500" />
+            <FaBlog className="text-xl -mt-1 -mr-1 dark:text-orange-500 group-hover:text-orange-500" />
             <span>Blog</span>
-            <span className="absolute bottom-[-6px] left-0 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
         </div>
       </div>
