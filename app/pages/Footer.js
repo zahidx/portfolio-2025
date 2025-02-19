@@ -1,5 +1,5 @@
 "use client";
-
+import { Home, Info, Briefcase, Phone } from "lucide-react";
 import React, { useState } from "react";
 import {
   FaFacebookF,
@@ -93,45 +93,45 @@ export default function Footer() {
   </div>
 
           {/* Quick Links */}
-          <div className="footer-section text-center sm:text-left sm:ml-32">
-            <h3 className="text-xl font-semibold text-white mb-6">
-              Quick Links
-            </h3>
-            <ul className="space-y-4 inline-block sm:block">
-              <li>
-                <a
-                  href="/"
-                  className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
-                >
-                  🏠 <span>Home</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
-                >
-                  ℹ️ <span>About</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#services"
-                  className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
-                >
-                  💼 <span>Services</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
-                >
-                  📞 <span>Contact</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+<div className="footer-section text-center sm:text-left sm:ml-32">
+  <h3 className="text-xl font-semibold text-white mb-6">
+    Quick Links
+  </h3>
+  <ul className="space-y-4 inline-block sm:block">
+    <li>
+      <a
+        href="/"
+        className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
+      >
+        <Home size={20} /> <span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="#about"
+        className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
+      >
+        <Info size={20} /> <span>About</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="#services"
+        className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
+      >
+        <Briefcase size={20} /> <span>Services</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="#contact"
+        className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
+      >
+        <Phone size={20} /> <span>Contact</span>
+      </a>
+    </li>
+  </ul>
+</div>
 
           {/* Social Media */}
           <div className="footer-section text-white px-6 md:px-28">
