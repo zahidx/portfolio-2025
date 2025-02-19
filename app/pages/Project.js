@@ -20,36 +20,7 @@ import AOS from "aos";
 import "aos/dist/aos.css"; // Import AOS styles
 
 const projects = [
-  {
-    title: "Social Interactive Robot",
-    description:
-      "A cutting-edge project designed to facilitate human-robot interaction, incorporating advanced AI and natural language processing.",
-    icon: (
-      <FaRobot className="text-6xl text-blue-600 dark:text-blue-400 mx-auto" />
-    ),
-    githubLink: "https://github.com/zahidx/social_robot.git",
-    livePreview: "https://social-robot.netlify.app/",
-  },
-  {
-    title: "To-Do List App",
-    description:
-      "A simple and intuitive to-do list application with features like adding tasks, marking completed tasks, and more. Developed using React and Firebase.",
-    icon: (
-      <FaTasks className="text-6xl text-blue-600 dark:text-blue-400 mx-auto" />
-    ),
-    githubLink: "https://github.com/zahidx/to-do-list-u.git",
-    livePreview: "https://to-do-list-up.netlify.app/",
-  },
-  {
-    title: "Simple Shopping Cart",
-    description:
-      "An e-commerce website with basic shopping cart functionality. Developed using React, Node.js, and MongoDB.",
-    icon: (
-      <FaShoppingCart className="text-6xl text-blue-600 dark:text-blue-400 mx-auto" />
-    ),
-    githubLink: "https://github.com/zahidx/tech-store.git",
-    livePreview: "https://tech-store-u.netlify.app/",
-  },
+  
   {
     title: "ScreenHub",
     description:
@@ -170,6 +141,36 @@ const projects = [
     githubLink: "https://github.com/your-repo-link",
     livePreview: "https://your-live-preview-link",
   },
+  {
+    title: "Social Interactive Robot",
+    description:
+      "A cutting-edge project designed to facilitate human-robot interaction, incorporating advanced AI and natural language processing.",
+    icon: (
+      <FaRobot className="text-6xl text-blue-600 dark:text-blue-400 mx-auto" />
+    ),
+    githubLink: "https://github.com/zahidx/social_robot.git",
+    livePreview: "https://social-robot.netlify.app/",
+  },
+  {
+    title: "To-Do List App",
+    description:
+      "A simple and intuitive to-do list application with features like adding tasks, marking completed tasks, and more. Developed using React and Firebase.",
+    icon: (
+      <FaTasks className="text-6xl text-blue-600 dark:text-blue-400 mx-auto" />
+    ),
+    githubLink: "https://github.com/zahidx/to-do-list-u.git",
+    livePreview: "https://to-do-list-up.netlify.app/",
+  },
+  {
+    title: "Simple Shopping Cart",
+    description:
+      "An e-commerce website with basic shopping cart functionality. Developed using React, Node.js, and MongoDB.",
+    icon: (
+      <FaShoppingCart className="text-6xl text-blue-600 dark:text-blue-400 mx-auto" />
+    ),
+    githubLink: "https://github.com/zahidx/tech-store.git",
+    livePreview: "https://tech-store-u.netlify.app/",
+  }
 ];
 
 export default function ProjectsResearchPage() {
