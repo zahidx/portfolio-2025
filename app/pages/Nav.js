@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { Home, User, Laptop, Archive, Folder, Phone, Edit } from "lucide-react"; // Replaced Tool with PenTool
+
 import DarkModeToggle from "../components/DarkModeToggle";
 import MobileNav from "./mobile-nav"; // Import MobileNav component
 
@@ -45,7 +47,7 @@ export default function Navbar() {
               "3px 3px 10px rgba(0, 52, 18, 0.1), 0px 0px 15px rgba(32, 196, 128, 0.1)",
           }}
         >
-          Zahid😊
+          Zahid
         </Link>
       </div>
 
@@ -56,7 +58,7 @@ export default function Navbar() {
             href="/#home"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("home")}`}
           >
-            🏠 Home
+            <Home className="inline-block -mt-2 text-gray-900 dark:text-yellow-400" /> Home
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
@@ -66,7 +68,7 @@ export default function Navbar() {
             href="/#about"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("about")}`}
           >
-            🔒 About Me
+            <User className="inline-block -mt-2 text-gray-900 dark:text-green-400" /> About Me
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
@@ -76,7 +78,7 @@ export default function Navbar() {
             href="/#skills"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("skills")}`}
           >
-            💻 Skills
+            <Laptop className="inline-block -mt-1 text-gray-900 dark:text-pink-400" /> Skills
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
@@ -86,7 +88,7 @@ export default function Navbar() {
             href="/#experience"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("experience")}`}
           >
-            🛠️ Experience
+            <Archive className="inline-block -mt-1 text-gray-900 dark:text-blue-400" /> Experience
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
@@ -96,7 +98,7 @@ export default function Navbar() {
             href="/#projects"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("projects")}`}
           >
-            📁 Projects
+            <Folder className="inline-block -mt-1 text-gray-900 dark:text-red-400" /> Projects
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
@@ -106,7 +108,7 @@ export default function Navbar() {
             href="/#contact"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("contact")}`}
           >
-            📞 Contact
+            <Phone className="inline-block -mt-1 text-gray-900 dark:text-teal-400" /> Contact
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
@@ -116,7 +118,7 @@ export default function Navbar() {
             href="/blog"
             className={`text-lg text-gray-900 dark:text-gray-200 ${isActive("blog")}`}
           >
-            📝 Blog
+            <Edit className="inline-block -mt-1 text-gray-900 dark:text-orange-400" /> Blog
           </Link>
           <span className="absolute bottom-[-6px] left-0 w-0 h-[4px] bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
         </div>
