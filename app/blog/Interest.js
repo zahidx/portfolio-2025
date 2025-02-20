@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const blocks = [
   { name: "Today", color: "bg-[#007AFF]" },
-  { name: "Power Milk", color: "bg-[#FFD700]" },
+  { name: "Milk", color: "bg-[#FFD700]" },
   { name: "Butter", color: "bg-[#32CD32]" },
   { name: "Peanuts", color: "bg-[#FF8C00]" },
   { name: "Beans", color: "bg-[#FF1493]" },
