@@ -14,7 +14,7 @@ const cardVariants = {
 
 export default function ServicePage() {
   return (
-    <div className="bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen sm:-mb-24">
+    <div id="service" className="bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen sm:-mb-24">
       <h1 className="pt-12 pb-4 font-bold text-5xl text-center text-black dark:text-white">
         Services
       </h1>

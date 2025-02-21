@@ -116,7 +116,7 @@ export default function Footer() {
     </li>
     <li>
       <a
-        href="#services"
+        href="#service"
         className="flex justify-center sm:justify-start items-center gap-2 hover:text-blue-500 transition duration-300 transform hover:scale-105"
       >
         <Briefcase size={20} /> <span>Services</span>
