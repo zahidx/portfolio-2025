@@ -34,10 +34,11 @@ export default function Home() {
                 Contact Me
               </a>
               <a
-                href="#portfolio"
+                href="/resume.pdf" // Path to your PDF
+                target="_blank" // Opens the PDF in a new tab
                 className="bg-transparent border-2 border-white hover:bg-white hover:text-gray-800 text-white py-2 px-6 rounded-md transition-all duration-300"
               >
-                View Portfolio
+                View Resume
               </a>
             </div>
           </div>
