@@ -959,7 +959,7 @@ export default function ExperiencePage() {
             fontFamily: "monospace",
             letterSpacing: "0.1em",
           }}>
-            // TAP A NODE OR CARD TO EXPAND
+            {'// TAP A NODE OR CARD TO EXPAND'}
           </p>
 
           {/* Decorative line */}

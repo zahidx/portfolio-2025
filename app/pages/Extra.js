@@ -481,7 +481,7 @@ export default function ExtraCurricularPage() {
         >
           <GiLaurelCrown className="text-4xl text-yellow-400 mx-auto mb-3" style={{ filter: "drop-shadow(0 0 10px #fbbf24)" }} />
           <p className="text-white/60 text-sm sm:text-base italic max-w-2xl mx-auto">
-            "Excellence is not a skill — it's an attitude, forged on every field, stage, and screen."
+            &quot;Excellence is not a skill — it&apos;s an attitude, forged on every field, stage, and screen.&quot;
           </p>
         </div>
       </div>

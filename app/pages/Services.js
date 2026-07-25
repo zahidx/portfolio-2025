@@ -754,7 +754,7 @@ export default function ServicePage() {
               fontFamily: "monospace",
               letterSpacing: "0.08em",
             }}>
-              // SELECT A MODULE TO ENGAGE
+              {'// SELECT A MODULE TO ENGAGE'}
             </p>
           </div>
         </div>
