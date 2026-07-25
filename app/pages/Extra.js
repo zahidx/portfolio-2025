@@ -1,24 +1,24 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  FaMicrophone,
-  FaHandsHelping,
-  FaFutbol,
-  FaGamepad,
-  FaTrophy,
-  FaStar,
-  FaMedal,
-  FaBolt,
+    FaBolt,
+    FaFutbol,
+    FaGamepad,
+    FaHandsHelping,
+    FaMedal,
+    FaMicrophone,
+    FaStar,
+    FaTrophy,
 } from "react-icons/fa";
-import {
-  MdSportsCricket,
-  MdGroups,
-  MdRecordVoiceOver,
-  MdVolunteerActivism,
-} from "react-icons/md";
 import { GiCrossedSwords, GiLaurelCrown, GiPodium } from "react-icons/gi";
 import { HiSparkles } from "react-icons/hi";
+import {
+    MdGroups,
+    MdRecordVoiceOver,
+    MdSportsCricket,
+    MdVolunteerActivism,
+} from "react-icons/md";
 
 const activities = [
   {
