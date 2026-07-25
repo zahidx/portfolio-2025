@@ -1,89 +1,419 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Code2,
+  FlaskConical,
+  Palette,
+  Plane,
+  Gamepad2,
+  BookOpen,
+  Music,
+  Dumbbell,
+  Rocket,
+  Orbit,
+} from "lucide-react";
 
-const blocks = [
-  { name: "Coding", color: "bg-[#007AFF]", detail: "Building web applications, exploring new frameworks, and solving algorithmic challenges." },
-  { name: "Research", color: "bg-[#8E44AD]", detail: "Investigating AI, computer vision, and human-robot interaction." },
-  { name: "Design", color: "bg-[#32CD32]", detail: "Crafting UI/UX layouts, graphics, and interactive user interfaces." },
-  { name: "Travel", color: "bg-[#FF8C00]", detail: "Discovering new destinations, nature, and cultural experiences." },
-  { name: "Gaming", color: "bg-[#FF1493]", detail: "Competing in esports and enjoying immersive story-driven games." },
-  { name: "Learning", color: "bg-[#FF6347]", detail: "Continuously growing technical skills and reading self-help & fiction books." },
-  { name: "Music", color: "bg-[#FF69B4]", detail: "Listening to uplifting music during work and relaxation sessions." },
-  { name: "Fitness", color: "bg-[#00BFFF]", detail: "Staying active through sports, cricket, and outdoor activities." },
-  { name: "Projects", color: "bg-[#FF9F43]", detail: "Creating open-source tools, full-stack web apps, and AI experiments." },
+const NODES = [
+  {
+    name: "Coding",
+    icon: Code2,
+    accent: "#818cf8",
+    tagline: "Where logic meets craft",
+    detail:
+      "Building web apps, exploring frameworks, and solving hard problems. Most days start and end inside an editor.",
+    tags: ["React", "Next.js", "Node.js"],
+    level: 95,
+    orbit: 1,
+    angle: 20,
+  },
+  {
+    name: "Research",
+    icon: FlaskConical,
+    accent: "#c084fc",
+    tagline: "Asking better questions",
+    detail:
+      "AI, computer vision, and human-robot interaction — turning curiosity into prototypes.",
+    tags: ["AI", "CV", "HRI"],
+    level: 85,
+    orbit: 2,
+    angle: 70,
+  },
+  {
+    name: "Design",
+    icon: Palette,
+    accent: "#34d399",
+    tagline: "Pixels with purpose",
+    detail:
+      "UI/UX, motion, and the small details users feel but never notice.",
+    tags: ["UI/UX", "Motion"],
+    level: 80,
+    orbit: 1,
+    angle: 140,
+  },
+  {
+    name: "Travel",
+    icon: Plane,
+    accent: "#fb923c",
+    tagline: "Collecting horizons",
+    detail:
+      "New destinations, nature, and cultures that reset perspective.",
+    tags: ["Nature", "Culture"],
+    level: 75,
+    orbit: 2,
+    angle: 180,
+  },
+  {
+    name: "Gaming",
+    icon: Gamepad2,
+    accent: "#f472b6",
+    tagline: "Play is design school",
+    detail:
+      "Esports and story-driven games — great games are great design lessons.",
+    tags: ["Esports", "RPG"],
+    level: 88,
+    orbit: 1,
+    angle: 230,
+  },
+  {
+    name: "Learning",
+    icon: BookOpen,
+    accent: "#f87171",
+    tagline: "Forever a student",
+    detail:
+      "Technical skills, fiction, and self-help — one new concept a day.",
+    tags: ["Books", "Growth"],
+    level: 92,
+    orbit: 2,
+    angle: 260,
+  },
+  {
+    name: "Music",
+    icon: Music,
+    accent: "#e879f9",
+    tagline: "Soundtrack of focus",
+    detail:
+      "Lo-fi for deep work, energy tracks for everything else.",
+    tags: ["Lo-fi", "Focus"],
+    level: 70,
+    orbit: 1,
+    angle: 300,
+  },
+  {
+    name: "Fitness",
+    icon: Dumbbell,
+    accent: "#38bdf8",
+    tagline: "Strong body, sharp mind",
+    detail:
+      "Sports, cricket, outdoors — the best debugging happens off-keyboard.",
+    tags: ["Cricket", "Sports"],
+    level: 78,
+    orbit: 2,
+    angle: 320,
+  },
+  {
+    name: "Projects",
+    icon: Rocket,
+    accent: "#fbbf24",
+    tagline: "Ideas shipped",
+    detail:
+      "Open-source tools, full-stack apps, and AI experiments that ship.",
+    tags: ["OSS", "AI"],
+    level: 90,
+    orbit: 1,
+    angle: 80,
+  },
 ];
 
-const Interest = () => {
-  const [selectedBlock, setSelectedBlock] = useState(null);
+const ORBIT_R = { 1: 38, 2: 58 }; // % of container
 
-  const generateRandomMovement = useMemo(() => {
-    return blocks.reduce((acc, block) => {
-      acc[block.name] = {
-        x: [0, Math.random() * 250 - 125, 0],
-        y: [100, 150, 100],
-        transition: {
-          duration: Math.random() * 4 + 3,
-          repeat: Infinity,
-          repeatType: "loop",
-          ease: "easeInOut",
-        },
-      };
-      return acc;
-    }, {});
-  }, []);
+export default function Interest() {
+  const [active, setActive] = useState(NODES[0].name);
+  const [hovered, setHovered] = useState(null);
+  const [spinning, setSpinning] = useState(true);
+  const current = useMemo(
+    () => NODES.find((n) => n.name === (hovered || active)) || NODES[0],
+    [active, hovered]
+  );
+  const Icon = current.icon;
 
-  const activeBlock = blocks.find((b) => b.name === selectedBlock);
+  // keyboard: left/right to cycle nodes
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      const idx = NODES.findIndex((n) => n.name === active);
+      const next =
+        e.key === "ArrowRight"
+          ? NODES[(idx + 1) % NODES.length]
+          : NODES[(idx - 1 + NODES.length) % NODES.length];
+      setActive(next.name);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active]);
 
   return (
-    <div className="pt-24 pb-10 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white px-6 sm:px-12">
-      <h2 className="text-3xl font-semibold text-center mb-8">
-        Life Event Highlights
-      </h2>
+    <section className="py-24" id="constellation">
+      <motion.div
+        className="mb-10 text-center"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400">
+          <Orbit className="w-3.5 h-3.5" />
+          Interactive constellation
+        </span>
+        <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight">
+          My interest{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">
+            universe
+          </span>
+        </h2>
+        <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-lg mx-auto">
+          Hover or click a planet. Use ← → keys. Pause the orbit anytime.
+        </p>
+      </motion.div>
 
-      {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
-        {blocks.map((block) => (
-          <motion.div
-            key={block.name}
-            className={`p-6 max-w-xs sm:max-w-sm lg:max-w-[180px] ${block.color} rounded-lg shadow-lg cursor-pointer text-center`}
-            animate={generateRandomMovement[block.name]}
-            onClick={() => setSelectedBlock(block.name)}
-            whileTap={{ scale: 0.9 }}
+      <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center">
+        {/* ── Orbital map ── */}
+        <div className="relative mx-auto w-full max-w-[520px] aspect-square select-none">
+          {/* rings */}
+          {[ORBIT_R[1], ORBIT_R[2]].map((r) => (
+            <div
+              key={r}
+              className="absolute rounded-full border border-dashed border-white/10"
+              style={{
+                width: `${r * 2}%`,
+                height: `${r * 2}%`,
+                top: `${50 - r}%`,
+                left: `${50 - r}%`,
+              }}
+            />
+          ))}
+
+          {/* connecting line to active */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
+            <motion.line
+              x1="50"
+              y1="50"
+              x2={50 + ORBIT_R[current.orbit] * Math.cos(((current.angle - 90) * Math.PI) / 180)}
+              y2={50 + ORBIT_R[current.orbit] * Math.sin(((current.angle - 90) * Math.PI) / 180)}
+              stroke={current.accent}
+              strokeWidth="0.15"
+              strokeOpacity="0.45"
+              initial={false}
+              animate={{
+                x2: 50 + ORBIT_R[current.orbit] * Math.cos(((current.angle - 90) * Math.PI) / 180),
+                y2: 50 + ORBIT_R[current.orbit] * Math.sin(((current.angle - 90) * Math.PI) / 180),
+              }}
+              transition={{ type: "spring", stiffness: 80, damping: 18 }}
+            />
+          </svg>
+
+          {/* core */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+            <div
+              className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center"
+              style={{
+                background:
+                  "radial-gradient(circle at 35% 30%, rgba(255,255,255,0.25), transparent 45%), linear-gradient(135deg, #6366f1, #a855f7, #ec4899)",
+                boxShadow: `0 0 60px ${current.accent}55, 0 0 120px ${current.accent}22`,
+              }}
+            >
+              <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase">
+                Me
+              </span>
+              <div
+                className="absolute inset-0 rounded-full animate-[core-pulse_3s_ease-in-out_infinite]"
+                style={{ boxShadow: `inset 0 0 30px ${current.accent}44` }}
+              />
+            </div>
+          </div>
+
+          {/* spinning orbits */}
+          <div
+            className="absolute inset-0"
+            style={{
+              animation: spinning ? "orbit-spin 48s linear infinite" : "none",
+            }}
           >
-            <h3 className="text-xl sm:text-2xl font-bold">{block.name}</h3>
-          </motion.div>
-        ))}
+            {NODES.map((node) => {
+              const r = ORBIT_R[node.orbit];
+              const rad = ((node.angle - 90) * Math.PI) / 180;
+              const x = 50 + r * Math.cos(rad);
+              const y = 50 + r * Math.sin(rad);
+              const isOn = (hovered || active) === node.name;
+              const NodeIcon = node.icon;
+
+              return (
+                <button
+                  key={node.name}
+                  type="button"
+                  aria-label={node.name}
+                  onMouseEnter={() => setHovered(node.name)}
+                  onMouseLeave={() => setHovered(null)}
+                  onFocus={() => setHovered(node.name)}
+                  onBlur={() => setHovered(null)}
+                  onClick={() => setActive(node.name)}
+                  className="absolute z-10 -translate-x-1/2 -translate-y-1/2 group outline-none"
+                  style={{ left: `${x}%`, top: `${y}%` }}
+                >
+                  {/* counter-rotate so icons stay upright */}
+                  <div
+                    style={{
+                      animation: spinning
+                        ? "orbit-spin 48s linear infinite reverse"
+                        : "none",
+                    }}
+                  >
+                    <div
+                      className="relative flex flex-col items-center gap-1.5 transition-transform duration-300"
+                      style={{ transform: isOn ? "scale(1.25)" : "scale(1)" }}
+                    >
+                      <div
+                        className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border backdrop-blur-md transition-all duration-300"
+                        style={{
+                          background: isOn
+                            ? `${node.accent}33`
+                            : "rgba(255,255,255,0.04)",
+                          borderColor: isOn ? node.accent : "rgba(255,255,255,0.15)",
+                          boxShadow: isOn
+                            ? `0 0 28px ${node.accent}66`
+                            : "none",
+                        }}
+                      >
+                        <NodeIcon
+                          className="w-5 h-5"
+                          style={{ color: isOn ? node.accent : "#cbd5e1" }}
+                        />
+                      </div>
+                      <span
+                        className="text-[10px] sm:text-xs font-semibold tracking-wide whitespace-nowrap transition-colors"
+                        style={{ color: isOn ? node.accent : "#94a3b8" }}
+                      >
+                        {node.name}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* orbit control */}
+          <button
+            type="button"
+            onClick={() => setSpinning((s) => !s)}
+            className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest border border-white/15 bg-black/40 backdrop-blur-md text-slate-300 hover:text-white hover:border-white/30 transition-colors"
+          >
+            {spinning ? "Pause orbit" : "Resume orbit"}
+          </button>
+        </div>
+
+        {/* ── Live detail panel (not a modal card grid) ── */}
+        <div className="relative min-h-[320px] flex flex-col justify-center">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.name}
+              initial={{ opacity: 0, x: 24, filter: "blur(8px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, x: -16, filter: "blur(8px)" }}
+              transition={{ duration: 0.35 }}
+            >
+              <div
+                className="text-[11px] uppercase tracking-[0.35em] mb-3"
+                style={{ color: current.accent }}
+              >
+                Focused passion
+              </div>
+              <div className="flex items-center gap-4 mb-4">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center border"
+                  style={{
+                    background: `${current.accent}22`,
+                    borderColor: `${current.accent}55`,
+                  }}
+                >
+                  <Icon className="w-7 h-7" style={{ color: current.accent }} />
+                </div>
+                <div>
+                  <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                    {current.name}
+                  </h3>
+                  <p className="text-sm text-slate-400 mt-0.5">{current.tagline}</p>
+                </div>
+              </div>
+
+              <p className="text-slate-300 leading-relaxed text-base sm:text-lg max-w-md">
+                {current.detail}
+              </p>
+
+              <div className="mt-6">
+                <div className="flex justify-between text-[11px] uppercase tracking-widest text-slate-500 mb-2">
+                  <span>Intensity</span>
+                  <span className="text-white font-semibold">{current.level}%</span>
+                </div>
+                <div className="h-[3px] bg-white/10 overflow-hidden rounded-full">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: current.accent }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${current.level}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {current.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs tracking-wide"
+                    style={{ color: current.accent }}
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* node picker strip */}
+              <div className="mt-8 flex flex-wrap gap-1.5">
+                {NODES.map((n) => (
+                  <button
+                    key={n.name}
+                    type="button"
+                    onClick={() => setActive(n.name)}
+                    className="w-2 h-2 rounded-full transition-all duration-300"
+                    style={{
+                      background:
+                        n.name === current.name ? n.accent : "rgba(255,255,255,0.2)",
+                      transform: n.name === current.name ? "scale(1.6)" : "scale(1)",
+                      boxShadow:
+                        n.name === current.name ? `0 0 10px ${n.accent}` : "none",
+                    }}
+                    aria-label={`Select ${n.name}`}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
-      {/* Modal */}
-      {selectedBlock && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <motion.div
-            className="relative bg-gray-900 text-white p-6 sm:p-8 rounded-lg max-w-md w-full shadow-lg"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-4">
-              {activeBlock?.name}
-            </h2>
-            <p className="text-sm sm:text-base text-gray-300">
-              {activeBlock?.detail}
-            </p>
-            <button
-              className="absolute top-3 right-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-              onClick={() => setSelectedBlock(null)}
-            >
-              Close
-            </button>
-          </motion.div>
-        </div>
-      )}
-    </div>
+      <style jsx global>{`
+        @keyframes orbit-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes core-pulse {
+          0%, 100% { opacity: 0.5; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.04); }
+        }
+      `}</style>
+    </section>
   );
-};
-
-export default Interest;
+}
