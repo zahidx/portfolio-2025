@@ -4,15 +4,15 @@ import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 const blocks = [
-  { name: "Today", color: "bg-[#007AFF]" },
-  { name: "Milk", color: "bg-[#FFD700]" },
-  { name: "Butter", color: "bg-[#32CD32]" },
-  { name: "Peanuts", color: "bg-[#FF8C00]" },
-  { name: "Beans", color: "bg-[#FF1493]" },
-  { name: "Carrot", color: "bg-[#FF6347]" },
-  { name: "Sweet", color: "bg-[#FF69B4]" },
-  { name: "Ice", color: "bg-[#00BFFF]" },
-  { name: "Love", color: "bg-[#FFDAB9]" },
+  { name: "Coding", color: "bg-[#007AFF]", detail: "Building web applications, exploring new frameworks, and solving algorithmic challenges." },
+  { name: "Research", color: "bg-[#8E44AD]", detail: "Investigating AI, computer vision, and human-robot interaction." },
+  { name: "Design", color: "bg-[#32CD32]", detail: "Crafting UI/UX layouts, graphics, and interactive user interfaces." },
+  { name: "Travel", color: "bg-[#FF8C00]", detail: "Discovering new destinations, nature, and cultural experiences." },
+  { name: "Gaming", color: "bg-[#FF1493]", detail: "Competing in esports and enjoying immersive story-driven games." },
+  { name: "Learning", color: "bg-[#FF6347]", detail: "Continuously growing technical skills and reading self-help & fiction books." },
+  { name: "Music", color: "bg-[#FF69B4]", detail: "Listening to uplifting music during work and relaxation sessions." },
+  { name: "Fitness", color: "bg-[#00BFFF]", detail: "Staying active through sports, cricket, and outdoor activities." },
+  { name: "Projects", color: "bg-[#FF9F43]", detail: "Creating open-source tools, full-stack web apps, and AI experiments." },
 ];
 
 const Interest = () => {
@@ -33,6 +33,8 @@ const Interest = () => {
       return acc;
     }, {});
   }, []);
+
+  const activeBlock = blocks.find((b) => b.name === selectedBlock);
 
   return (
     <div className="pt-24 pb-10 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white px-6 sm:px-12">
@@ -66,13 +68,13 @@ const Interest = () => {
             transition={{ duration: 0.4 }}
           >
             <h2 className="text-2xl sm:text-3xl font-semibold mb-4">
-              {selectedBlock} Details
+              {activeBlock?.name}
             </h2>
-            <p className="text-sm sm:text-base">
-              Here are some details about {selectedBlock}.
+            <p className="text-sm sm:text-base text-gray-300">
+              {activeBlock?.detail}
             </p>
             <button
-              className="absolute top-3 right-3 px-4 py-2 bg-red-500 text-white rounded-lg"
+              className="absolute top-3 right-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
               onClick={() => setSelectedBlock(null)}
             >
               Close

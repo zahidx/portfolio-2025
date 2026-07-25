@@ -1,138 +1,112 @@
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FaHome, FaUser, FaLaptopCode, FaHammer, FaFolder, FaPhone, FaBlog } from 'react-icons/fa'; // Importing icons
+import { usePathname } from "next/navigation";
+import { FaHome, FaUser, FaLaptopCode, FaHammer, FaFolder, FaPhone, FaBlog } from "react-icons/fa";
 import DarkModeToggle from "../components/DarkModeToggle";
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isV1 = pathname === "/v1";
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const closeMenu = () => setIsOpen(false);
 
-  // Closes the menu
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const base = isV1 ? "/v1" : "";
+  const navLinks = [
+    { href: `${base}/#home`,       label: "Home",       icon: <FaHome className="text-xl text-blue-500" /> },
+    { href: `${base}/#about`,      label: "About Me",   icon: <FaUser className="text-xl text-pink-500" /> },
+    { href: `${base}/#skills`,     label: "Skills",     icon: <FaLaptopCode className="text-xl text-green-500" /> },
+    { href: `${base}/#experience`, label: "Experience", icon: <FaHammer className="text-xl text-yellow-500" /> },
+    { href: `${base}/#projects`,   label: "Projects",   icon: <FaFolder className="text-xl text-purple-500" /> },
+    { href: `${base}/#contact`,    label: "Contact",    icon: <FaPhone className="text-xl text-teal-500" /> },
+    { href: "/blog",               label: "Blog",       icon: <FaBlog className="text-xl text-orange-500" /> },
+  ];
 
   return (
-    <div className="relative">
-      {/* Mobile Navigation Bar */}
-      <div className="flex justify-between items-center p-4">
-        {/* Hamburger icon with animation */}
+    <div className="lg:hidden">
+      {/* Header bar controls: Dark Mode Toggle + Hamburger */}
+      <div className="flex items-center space-x-2 mr-4">
+        <DarkModeToggle />
         <button
           onClick={toggleMenu}
-          className={`md:hidden p-4 text-2xl text-gray-900 dark:text-gray-100 transition-all duration-300 ease-in-out transform ${
-            isOpen ? "rotate-45" : ""
-          }`}
+          className="p-2 text-2xl text-gray-900 dark:text-gray-100 focus:outline-none transition-transform duration-200 active:scale-95"
+          aria-label="Toggle navigation menu"
         >
-          ☰
+          {isOpen ? "✕" : "☰"}
         </button>
       </div>
 
-      {/* Dark Mode Toggle outside menu toggle, placed to the left */}
-      <div className="absolute top-[26px] left-4 z-20 block lg:hidden">
-        <DarkModeToggle />
-      </div>
-
-      {/* Overlay Effect */}
-      {isOpen && (
-        <div
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"
-          onClick={toggleMenu}
-        />
-      )}
-
-      {/* Mobile Menu */}
+      {/* Backdrop Overlay */}
       <div
-        className={`fixed top-0 left-0 w-2/3 h-full bg-gray-900 text-gray-100 dark:bg-[#220E37] transition-transform duration-300 ease-in-out transform ${
+        className={`fixed top-16 inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={closeMenu}
+      />
+
+      {/* Slide-out Mobile Menu */}
+      <div
+        className={`fixed top-16 left-0 h-[calc(100vh-64px)] w-72 max-w-[80vw] bg-gray-900 text-gray-100 dark:bg-[#1e1b4b] shadow-2xl z-40 transform transition-transform duration-300 ease-out flex flex-col justify-between ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } z-20`}
+        }`}
       >
-        <div className="flex justify-between items-center p-4">
-          <button
-            onClick={toggleMenu}
-            className="text-3xl text-gray-100 transition-all duration-300 ease-in-out"
-          >
-            ✖
-          </button>
-          <div className="flex items-center">
-            {/* User Profile Section */}
-            <div className="flex items-center space-x-3">
-              <img
-                src="/profile.png"
-                alt="Profile"
-                className="w-10 h-10 rounded-full"
-              />
-              <span className="text-gray-100 font-semibold">Zahid</span>
-            </div>
-          </div>
+{/* Drawer Navigation Links */}
+        <div className="flex-1 py-6 px-6 space-y-4 overflow-y-auto">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={closeMenu}
+              className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-800 dark:hover:bg-indigo-900/40 text-gray-200 hover:text-white transition-colors duration-200"
+            >
+              {link.icon}
+              <span className="font-medium text-base">{link.label}</span>
+            </Link>
+          ))}
         </div>
 
-        <div className="flex flex-col items-start ml-16 space-y-8 mt-16">
-          <Link
-            href="/#home"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaHome className="text-xl -mt-1 -mr-1 dark:text-blue-500 group-hover:text-blue-500" />
-            <span>Home</span>
-            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
-          <Link
-            href="/#about"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaUser className="text-xl -mt-1 -mr-1 dark:text-pink-500 group-hover:text-pink-500" />
-            <span>About Me</span>
-            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
-          <Link
-            href="/#skills"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaLaptopCode className="text-xl -mt-1 -mr-1 dark:text-green-500 group-hover:text-green-500" />
-            <span>Skills</span>
-            <span className="absolute bottom-[-6px] -left-3 w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
-          <Link
-            href="/#experience"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaHammer className="text-xl -mt-1 -mr-1 dark:text-yellow-500 group-hover:text-yellow-500" />
-            <span>Experience</span>
-            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
-          <Link
-            href="/#projects"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaFolder className="text-xl -mt-1 -mr-1 dark:text-purple-500 group-hover:text-purple-500" />
-            <span>Projects</span>
-            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
-          <Link
-            href="/#contact"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaPhone className="text-xl -mt-1 -mr-1 dark:text-teal-500 group-hover:text-teal-500" />
-            <span>Contact</span>
-            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
-          <Link
-            href="/blog"
-            onClick={closeMenu}
-            className="relative text-lg text-gray-100 transition-all duration-300 ease-in-out group flex items-center space-x-3 text-left"
-          >
-            <FaBlog className="text-xl -mt-1 -mr-1 dark:text-orange-500 group-hover:text-orange-500" />
-            <span>Blog</span>
-            <span className="absolute bottom-[-6px] -left-3  w-0 h-1 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-          </Link>
+        {/* Drawer Footer */}
+        <div className="p-6 border-t border-gray-800 dark:border-indigo-900/50 text-center text-xs text-gray-400 space-y-3">
+          {/* Version Switcher */}
+          <div className="flex items-center justify-center gap-1 bg-gray-800 rounded-full p-0.5 w-fit mx-auto">
+            <Link
+              href="/"
+              onClick={closeMenu}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
+                !isV1
+                  ? "bg-indigo-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              V2
+            </Link>
+            <Link
+              href="/v1"
+              onClick={closeMenu}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
+                isV1
+                  ? "bg-indigo-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              V1
+            </Link>
+          </div>
+          <p>© {new Date().getFullYear()} Zahidul Islam</p>
         </div>
       </div>
     </div>

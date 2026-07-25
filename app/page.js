@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Head from "next/head";
 import About from "./pages/About";
 import Skills from "./pages/Skill";
 import Experience from "./pages/Experience";
@@ -11,20 +10,12 @@ import Hobby from "./pages/Hobby";
 import Contact from "./pages/Contact";
 import Footer from "./pages/Footer";
 import Home from "./pages/Home";
-import HashLoader from "react-spinners/HashLoader"; // Import HashLoader
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Page() {
-  const [loading, setLoading] = useState(true);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const deferredPrompt = useRef(null);
   const installButtonTimeout = useRef(null);
-
-  // Simulate loading effect
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Register Service Worker for PWA
   useEffect(() => {
@@ -90,31 +81,17 @@ export default function Page() {
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/icons/favicon.ico" />
-      </Head>
-
       <div>
-        {loading ? (
-          <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-            <HashLoader color="#0015ff" size={100} />
-          </div>
-        ) : (
-          <>
-            <Home />
-            <About />
-            <Skills />
-            <Experience />
-            <Services />
-            <Project />
-            <Extra />
-            <Hobby />
-            <Contact />
-            <Footer />
-          </>
-        )}
+        <Home />
+        <About />
+        <Skills />
+        <Experience />
+        <Services />
+        <Project />
+        <Extra />
+        <Hobby />
+        <Contact />
+        <Footer />
 
         {/* Conditionally render the install button */}
         {showInstallButton && (

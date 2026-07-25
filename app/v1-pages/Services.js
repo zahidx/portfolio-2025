@@ -12,13 +12,13 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export default function ServicePage() {
+export default function V1ServicePage() {
   return (
-    <div id="service" className="bg-slate-100 dark:bg-slate-900 min-h-screen sm:-mb-24">
-      <h2 className="pt-12 pb-4 font-bold text-5xl text-center text-black dark:text-white">
+    <div id="service" className="bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen sm:-mb-24">
+      <h1 className="pt-12 pb-4 font-bold text-5xl text-center text-black dark:text-white">
         Services
-      </h2>
-  
+      </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-4 py-2 pt-16 pb-20 sm:pb-0">
         {/* Service Card 1: Web Development */}
         <motion.div
@@ -39,7 +39,7 @@ export default function ServicePage() {
             </div>
           </div>
         </motion.div>
-  
+
         {/* Service Card 2: Photoshop */}
         <motion.div
           className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
@@ -59,7 +59,7 @@ export default function ServicePage() {
             </div>
           </div>
         </motion.div>
-  
+
         {/* Service Card 3: Bug Fixing */}
         <motion.div
           className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
@@ -79,7 +79,7 @@ export default function ServicePage() {
             </div>
           </div>
         </motion.div>
-  
+
         {/* Service Card 4: Email Template */}
         <motion.div
           className="bg-gray-50 dark:bg-gray-800 shadow-md p-6 rounded-lg w-full mx-auto"
@@ -102,4 +102,4 @@ export default function ServicePage() {
       </div>
     </div>
   );
-}  
+}

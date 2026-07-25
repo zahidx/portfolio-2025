@@ -128,8 +128,8 @@ const projects = [
     icon: (
       <FaBookOpen className="text-6xl text-orange-500 dark:text-orange-400 mx-auto" />
     ),
-    githubLink: "https://github.com/your-repo-link",
-    livePreview: "https://your-live-preview-link",
+    githubLink: "https://github.com/zahidx/tele-craft.git",
+    livePreview: "https://tele-craft.netlify.app/",
   },
   {
     title: "Prime Hub",
@@ -138,8 +138,8 @@ const projects = [
     icon: (
       <FaPlayCircle className="text-6xl text-purple-500 dark:text-purple-400 mx-auto" />
     ),
-    githubLink: "https://github.com/your-repo-link",
-    livePreview: "https://your-live-preview-link",
+    githubLink: "https://github.com/zahidx/prime-hub.git",
+    livePreview: "https://prime-hub.netlify.app/",
   },
   {
     title: "Social Interactive Robot",
@@ -176,12 +176,12 @@ const projects = [
 export default function ProjectsResearchPage() {
   return (
     <div
-      className="pl-4 pr-4 sm:pl-14 sm:pr-14 bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen"
+      className="pl-4 pr-4 sm:pl-14 sm:pr-14 bg-slate-50 dark:bg-slate-900 min-h-screen"
       id="projects"
     >
-      <h1 className="text-3xl sm:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 pt-8 sm:pt-16 tracking-wide">
+      <h2 className="text-3xl sm:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 pt-8 sm:pt-16 tracking-wide">
         Projects
-      </h1>
+      </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6 py-6 sm:py-8">
         {projects.map((project, index) => (

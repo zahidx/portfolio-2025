@@ -45,7 +45,7 @@ export default function Contact() {
 
   return (
     <div
-    className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20 px-6 sm:px-12 md:px-24 lg:px-36 relative"
+    className="bg-slate-100 dark:bg-slate-900 py-20 px-6 sm:px-12 md:px-24 lg:px-36 relative"
     id="contact"
   >
     {/* Decorative Background Circles */}
@@ -53,9 +53,9 @@ export default function Contact() {
     <div className="absolute -bottom-10 -right-10 w-72 sm:w-96 h-72 sm:h-96 bg-purple-400 rounded-full mix-blend-multiply opacity-30 filter blur-3xl animate-pulse"></div>
   
     {/* Heading */}
-    <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 mb-6 sm:mb-10 tracking-wide">
+    <h2 className="text-4xl sm:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 mb-6 sm:mb-10 tracking-wide">
       Get in Touch
-    </h1>
+    </h2>
     <p className="text-center text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-12 sm:mb-16">
       Whether you have a question or just want to say hi, I’ll try my best to get back to you!
     </p>
