@@ -65,14 +65,14 @@ export default function ExperiencePage() {
   return (
     <div
       id="experience"
-      className="min-h-screen px-8 py-10 lg:px-40 bg-gray-100 dark:bg-gradient-to-b dark:from-[#220E35] dark:to-[#0E1628] dark:text-white"
+      className="min-h-screen px-8 py-10 lg:px-40 bg-slate-50 dark:bg-slate-900 dark:text-white"
     >
-      <h1
+      <h2
         className="mt-5 font-bold text-4xl sm:text-5xl text-center flex items-center justify-center space-x-3 decoration-blue-500 dark:decoration-gray-100"
         data-aos="fade-up"
       >
         <FaBriefcase className="text-3xl" /> <span>Experience</span>
-      </h1>
+      </h2>
   
       <div className="grid grid-cols-1 w-full sm:grid-cols-2 lg:grid-cols-2 gap-8 px-4 sm:px-6 py-8">
   {experiences.map((exp, index) => (

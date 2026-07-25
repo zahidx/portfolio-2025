@@ -55,11 +55,11 @@ export default function Hobbies() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-blue-400 to-[#D1C7FE] dark:bg-gradient-to-r dark:from-blue-900 dark:via-blue-900 dark:to-[#0c0d51] text-gray-50 dark:text-gray-200 pt-28 pb-12 px-4 sm:px-8 md:px-28 overflow-x-hidden">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-indigo-800 dark:text-red-100 mb-3 tracking-wide"
+    <div className="bg-slate-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 pt-28 pb-12 px-4 sm:px-8 md:px-28 overflow-x-hidden">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-indigo-800 dark:text-red-100 mb-3 tracking-wide"
         data-aos="fade-up">
         Hobbies
-      </h1>
+      </h2>
 
       {/* Animated Horizontal Line */}
       <div className="w-full h-[0.1px] bg-[#9e9a9a] mx-auto mb-8" data-aos="slide-left"></div>

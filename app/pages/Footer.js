@@ -164,7 +164,7 @@ export default function Footer() {
                 <FaInstagram size={28} />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/zahidx"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon hover:text-gray-500"
@@ -172,7 +172,7 @@ export default function Footer() {
                 <FaGithub size={28} />
               </a>
               <a
-                href="https://wa.me/your-number"
+                href="https://wa.me/8801754309016"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon hover:text-green-500"
@@ -236,7 +236,7 @@ export default function Footer() {
         {/* Footer Bottom */}
         <div className="mt-12 border-t border-gray-700 pt-6 text-center text-sm">
           <p>
-            &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+            &copy; {new Date().getFullYear()} Zahidul Islam. All rights reserved.
           </p>
         </div>
       </div>

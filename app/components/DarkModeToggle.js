@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 
-export default function DarkModeToggle() {
+export default function DarkModeToggle({ className = "" }) {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -34,13 +34,13 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={() => setDarkMode(!darkMode)}
-      className="text-3xl focus:outline-none p-4 rounded-md absolute right-6 -top-2 transition-transform transform hover:scale-110"
+      className={`text-2xl focus:outline-none p-2 rounded-lg transition-all duration-300 hover:scale-110 ${className}`}
       aria-label="Toggle Dark Mode"
     >
       {darkMode ? (
-        <FiSun className="text-yellow-500" /> // Sun icon for dark mode
+        <FiSun className="text-yellow-400 hover:text-yellow-300" />
       ) : (
-        <FiMoon className="text-blue-500" /> // Moon icon for light mode
+        <FiMoon className="text-indigo-600 hover:text-indigo-500" />
       )}
     </button>
   );

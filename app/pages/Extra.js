@@ -67,12 +67,12 @@ export default function ExtraCurricularPage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-r from-blue-100 to-cyan-50 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] overflow-x-hidden">
+    <div className="relative min-h-screen bg-slate-100 dark:bg-slate-900 overflow-x-hidden">
       {/* Page Heading */}
       <div className="relative z-10">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 tracking-wide pt-10 mb-8 sm:mb-0">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 tracking-wide pt-10 mb-8 sm:mb-0">
           Extra-Curricular Activities
-        </h1>
+        </h2>
       </div>
   
       {/* React Icon Inside Card */}

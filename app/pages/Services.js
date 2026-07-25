@@ -14,10 +14,10 @@ const cardVariants = {
 
 export default function ServicePage() {
   return (
-    <div id="service" className="bg-gray-100 dark:bg-gradient-to-r dark:from-[#0E1628] dark:to-[#380643] min-h-screen sm:-mb-24">
-      <h1 className="pt-12 pb-4 font-bold text-5xl text-center text-black dark:text-white">
+    <div id="service" className="bg-slate-100 dark:bg-slate-900 min-h-screen sm:-mb-24">
+      <h2 className="pt-12 pb-4 font-bold text-5xl text-center text-black dark:text-white">
         Services
-      </h1>
+      </h2>
   
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-4 py-2 pt-16 pb-20 sm:pb-0">
         {/* Service Card 1: Web Development */}

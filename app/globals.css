@@ -123,19 +123,6 @@ html {
 .icon-container:nth-child(3n) {
   animation: moveRightToLeft 2s ease-in-out infinite alternate;
 }
-/* In your CSS file */
-.loader-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(17, 17, 28, 0.8); /* Optional background */
-  z-index: 9999; /* Make sure it overlays the content */
-}
 .toast {
   position: fixed;
   bottom: 440px;
