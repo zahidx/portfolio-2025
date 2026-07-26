@@ -1,490 +1,553 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-    FaBolt,
-    FaFutbol,
-    FaGamepad,
-    FaHandsHelping,
-    FaMedal,
-    FaMicrophone,
-    FaStar,
-    FaTrophy,
+  FaMicrophone,
+  FaHandsHelping,
+  FaGamepad,
+  FaTrophy,
+  FaMedal,
+  FaPlay,
+  FaPause,
+  FaChevronLeft,
+  FaChevronRight,
+  FaThLarge,
+  FaLayerGroup,
+  FaBolt,
+  FaCheckCircle,
 } from "react-icons/fa";
-import { GiCrossedSwords, GiLaurelCrown, GiPodium } from "react-icons/gi";
+import { GiLaurelCrown, GiPodium } from "react-icons/gi";
+import { MdSportsCricket } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi";
-import {
-    MdGroups,
-    MdRecordVoiceOver,
-    MdSportsCricket,
-    MdVolunteerActivism,
-} from "react-icons/md";
 
 const activities = [
   {
     id: 1,
+    number: "01",
     title: "Debating Society",
     subtitle: "National Level Competitor",
+    category: "Public Speaking & Logic",
     description:
-      "Participated in inter-school & inter-college debates, honing critical thinking and persuasive communication. Won multiple awards for excellence in public speaking and logical argumentation.",
-    icon: <FaMicrophone className="text-3xl" />,
-    secondaryIcon: <MdRecordVoiceOver className="text-xl" />,
-    gradient: "from-violet-600 via-purple-600 to-indigo-700",
-    glow: "shadow-violet-500/40",
-    accentColor: "#8b5cf6",
-    glowColor: "rgba(139,92,246,0.35)",
-    achievements: ["1st Place – Regional Debate", "Best Speaker Award", "3× District Champion"],
-    stats: [
-      { label: "Events", value: "12+" },
-      { label: "Awards", value: "7" },
-      { label: "Years", value: "3" },
-    ],
+      "Engaged in inter-school and national debate championships. Mastered structured logical reasoning, rapid critical thinking, and persuasive audience engagement under intense pressure.",
+    icon: <FaMicrophone className="text-xl sm:text-2xl" />,
     badgeIcon: <GiLaurelCrown />,
     badgeText: "Champion",
-    particleColor: "#a78bfa",
+    accentColor: "#a855f7", // Purple / Violet
+    glowColor: "rgba(168,85,247,0.25)",
+    achievements: [
+      "1st Place – Regional Debate Championship",
+      "Best Speaker Award out of 120+ participants",
+      "3× Consecutive District Debate Winner",
+    ],
+    stats: [
+      { label: "Tournaments", value: "12+" },
+      { label: "Awards Won", value: "7" },
+      { label: "Active Years", value: "3 Yrs" },
+    ],
+    tags: ["Persuasive Oratory", "Logical Argumentation", "Spontaneous Thinking"],
   },
   {
     id: 2,
+    number: "02",
     title: "Community Service",
     subtitle: "Social Impact Volunteer",
+    category: "Leadership & Social Outreach",
     description:
-      "Actively involved in local charity drives, disaster relief camps, and NGO outreach programs. Led a team of 20+ volunteers in organizing community health awareness events.",
-    icon: <FaHandsHelping className="text-3xl" />,
-    secondaryIcon: <MdVolunteerActivism className="text-xl" />,
-    gradient: "from-emerald-500 via-teal-500 to-cyan-600",
-    glow: "shadow-emerald-500/40",
-    accentColor: "#10b981",
-    glowColor: "rgba(16,185,129,0.35)",
-    achievements: ["Led 20+ Volunteers", "500+ Hours of Service", "Community Hero Award"],
-    stats: [
-      { label: "Hours", value: "500+" },
-      { label: "Events", value: "18" },
-      { label: "Lives", value: "200+" },
-    ],
+      "Organized local relief drives, health awareness programs, and youth mentorship workshops. Led a coordinated team of 20+ volunteers to maximize community impact.",
+    icon: <FaHandsHelping className="text-xl sm:text-2xl" />,
     badgeIcon: <FaMedal />,
     badgeText: "Hero",
-    particleColor: "#34d399",
+    accentColor: "#10b981", // Emerald
+    glowColor: "rgba(16,185,129,0.25)",
+    achievements: [
+      "Mobilized 20+ volunteers for local social causes",
+      "Logged over 500+ hours of community work",
+      "Awarded Community Service Excellence Citation",
+    ],
+    stats: [
+      { label: "Hours Served", value: "500+" },
+      { label: "Outreach Events", value: "18" },
+      { label: "People Helped", value: "200+" },
+    ],
+    tags: ["Volunteer Management", "Event Planning", "Empathy & Impact"],
   },
   {
     id: 3,
+    number: "03",
     title: "Cricket & Sports",
     subtitle: "Regional Tournament Player",
+    category: "Team Athletics & Discipline",
     description:
-      "Represented school and college teams in regional cricket tournaments. Also engaged in athletics, developing teamwork, discipline, and competitive spirit at every level.",
-    icon: <MdSportsCricket className="text-3xl" />,
-    secondaryIcon: <FaFutbol className="text-xl" />,
-    gradient: "from-amber-500 via-orange-500 to-red-500",
-    glow: "shadow-orange-500/40",
-    accentColor: "#f59e0b",
-    glowColor: "rgba(245,158,11,0.35)",
-    achievements: ["Regional Tournament Winner", "Best All-Rounder 2023", "Captain – College XI"],
-    stats: [
-      { label: "Matches", value: "40+" },
-      { label: "Wins", value: "28" },
-      { label: "Titles", value: "4" },
-    ],
+      "Represented school and college teams in regional cricket tournaments. Developed high-stakes situational awareness, disciplined sportsmanship, and tactical team coordination.",
+    icon: <MdSportsCricket className="text-xl sm:text-2xl" />,
     badgeIcon: <FaTrophy />,
     badgeText: "Captain",
-    particleColor: "#fbbf24",
+    accentColor: "#f59e0b", // Amber
+    glowColor: "rgba(245,158,11,0.25)",
+    achievements: [
+      "Regional Tournament Champions 2023",
+      "Awarded Best All-Rounder of the Tournament",
+      "Appointed Captain of the College XI Squad",
+    ],
+    stats: [
+      { label: "Matches", value: "40+" },
+      { label: "Win Rate", value: "70%" },
+      { label: "Trophies", value: "4" },
+    ],
+    tags: ["Tactical Strategy", "Team Leadership", "Resilience & Focus"],
   },
   {
     id: 4,
+    number: "04",
     title: "Competitive Gaming",
     subtitle: "eSports Tournament Finalist",
+    category: "Tactical Strategy & eSports",
     description:
-      "Competed in national-level eSports tournaments across multiple titles. Ranked in top percentile globally, combining strategic thinking, reflexes, and team coordination.",
-    icon: <FaGamepad className="text-3xl" />,
-    secondaryIcon: <GiCrossedSwords className="text-xl" />,
-    gradient: "from-pink-600 via-rose-500 to-fuchsia-600",
-    glow: "shadow-pink-500/40",
-    accentColor: "#ec4899",
-    glowColor: "rgba(236,72,153,0.35)",
-    achievements: ["Top 1% Global Ranking", "National Finalist 2023", "Team MVP 3× Seasons"],
-    stats: [
-      { label: "Tournaments", value: "20+" },
-      { label: "Rank", value: "Top 1%" },
-      { label: "Seasons", value: "5" },
-    ],
+      "Competed at national eSports tournaments requiring sub-second decision making, real-time spatial awareness, complex multi-tier strategy, and high-frequency communication.",
+    icon: <FaGamepad className="text-xl sm:text-2xl" />,
     badgeIcon: <GiPodium />,
     badgeText: "Pro",
-    particleColor: "#f472b6",
+    accentColor: "#ec4899", // Pink / Rose
+    glowColor: "rgba(236,72,153,0.25)",
+    achievements: [
+      "Ranked in top 1% globally in tactical eSports",
+      "National Tournament Finalist 2023",
+      "3× Team MVP for tactical playmaking",
+    ],
+    stats: [
+      { label: "Tournaments", value: "20+" },
+      { label: "Global Rank", value: "Top 1%" },
+      { label: "Seasons", value: "5" },
+    ],
+    tags: ["Micro & Macro Strategy", "Split-Second Reflexes", "Clutch Performance"],
   },
 ];
 
-// Floating particle component
-function FloatingParticle({ color, delay, duration, x, y, size }) {
-  return (
-    <div
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        width: size,
-        height: size,
-        background: color,
-        left: `${x}%`,
-        top: `${y}%`,
-        opacity: 0,
-        animation: `floatParticle ${duration}s ease-in-out ${delay}s infinite`,
-        filter: "blur(1px)",
-      }}
-    />
-  );
-}
-
-// Single Activity Card
-function ActivityCard({ activity, index }) {
-  const cardRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.15 }
-    );
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    setTilt({ x: dy * -8, y: dx * 8 });
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
-    setHovered(false);
-  };
-
-  const isEven = index % 2 === 0;
-
-  return (
-    <div
-      ref={cardRef}
-      className={`relative transition-all duration-700 ease-out`}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible
-          ? "translateY(0) scale(1)"
-          : `translateY(60px) scale(0.95)`,
-        transitionDelay: `${index * 120}ms`,
-      }}
-    >
-      <div
-        className={`relative rounded-2xl overflow-hidden cursor-pointer group`}
-        style={{
-          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovered ? 1.02 : 1})`,
-          transition: "transform 0.25s ease, box-shadow 0.3s ease",
-          boxShadow: hovered
-            ? `0 30px 80px ${activity.glowColor}, 0 0 0 1px ${activity.accentColor}30`
-            : `0 8px 32px ${activity.glowColor}`,
-        }}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={handleMouseLeave}
-      >
-        {/* Gradient background */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${activity.gradient} opacity-90`} />
-
-        {/* Glassmorphism overlay */}
-        <div className="absolute inset-0 bg-white/5 backdrop-blur-sm" />
-
-        {/* Animated mesh glow */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: `radial-gradient(circle at 30% 50%, ${activity.accentColor}25 0%, transparent 60%)`,
-          }}
-        />
-
-        {/* Corner glow orb */}
-        <div
-          className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500"
-          style={{ background: activity.accentColor }}
-        />
-
-        {/* Badge */}
-        <div
-          className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase backdrop-blur-md"
-          style={{
-            background: "rgba(255,255,255,0.15)",
-            border: "1px solid rgba(255,255,255,0.3)",
-            color: "#fff",
-          }}
-        >
-          <span className="text-sm">{activity.badgeIcon}</span>
-          {activity.badgeText}
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 p-6 sm:p-8">
-          {/* Header row */}
-          <div className="flex items-start gap-5 mb-6">
-            {/* Icon bubble */}
-            <div
-              className="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl text-white"
-              style={{
-                background: "rgba(255,255,255,0.18)",
-                border: "1px solid rgba(255,255,255,0.35)",
-                boxShadow: `0 8px 32px ${activity.glowColor}`,
-                backdropFilter: "blur(8px)",
-                transform: hovered ? "rotate(10deg) scale(1.1)" : "rotate(0deg) scale(1)",
-                transition: "transform 0.3s ease",
-              }}
-            >
-              {activity.icon}
-            </div>
-
-            <div className="flex-1 min-w-0">
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-tight">
-                {activity.title}
-              </h3>
-              <p
-                className="text-sm font-semibold mt-0.5 flex items-center gap-1"
-                style={{ color: "rgba(255,255,255,0.75)" }}
-              >
-                <HiSparkles className="text-xs" />
-                {activity.subtitle}
-              </p>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-6">
-            {activity.description}
-          </p>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {activity.stats.map((stat, i) => (
-              <div
-                key={i}
-                className="text-center rounded-xl py-3 px-2"
-                style={{
-                  background: "rgba(255,255,255,0.1)",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  backdropFilter: "blur(4px)",
-                }}
-              >
-                <div className="text-xl sm:text-2xl font-black text-white">{stat.value}</div>
-                <div className="text-xs text-white/60 font-medium uppercase tracking-wider mt-0.5">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Achievements */}
-          <div className="space-y-2">
-            <p className="text-xs text-white/50 uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
-              <FaBolt className="text-yellow-300" />
-              Key Achievements
-            </p>
-            {activity.achievements.map((ach, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 group/ach"
-              >
-                <div
-                  className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
-                  style={{ background: activity.accentColor, boxShadow: `0 0 10px ${activity.accentColor}` }}
-                >
-                  <FaStar className="text-white text-[8px]" />
-                </div>
-                <span className="text-sm text-white/85 font-medium group-hover/ach:text-white transition-colors">
-                  {ach}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom shimmer line */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-all duration-500"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${activity.accentColor}, transparent)`,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
 export default function ExtraCurricularPage() {
-  const sectionRef = useRef(null);
-  const [headerVisible, setHeaderVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [viewMode, setViewMode] = useState("spotlight"); // "spotlight" | "matrix"
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [progress, setProgress] = useState(0);
 
+  const activeActivity = activities[activeIndex];
+  const autoPlayRef = useRef(null);
+
+  // Auto-play timer logic
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setHeaderVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+    if (!isAutoPlay || viewMode !== "spotlight") {
+      setProgress(0);
+      return;
+    }
 
-  // Generate random particles
-  const particles = Array.from({ length: 18 }, (_, i) => ({
-    id: i,
-    color: activities[i % activities.length].particleColor,
-    delay: (i * 0.7) % 5,
-    duration: 4 + (i % 3) * 2,
-    x: (i * 23 + 7) % 95,
-    y: (i * 17 + 11) % 90,
-    size: `${4 + (i % 4) * 3}px`,
-  }));
+    const intervalTime = 50; // ms
+    const totalTime = 6000; // 6s per slide
+    const increment = (intervalTime / totalTime) * 100;
+
+    autoPlayRef.current = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          setActiveIndex((idx) => (idx + 1) % activities.length);
+          return 0;
+        }
+        return prev + increment;
+      });
+    }, intervalTime);
+
+    return () => clearInterval(autoPlayRef.current);
+  }, [isAutoPlay, activeIndex, viewMode]);
+
+  const handleSelect = (index) => {
+    setActiveIndex(index);
+    setProgress(0);
+  };
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + activities.length) % activities.length);
+    setProgress(0);
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % activities.length);
+    setProgress(0);
+  };
 
   return (
-    <div
-      ref={sectionRef}
-      className="relative min-h-screen bg-slate-950 dark:bg-slate-950 overflow-hidden py-20"
-      style={{ fontFamily: "'Inter', sans-serif" }}
-    >
-      {/* ── Animated CSS ── */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-        @keyframes floatParticle {
-          0%   { opacity: 0;    transform: translateY(0px) scale(0.8); }
-          20%  { opacity: 0.7; }
-          80%  { opacity: 0.5; }
-          100% { opacity: 0;    transform: translateY(-80px) scale(1.2); }
-        }
-
-        @keyframes pulseglow {
-          0%, 100% { opacity: 0.4; transform: scale(1); }
-          50%       { opacity: 0.8; transform: scale(1.08); }
-        }
-
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes spinSlow {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-
-        @keyframes shimmerText {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
-
-        .shimmer-text {
-          background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24, #f472b6, #a78bfa);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmerText 4s linear infinite;
-        }
-
-        .header-animate {
-          animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-      `}</style>
-
-      {/* ── Background orbs ── */}
+    <section className="relative min-h-screen bg-slate-950 text-slate-100 py-12 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden selection:bg-purple-500/30 selection:text-purple-200">
+      {/* Background Subtle Ambient Effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-[120px] -top-32 -left-32"
-          style={{ background: "rgba(139,92,246,0.15)", animation: "pulseglow 6s ease-in-out infinite" }}
+          className="absolute w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full blur-[140px] opacity-20 -top-40 -left-40 transition-all duration-1000 ease-out"
+          style={{ background: activeActivity.accentColor }}
         />
         <div
-          className="absolute w-[400px] h-[400px] rounded-full blur-[100px] -bottom-20 -right-20"
-          style={{ background: "rgba(236,72,153,0.12)", animation: "pulseglow 8s ease-in-out 2s infinite" }}
-        />
-        <div
-          className="absolute w-[300px] h-[300px] rounded-full blur-[80px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ background: "rgba(16,185,129,0.08)", animation: "pulseglow 10s ease-in-out 4s infinite" }}
+          className="absolute w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full blur-[140px] opacity-15 bottom-0 right-0 transition-all duration-1000 ease-out"
+          style={{ background: activeActivity.accentColor }}
         />
 
-        {/* Floating particles */}
-        {particles.map((p) => (
-          <FloatingParticle key={p.id} {...p} />
-        ))}
-
-        {/* Grid overlay */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+            backgroundSize: "80px 80px",
           }}
         />
       </div>
 
-      {/* ── Section Header ── */}
-      <div
-        className="relative z-10 text-center mb-16 px-4"
-        style={{ opacity: headerVisible ? 1 : 0, transition: "opacity 0.8s ease" }}
-      >
-        {/* Eyebrow label */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-xs font-bold uppercase tracking-[0.2em]"
-          style={{
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            color: "rgba(255,255,255,0.6)",
-          }}
-        >
-          <MdGroups className="text-base text-violet-400" />
-          Beyond The Code
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 pb-5 sm:pb-6 border-b border-slate-800/60 gap-5 sm:gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase bg-slate-900/80 border border-slate-800 text-slate-400 mb-3 sm:mb-4">
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: activeActivity.accentColor }} />
+              {"// BEYOND THE CODE"}
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+              Extra-Curricular <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-amber-400 bg-clip-text text-transparent">Activities</span>
+            </h2>
+            <p className="text-slate-400 text-xs sm:text-base mt-2 max-w-xl">
+              Leadership, high-stakes competition, and community engagement — shaping versatility beyond software engineering.
+            </p>
+          </div>
+
+          {/* View Mode Toggle Controls - Mobile Touch Bar */}
+          <div className="flex items-center gap-2 self-stretch md:self-auto bg-slate-900/90 p-1.5 rounded-xl border border-slate-800/80 shadow-lg backdrop-blur-md">
+            <button
+              onClick={() => setViewMode("spotlight")}
+              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold active:scale-95 transition-all duration-300 ${
+                viewMode === "spotlight"
+                  ? "bg-slate-800 text-white shadow-md border border-slate-700/60"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <FaLayerGroup className="text-xs sm:text-sm" />
+              <span>Spotlight</span>
+            </button>
+            <button
+              onClick={() => setViewMode("matrix")}
+              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold active:scale-95 transition-all duration-300 ${
+                viewMode === "matrix"
+                  ? "bg-slate-800 text-white shadow-md border border-slate-700/60"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <FaThLarge className="text-xs sm:text-sm" />
+              <span>Bento Grid</span>
+            </button>
+          </div>
         </div>
 
-        {/* Main heading */}
-        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight">
-          <span className="text-white">Extra-Curricular</span>
-          <br />
-          <span className="shimmer-text">Activities</span>
-        </h2>
+        {/* SPOTLIGHT STAGE MODE */}
+        {viewMode === "spotlight" && (
+          <div className="space-y-6 sm:space-y-8">
+            {/* Minimalist Horizontal Node Navigation Tabs */}
+            <div className="relative">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+                {activities.map((act, idx) => {
+                  const isActive = idx === activeIndex;
+                  return (
+                    <button
+                      key={act.id}
+                      onClick={() => handleSelect(idx)}
+                      className={`relative text-left p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border active:scale-95 transition-all duration-300 group overflow-hidden ${
+                        isActive
+                          ? "bg-slate-900/90 border-slate-700 shadow-xl"
+                          : "bg-slate-950/60 border-slate-800/60 hover:bg-slate-900/50 hover:border-slate-700/50"
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="nodeAccent"
+                          className="absolute top-0 left-0 right-0 h-1"
+                          style={{ background: act.accentColor }}
+                        />
+                      )}
 
-        {/* Subheading */}
-        <p className="mt-4 text-sm sm:text-base text-white/40 max-w-xl mx-auto leading-relaxed">
-          Leadership, sport, community — every arena shaped who I am beyond the screen.
-        </p>
+                      <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                        <span
+                          className={`text-xs font-mono font-bold transition-colors ${
+                            isActive ? "text-white" : "text-slate-500 group-hover:text-slate-400"
+                          }`}
+                        >
+                          {act.number}
+                        </span>
+                        <div
+                          className={`p-1.5 sm:p-2 rounded-lg sm:rounded-xl text-base sm:text-lg transition-transform duration-300 group-hover:scale-110 ${
+                            isActive ? "bg-slate-800 text-white" : "bg-slate-900/80 text-slate-400"
+                          }`}
+                          style={{ color: isActive ? act.accentColor : undefined }}
+                        >
+                          {act.icon}
+                        </div>
+                      </div>
 
-        {/* Decorative line */}
-        <div className="flex items-center justify-center gap-3 mt-8">
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-violet-500/60" />
-          <div className="w-2 h-2 rounded-full bg-violet-500" style={{ boxShadow: "0 0 10px #8b5cf6" }} />
-          <div className="h-px w-32 bg-gradient-to-r from-violet-500/60 via-pink-500/60 to-transparent" />
-          <div className="w-2 h-2 rounded-full bg-pink-500" style={{ boxShadow: "0 0 10px #ec4899" }} />
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-pink-500/60" />
-        </div>
-      </div>
+                      <div className="font-bold text-xs sm:text-sm text-slate-200 group-hover:text-white truncate">
+                        {act.title}
+                      </div>
+                      <div className="text-[10px] sm:text-xs text-slate-400 truncate mt-0.5">{act.category}</div>
+                    </button>
+                  );
+                })}
+              </div>
 
-      {/* ── Cards Grid ── */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {activities.map((activity, index) => (
-            <ActivityCard key={activity.id} activity={activity} index={index} />
-          ))}
-        </div>
+              {isAutoPlay && (
+                <div className="w-full bg-slate-900 h-1 rounded-full mt-3 sm:mt-4 overflow-hidden border border-slate-800">
+                  <div
+                    className="h-full transition-all duration-75 ease-linear"
+                    style={{
+                      width: `${progress}%`,
+                      background: activeActivity.accentColor,
+                    }}
+                  />
+                </div>
+              )}
+            </div>
 
-        {/* Bottom CTA / quote */}
-        <div
-          className="mt-16 text-center py-8 px-6 rounded-2xl"
-          style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          <GiLaurelCrown className="text-4xl text-yellow-400 mx-auto mb-3" style={{ filter: "drop-shadow(0 0 10px #fbbf24)" }} />
-          <p className="text-white/60 text-sm sm:text-base italic max-w-2xl mx-auto">
-            &quot;Excellence is not a skill — it&apos;s an attitude, forged on every field, stage, and screen.&quot;
+            {/* Stage Showcase Card */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeActivity.id}
+                initial={{ opacity: 0, y: 15, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -15, scale: 0.99 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="relative rounded-2xl sm:rounded-3xl border border-slate-800/80 bg-slate-900/60 backdrop-blur-xl p-5 sm:p-10 overflow-hidden shadow-2xl"
+                style={{
+                  boxShadow: `0 20px 60px -15px ${activeActivity.glowColor}`,
+                }}
+              >
+                {/* Background Giant Watermark Index */}
+                <div
+                  className="absolute -right-4 -bottom-8 sm:-right-6 sm:-bottom-10 text-[140px] sm:text-[240px] font-black tracking-tighter pointer-events-none select-none opacity-[0.03] text-white leading-none font-mono"
+                >
+                  {activeActivity.number}
+                </div>
+
+                <div
+                  className="absolute -top-32 -right-32 w-72 sm:w-96 h-72 sm:h-96 rounded-full blur-[100px] pointer-events-none opacity-20"
+                  style={{ background: activeActivity.accentColor }}
+                />
+
+                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+                  {/* Left Column: Details & Stats */}
+                  <div className="lg:col-span-7 space-y-4 sm:space-y-6">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                      <span
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide uppercase border backdrop-blur-md"
+                        style={{
+                          background: `${activeActivity.accentColor}15`,
+                          borderColor: `${activeActivity.accentColor}40`,
+                          color: activeActivity.accentColor,
+                        }}
+                      >
+                        <HiSparkles className="text-xs sm:text-sm" />
+                        {activeActivity.category}
+                      </span>
+
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono text-slate-400 bg-slate-950/60 border border-slate-800">
+                        {activeActivity.badgeIcon}
+                        {activeActivity.badgeText}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                        {activeActivity.title}
+                      </h3>
+                      <p className="text-sm sm:text-lg font-medium text-slate-300 mt-1">
+                        {activeActivity.subtitle}
+                      </p>
+                    </div>
+
+                    <p className="text-slate-300 text-xs sm:text-base leading-relaxed max-w-2xl font-light">
+                      {activeActivity.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
+                      {activeActivity.tags.map((tag, i) => (
+                        <span
+                          key={i}
+                          className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-lg text-[11px] sm:text-xs font-medium bg-slate-950/80 border border-slate-800 text-slate-300"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Stats Metrics Grid */}
+                    <div className="grid grid-cols-3 gap-2.5 sm:gap-3 pt-2 sm:pt-4">
+                      {activeActivity.stats.map((stat, i) => (
+                        <div
+                          key={i}
+                          className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-950/70 border border-slate-800/80 text-center transition-transform hover:-translate-y-1 duration-200"
+                        >
+                          <div
+                            className="text-lg sm:text-2xl font-extrabold text-white"
+                            style={{ color: activeActivity.accentColor }}
+                          >
+                            {stat.value}
+                          </div>
+                          <div className="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider mt-0.5 sm:mt-1 truncate">
+                            {stat.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right Column: Key Achievements & Controls */}
+                  <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-4 sm:space-y-6">
+                    <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-3 sm:space-y-4">
+                      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5 sm:pb-3">
+                        <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+                          <FaBolt style={{ color: activeActivity.accentColor }} />
+                          Key Milestones
+                        </div>
+                        <span className="text-[10px] sm:text-xs text-slate-500 font-mono">
+                          {activeActivity.achievements.length} Highlights
+                        </span>
+                      </div>
+
+                      <div className="space-y-2.5 sm:space-y-3">
+                        {activeActivity.achievements.map((ach, i) => (
+                          <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200 group">
+                            <div
+                              className="mt-0.5 flex-shrink-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center text-[9px] sm:text-[10px]"
+                              style={{
+                                background: `${activeActivity.accentColor}25`,
+                                color: activeActivity.accentColor,
+                              }}
+                            >
+                              <FaCheckCircle className="text-[10px] sm:text-xs" />
+                            </div>
+                            <span className="leading-snug text-slate-300 group-hover:text-white transition-colors">
+                              {ach}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Stage Navigation Controls */}
+                    <div className="flex items-center justify-between pt-1 sm:pt-2">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setIsAutoPlay(!isAutoPlay)}
+                          className="p-2 sm:p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-white active:scale-95 transition-all text-xs flex items-center gap-1.5 font-mono"
+                          title={isAutoPlay ? "Pause slideshow" : "Play slideshow"}
+                        >
+                          {isAutoPlay ? <FaPause className="text-[10px]" /> : <FaPlay className="text-[10px]" />}
+                          <span>{isAutoPlay ? "Pause" : "Auto"}</span>
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={handlePrev}
+                          className="p-2.5 sm:p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:text-white active:scale-90 transition-all"
+                          aria-label="Previous Activity"
+                        >
+                          <FaChevronLeft className="text-xs" />
+                        </button>
+                        <span className="text-xs font-mono text-slate-400 px-1 sm:px-2">
+                          {activeIndex + 1} / {activities.length}
+                        </span>
+                        <button
+                          onClick={handleNext}
+                          className="p-2.5 sm:p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:text-white active:scale-90 transition-all"
+                          aria-label="Next Activity"
+                        >
+                          <FaChevronRight className="text-xs" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        )}
+
+        {/* BENTO MATRIX VIEW MODE */}
+        {viewMode === "matrix" && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+          >
+            {activities.map((act, idx) => (
+              <div
+                key={act.id}
+                onClick={() => {
+                  setActiveIndex(idx);
+                  setViewMode("spotlight");
+                }}
+                className="group relative rounded-2xl sm:rounded-3xl bg-slate-900/60 border border-slate-800/80 p-5 sm:p-6 flex flex-col justify-between cursor-pointer active:scale-98 overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-slate-700 shadow-xl"
+                style={{
+                  boxShadow: `0 10px 30px -10px ${act.glowColor}`,
+                }}
+              >
+                <div
+                  className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: act.accentColor }}
+                />
+
+                <div>
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <span className="text-xs font-mono font-bold text-slate-500">{act.number}</span>
+                    <div
+                      className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-lg transition-transform duration-300 group-hover:scale-110"
+                      style={{ color: act.accentColor }}
+                    >
+                      {act.icon}
+                    </div>
+                  </div>
+
+                  <span
+                    className="inline-block text-[10px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-950 border border-slate-800 mb-2"
+                    style={{ color: act.accentColor }}
+                  >
+                    {act.badgeText}
+                  </span>
+
+                  <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">
+                    {act.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{act.subtitle}</p>
+
+                  <p className="text-slate-300 text-xs mt-3 line-clamp-3 leading-relaxed">
+                    {act.description}
+                  </p>
+                </div>
+
+                <div className="mt-5 pt-3.5 border-t border-slate-800/60">
+                  <div className="grid grid-cols-3 gap-1 text-center">
+                    {act.stats.map((s, i) => (
+                      <div key={i} className="p-1 rounded-lg bg-slate-950/60">
+                        <div className="text-xs font-bold text-white">{s.value}</div>
+                        <div className="text-[8px] text-slate-500 uppercase truncate">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between text-xs text-slate-400 group-hover:text-white font-mono transition-colors">
+                    <span>View Spotlight</span>
+                    <FaChevronRight className="text-[10px] transform group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Bottom Quote */}
+        <div className="mt-10 sm:mt-16 text-center py-5 px-4 rounded-2xl bg-slate-900/40 border border-slate-800/60 backdrop-blur-sm max-w-3xl mx-auto">
+          <p className="text-slate-400 text-xs sm:text-sm font-mono tracking-tight italic">
+            &quot;Excellence is not a singular skill — it is a discipline forged across debate stages, volunteer fields, and competitive arenas.&quot;
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -65,22 +65,14 @@ export default function Navbar() {
   ];
 
   /* ─────────── Version switcher pill (shared in both navs) ─────────── */
-  const VersionSwitcher = ({ light = false }) => (
-    <div
-      className={`flex items-center rounded-full p-0.5 gap-0.5 ${
-        light
-          ? "bg-slate-100 dark:bg-slate-800"
-          : "bg-white/20 dark:bg-white/10"
-      }`}
-    >
+  const VersionSwitcher = () => (
+    <div className="flex items-center rounded-full p-0.5 gap-0.5 bg-slate-200/90 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700/60">
       <Link
         href="/"
         className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 ${
           !isV1
             ? "bg-indigo-600 text-white shadow-sm"
-            : light
-            ? "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
-            : "text-white/70 hover:text-white"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
         }`}
       >
         V2
@@ -90,9 +82,7 @@ export default function Navbar() {
         className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 ${
           isV1
             ? "bg-indigo-600 text-white shadow-sm"
-            : light
-            ? "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
-            : "text-white/70 hover:text-white"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
         }`}
       >
         V1
@@ -148,7 +138,7 @@ export default function Navbar() {
 
           {/* Version switcher + Dark mode */}
           <div className="flex items-center gap-2 pl-4 border-l border-gray-300 dark:border-gray-700">
-            <VersionSwitcher light={false} />
+            <VersionSwitcher />
             <DarkModeToggle />
           </div>
         </div>
@@ -220,7 +210,7 @@ export default function Navbar() {
           })}
 
           <div className="pl-3 border-l border-slate-200 dark:border-slate-800 ml-2 flex items-center gap-2">
-            <VersionSwitcher light={true} />
+            <VersionSwitcher />
             <DarkModeToggle className="hover:bg-slate-100 dark:hover:bg-slate-800" />
           </div>
         </div>

@@ -64,44 +64,41 @@ export default function Footer() {
       <div className="absolute -top-32 -left-32 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-8">
-
-        {/* ── Top section ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 mb-14">
-
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8">
+        {/* Top section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-14">
           {/* Brand column */}
           <div className="xl:col-span-1">
-            {/* Logo */}
-            <Link href="/" className="group inline-flex items-center gap-3 mb-5">
-              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-[2px] shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 transition-shadow">
+            <Link href="/" className="group inline-flex items-center gap-3 mb-4 sm:mb-5">
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-[2px] shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 transition-shadow">
                 <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 text-sm tracking-tighter">
+                  <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 text-xs sm:text-sm tracking-tighter">
                     &lt;Z/&gt;
                   </span>
                 </div>
               </div>
-              <span className="text-xl font-black tracking-tight text-white">
+              <span className="text-lg sm:text-xl font-black tracking-tight text-white">
                 Zahid<span className="text-indigo-400">ul</span>
               </span>
             </Link>
 
-            <p className="text-sm text-slate-400 leading-relaxed mb-6">
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-5 sm:mb-6">
               Software Engineer &amp; Full-Stack Developer building modern web experiences with React, Next.js, and Node.js.
             </p>
 
             {/* Contact mini-info */}
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-3 text-slate-400">
+            <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
+              <li className="flex items-center gap-2.5 sm:gap-3 text-slate-400">
                 <MapPin className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                Baridhara, Dhaka, Bangladesh
+                <span>Baridhara, Dhaka, Bangladesh</span>
               </li>
-              <li className="flex items-center gap-3 text-slate-400">
+              <li className="flex items-center gap-2.5 sm:gap-3 text-slate-400">
                 <Mail className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                <a href="mailto:zahid.imx@gmail.com" className="hover:text-indigo-400 transition-colors">
+                <a href="mailto:zahid.imx@gmail.com" className="hover:text-indigo-400 transition-colors truncate">
                   zahid.imx@gmail.com
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-slate-400">
+              <li className="flex items-center gap-2.5 sm:gap-3 text-slate-400">
                 <Phone className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                 <a href="tel:+8801754309016" className="hover:text-indigo-400 transition-colors">
                   +880 175 430 9016
@@ -112,20 +109,20 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
-              <span className="w-6 h-px bg-indigo-500 inline-block" />
+            <h3 className="text-xs sm:text-sm font-semibold text-white uppercase tracking-widest mb-4 sm:mb-6 flex items-center gap-2">
+              <span className="w-5 sm:w-6 h-px bg-indigo-500 inline-block" />
               Quick Links
             </h3>
-            <ul className="space-y-3">
+            <ul className="grid grid-cols-2 sm:grid-cols-1 gap-2.5 sm:gap-3">
               {quickLinks.map(({ href, label, icon: Icon }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group flex items-center gap-2.5 text-sm text-slate-400 hover:text-indigo-400 transition-colors duration-200"
+                    className="group flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-indigo-400 transition-colors duration-200"
                   >
                     <Icon className="w-3.5 h-3.5 text-slate-600 group-hover:text-indigo-400 transition-colors" />
-                    {label}
-                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
+                    <span>{label}</span>
+                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity ml-auto hidden sm:inline" />
                   </Link>
                 </li>
               ))}
@@ -134,11 +131,11 @@ export default function Footer() {
 
           {/* Social links */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
-              <span className="w-6 h-px bg-indigo-500 inline-block" />
+            <h3 className="text-xs sm:text-sm font-semibold text-white uppercase tracking-widest mb-4 sm:mb-6 flex items-center gap-2">
+              <span className="w-5 sm:w-6 h-px bg-indigo-500 inline-block" />
               Connect
             </h3>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
               {socialLinks.map(({ icon: Icon, href, label, color }) => (
                 <a
                   key={label}
@@ -146,7 +143,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className={`flex items-center justify-center w-11 h-11 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-400 transition-all duration-200 ${color} hover:border-transparent hover:scale-105 hover:shadow-lg`}
+                  className={`flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-400 active:scale-95 transition-all duration-200 ${color} hover:border-transparent hover:scale-105 hover:shadow-lg`}
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -154,7 +151,7 @@ export default function Footer() {
             </div>
 
             {/* Availability badge */}
-            <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+            <div className="mt-5 sm:mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -165,16 +162,16 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
-              <span className="w-6 h-px bg-indigo-500 inline-block" />
+            <h3 className="text-xs sm:text-sm font-semibold text-white uppercase tracking-widest mb-4 sm:mb-6 flex items-center gap-2">
+              <span className="w-5 sm:w-6 h-px bg-indigo-500 inline-block" />
               Newsletter
             </h3>
-            <p className="text-sm text-slate-400 mb-4 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-400 mb-3.5 sm:mb-4 leading-relaxed">
               Get the latest articles, projects, and updates — no spam, ever.
             </p>
 
             {subscribed ? (
-              <div className="flex items-center gap-2 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
+              <div className="flex items-center gap-2 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs sm:text-sm">
                 <span>🎉</span>
                 <span>You&apos;re subscribed! Thank you.</span>
               </div>
@@ -187,20 +184,20 @@ export default function Footer() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/60 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all"
+                    className="w-full px-3.5 py-3 rounded-xl bg-slate-800/80 border border-slate-700/60 text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all"
                   />
                 </div>
                 {error && <p className="text-red-400 text-xs">{error}</p>}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/25 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-95 text-white text-xs sm:text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
+                      <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       Subscribe
                     </>
                   )}
@@ -210,31 +207,29 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ── Divider ── */}
-        <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-8" />
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent mb-6 sm:mb-8" />
 
-        {/* ── Bottom bar ── */}
+        {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-slate-500 text-center sm:text-left">
+          <p className="text-[11px] sm:text-xs text-slate-500 text-center sm:text-left">
             © {new Date().getFullYear()}{" "}
             <span className="text-slate-400 font-medium">Zahidul Islam</span>. All rights reserved.
-            <span className="mx-2 text-slate-700">·</span>
+            <span className="mx-1.5 text-slate-700">·</span>
             Built with{" "}
             <span className="text-indigo-400">Next.js</span> &amp;{" "}
             <span className="text-indigo-400">Tailwind CSS</span>
           </p>
 
-          {/* Back to top */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Back to top"
-            className="group flex items-center gap-2 px-4 py-2 rounded-full border border-slate-700/60 text-xs text-slate-400 hover:text-indigo-400 hover:border-indigo-500/50 transition-all duration-200"
+            className="group flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-slate-700/60 text-xs text-slate-400 hover:text-indigo-400 active:scale-95 transition-all duration-200"
           >
             <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
-            Back to top
+            <span>Back to top</span>
           </button>
         </div>
-
       </div>
     </footer>
   );

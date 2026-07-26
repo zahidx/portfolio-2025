@@ -155,9 +155,9 @@ export default function Interest() {
   }, [active]);
 
   return (
-    <section className="py-24" id="constellation">
+    <section className="py-8 sm:py-12" id="constellation">
       <motion.div
-        className="mb-10 text-center"
+        className="mb-6 text-center"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -167,20 +167,20 @@ export default function Interest() {
           <Orbit className="w-3.5 h-3.5" />
           Interactive constellation
         </span>
-        <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight">
+        <h2 className="mt-2 text-2xl sm:text-4xl font-extrabold tracking-tight">
           My interest{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">
             universe
           </span>
         </h2>
-        <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-lg mx-auto">
+        <p className="mt-1.5 text-slate-400 text-xs sm:text-sm max-w-lg mx-auto">
           Hover or click a planet. Use ← → keys. Pause the orbit anytime.
         </p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center">
+      <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 lg:gap-10 items-center">
         {/* ── Orbital map ── */}
-        <div className="relative mx-auto w-full max-w-[520px] aspect-square select-none">
+        <div className="relative mx-auto w-full max-w-[420px] aspect-square select-none">
           {/* rings */}
           {[ORBIT_R[1], ORBIT_R[2]].map((r) => (
             <div
@@ -217,19 +217,19 @@ export default function Interest() {
           {/* core */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
             <div
-              className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center"
+              className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center"
               style={{
                 background:
                   "radial-gradient(circle at 35% 30%, rgba(255,255,255,0.25), transparent 45%), linear-gradient(135deg, #6366f1, #a855f7, #ec4899)",
-                boxShadow: `0 0 60px ${current.accent}55, 0 0 120px ${current.accent}22`,
+                boxShadow: `0 0 50px ${current.accent}55, 0 0 100px ${current.accent}22`,
               }}
             >
-              <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase">
+              <span className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase">
                 Me
               </span>
               <div
                 className="absolute inset-0 rounded-full animate-[core-pulse_3s_ease-in-out_infinite]"
-                style={{ boxShadow: `inset 0 0 30px ${current.accent}44` }}
+                style={{ boxShadow: `inset 0 0 25px ${current.accent}44` }}
               />
             </div>
           </div>
@@ -271,28 +271,28 @@ export default function Interest() {
                     }}
                   >
                     <div
-                      className="relative flex flex-col items-center gap-1.5 transition-transform duration-300"
-                      style={{ transform: isOn ? "scale(1.25)" : "scale(1)" }}
+                      className="relative flex flex-col items-center gap-1 transition-transform duration-300"
+                      style={{ transform: isOn ? "scale(1.2)" : "scale(1)" }}
                     >
                       <div
-                        className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border backdrop-blur-md transition-all duration-300"
+                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border backdrop-blur-md transition-all duration-300"
                         style={{
                           background: isOn
                             ? `${node.accent}33`
                             : "rgba(255,255,255,0.04)",
                           borderColor: isOn ? node.accent : "rgba(255,255,255,0.15)",
                           boxShadow: isOn
-                            ? `0 0 28px ${node.accent}66`
+                            ? `0 0 24px ${node.accent}66`
                             : "none",
                         }}
                       >
                         <NodeIcon
-                          className="w-5 h-5"
+                          className="w-4 h-4"
                           style={{ color: isOn ? node.accent : "#cbd5e1" }}
                         />
                       </div>
                       <span
-                        className="text-[10px] sm:text-xs font-semibold tracking-wide whitespace-nowrap transition-colors"
+                        className="text-[9px] sm:text-[11px] font-semibold tracking-wide whitespace-nowrap transition-colors"
                         style={{ color: isOn ? node.accent : "#94a3b8" }}
                       >
                         {node.name}
@@ -308,14 +308,14 @@ export default function Interest() {
           <button
             type="button"
             onClick={() => setSpinning((s) => !s)}
-            className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest border border-white/15 bg-black/40 backdrop-blur-md text-slate-300 hover:text-white hover:border-white/30 transition-colors"
+            className="absolute bottom-1 left-1/2 -translate-x-1/2 z-30 px-2.5 py-1 rounded-full text-[9px] uppercase tracking-widest border border-white/15 bg-black/40 backdrop-blur-md text-slate-300 hover:text-white hover:border-white/30 transition-colors"
           >
             {spinning ? "Pause orbit" : "Resume orbit"}
           </button>
         </div>
 
         {/* ── Live detail panel (not a modal card grid) ── */}
-        <div className="relative min-h-[320px] flex flex-col justify-center">
+        <div className="relative min-h-[260px] flex flex-col justify-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={current.name}
@@ -325,35 +325,35 @@ export default function Interest() {
               transition={{ duration: 0.35 }}
             >
               <div
-                className="text-[11px] uppercase tracking-[0.35em] mb-3"
+                className="text-[10px] uppercase tracking-[0.35em] mb-2"
                 style={{ color: current.accent }}
               >
                 Focused passion
               </div>
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-3 mb-3">
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center border"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center border"
                   style={{
                     background: `${current.accent}22`,
                     borderColor: `${current.accent}55`,
                   }}
                 >
-                  <Icon className="w-7 h-7" style={{ color: current.accent }} />
+                  <Icon className="w-6 h-6" style={{ color: current.accent }} />
                 </div>
                 <div>
-                  <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                     {current.name}
                   </h3>
-                  <p className="text-sm text-slate-400 mt-0.5">{current.tagline}</p>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-0.5">{current.tagline}</p>
                 </div>
               </div>
 
-              <p className="text-slate-300 leading-relaxed text-base sm:text-lg max-w-md">
+              <p className="text-slate-300 leading-relaxed text-sm sm:text-base max-w-md">
                 {current.detail}
               </p>
 
-              <div className="mt-6">
-                <div className="flex justify-between text-[11px] uppercase tracking-widest text-slate-500 mb-2">
+              <div className="mt-4">
+                <div className="flex justify-between text-[10px] uppercase tracking-widest text-slate-500 mb-1.5">
                   <span>Intensity</span>
                   <span className="text-white font-semibold">{current.level}%</span>
                 </div>
@@ -368,7 +368,7 @@ export default function Interest() {
                 </div>
               </div>
 
-              <div className="mt-5 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {current.tags.map((tag) => (
                   <span
                     key={tag}
@@ -381,7 +381,7 @@ export default function Interest() {
               </div>
 
               {/* node picker strip */}
-              <div className="mt-8 flex flex-wrap gap-1.5">
+              <div className="mt-6 flex flex-wrap gap-1.5">
                 {NODES.map((n) => (
                   <button
                     key={n.name}

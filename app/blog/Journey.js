@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Sunrise,
@@ -59,18 +59,44 @@ const MOMENTS = [
 
 export default function Journey() {
   const trackRef = useRef(null);
+  const cardsRef = useRef(null);
+  const [scrollWidth, setScrollWidth] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: trackRef,
     offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["4%", "-72%"]);
+  useEffect(() => {
+    const calculateScroll = () => {
+      if (cardsRef.current) {
+        // Distance needed to scroll all cards completely across the screen
+        const totalTrackWidth = cardsRef.current.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        setScrollWidth(Math.max(0, totalTrackWidth - viewportWidth + 96));
+      }
+    };
+
+    calculateScroll();
+    const timer = setTimeout(calculateScroll, 400);
+    window.addEventListener("resize", calculateScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", calculateScroll);
+    };
+  }, []);
+
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, scrollWidth ? -scrollWidth : -1200]
+  );
   const progress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={trackRef} className="relative h-[280vh]" id="journey">
+    <section ref={trackRef} className="relative h-[320vh]" id="journey">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full mb-8 sm:mb-12">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full mb-6 sm:mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -88,20 +114,24 @@ export default function Journey() {
               </span>
             </h2>
             <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-md">
-              Keep scrolling — the timeline moves with you.
+              Keep scrolling — the timeline moves horizontally to the end before continuing down.
             </p>
           </motion.div>
 
           {/* progress rail */}
-          <div className="mt-6 h-[2px] bg-white/10 rounded-full overflow-hidden max-w-xs">
+          <div className="mt-5 h-[3px] bg-white/10 rounded-full overflow-hidden max-w-xs">
             <motion.div
-              className="h-full bg-gradient-to-r from-amber-400 to-fuchsia-500"
+              className="h-full bg-gradient-to-r from-amber-400 via-orange-400 to-fuchsia-500"
               style={{ width: progress }}
             />
           </div>
         </div>
 
-        <motion.div style={{ x }} className="flex gap-6 sm:gap-10 pl-4 sm:pl-8 will-change-transform">
+        <motion.div
+          ref={cardsRef}
+          style={{ x }}
+          className="flex gap-6 sm:gap-10 px-4 sm:px-8 will-change-transform"
+        >
           {MOMENTS.map((m, i) => {
             const Icon = m.icon;
             return (
@@ -119,7 +149,7 @@ export default function Journey() {
                   </span>
                   <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent" />
                   <span className="text-[10px] uppercase tracking-widest text-slate-500">
-                    0{i + 1}
+                    0{i + 1} / 0{MOMENTS.length}
                   </span>
                 </div>
 
@@ -152,7 +182,7 @@ export default function Journey() {
             );
           })}
           {/* end spacer */}
-          <div className="shrink-0 w-[10vw]" />
+          <div className="shrink-0 w-16 sm:w-32" />
         </motion.div>
       </div>
     </section>

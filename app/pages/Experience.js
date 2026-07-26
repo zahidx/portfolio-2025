@@ -108,7 +108,7 @@ function SkillChip({ label, color, delay }) {
 }
 
 /* ─────────────────────────────────────────
-   Single Experience Card
+   Single Experience Card (Desktop)
 ───────────────────────────────────────── */
 function ExperienceCard({ exp, index, isLast, isActive, cardParallax, innerRef }) {
   const ref = useRef(null);
@@ -117,7 +117,6 @@ function ExperienceCard({ exp, index, isLast, isActive, cardParallax, innerRef }
   const [hovered, setHovered] = useState(false);
   const isLeft = index % 2 === 0;
 
-  // Merge outer ref + inner ref
   const setRef = useCallback((el) => {
     ref.current = el;
     if (typeof innerRef === "function") innerRef(el);
@@ -141,7 +140,6 @@ function ExperienceCard({ exp, index, isLast, isActive, cardParallax, innerRef }
         alignItems: "start",
         marginBottom: isLast ? 0 : "48px",
         gap: 0,
-        // Subtle horizontal parallax per side based on scroll
         transform: `translateX(${isLeft ? cardParallax * -0.4 : cardParallax * 0.4}px)`,
         transition: "transform 0.1s linear",
       }}
@@ -167,14 +165,11 @@ function ExperienceCard({ exp, index, isLast, isActive, cardParallax, innerRef }
 
       {/* CENTER spine node */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
-        {/* Line above */}
         {index !== 0 && (
           <div style={{ width: "2px", height: "40px", background: `linear-gradient(to bottom, transparent, ${exp.color}60)` }} />
         )}
 
-        {/* Node — active state adds pulsing rings */}
         <div style={{ position: "relative", flexShrink: 0, zIndex: 2 }}>
-          {/* Pulse rings when active */}
           {isActive && (
             <>
               <div style={{
@@ -227,7 +222,6 @@ function ExperienceCard({ exp, index, isLast, isActive, cardParallax, innerRef }
           </div>
         </div>
 
-        {/* Line below */}
         {!isLast && (
           <div style={{ flex: 1, width: "2px", minHeight: "60px", background: `linear-gradient(to bottom, ${exp.color}60, transparent)` }} />
         )}
@@ -288,12 +282,11 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         overflow: "hidden",
       }}
     >
-      {/* Shimmer sweep on hover */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: `linear-gradient(105deg, transparent 40%, ${exp.color}08 50%, transparent 60%)`,
+          backgroundImage: `linear-gradient(105deg, transparent 40%, ${exp.color}08 50%, transparent 60%)`,
           backgroundSize: "200% 100%",
           backgroundPosition: hovered ? "100% 0" : "-100% 0",
           transition: "background-position 0.8s ease",
@@ -302,7 +295,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         }}
       />
 
-      {/* Corner accent */}
       <div
         style={{
           position: "absolute",
@@ -313,7 +305,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         }}
       />
 
-      {/* Top row: ID + type badge */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
         <span style={{
           fontFamily: "monospace", fontSize: "9px",
@@ -336,7 +327,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         </span>
       </div>
 
-      {/* Title */}
       <h3 style={{
         fontSize: "16px", fontWeight: "800", color: "#fff",
         lineHeight: "1.25", marginBottom: "4px",
@@ -345,7 +335,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         {exp.title}
       </h3>
 
-      {/* Org */}
       <p style={{
         fontSize: "11px", color: exp.color,
         fontWeight: "600", fontFamily: "monospace",
@@ -354,7 +343,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         {exp.org}
       </p>
 
-      {/* Period + metric row */}
       <div style={{
         display: "flex", gap: "10px", marginBottom: "16px", flexWrap: "wrap",
       }}>
@@ -393,7 +381,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         </div>
       </div>
 
-      {/* Expandable section */}
       <div style={{
         maxHeight: expanded ? "300px" : "0",
         overflow: "hidden",
@@ -419,7 +406,6 @@ function CardBody({ exp, index, visible, expanded, hovered, isActive, setExpande
         </div>
       </div>
 
-      {/* Expand toggle hint */}
       <div style={{
         display: "flex", alignItems: "center", gap: "6px",
         marginTop: expanded ? "14px" : "0",
@@ -475,12 +461,12 @@ function CareerArc() {
   ];
 
   return (
-    <div ref={ref} style={{ marginBottom: "64px" }}>
+    <div ref={ref} style={{ marginBottom: "48px" }}>
       <div style={{
         background: "rgba(255,255,255,0.02)",
         border: "1px solid rgba(255,255,255,0.07)",
         borderRadius: "14px",
-        padding: "20px 24px",
+        padding: "16px 20px",
       }}>
         <div style={{
           display: "flex",
@@ -490,7 +476,7 @@ function CareerArc() {
           flexWrap: "wrap",
           gap: "8px",
         }}>
-          <span style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.3)" }}>
+          <span style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.4)" }}>
             CAREER TIMELINE — 5 YEARS ACTIVE
           </span>
           <span style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.15em", color: "#34d399" }}>
@@ -499,7 +485,7 @@ function CareerArc() {
         </div>
 
         {/* Progress bar */}
-        <div style={{ position: "relative", height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "4px", marginBottom: "16px" }}>
+        <div style={{ position: "relative", height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "4px", marginBottom: "14px" }}>
           <div style={{
             height: "100%",
             width: `${w}%`,
@@ -531,11 +517,11 @@ function CareerArc() {
         </div>
 
         {/* Year labels */}
-        <div style={{ display: "flex", justifyContent: "space-between", paddingRight: "4%" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", paddingRight: "2%" }}>
           {stops.map((s) => (
             <div key={s.year} style={{ textAlign: "center" }}>
-              <div style={{ fontFamily: "monospace", fontSize: "11px", fontWeight: "700", color: s.color }}>{s.year}</div>
-              <div style={{ fontFamily: "monospace", fontSize: "8px", color: "rgba(255,255,255,0.25)", letterSpacing: "0.1em" }}>{s.label}</div>
+              <div style={{ fontFamily: "monospace", fontSize: "10px", fontWeight: "700", color: s.color }}>{s.year}</div>
+              <div style={{ fontFamily: "monospace", fontSize: "8px", color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em" }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -545,13 +531,12 @@ function CareerArc() {
 }
 
 /* ─────────────────────────────────────────
-   Mobile Card (stacked for small screens)
+   Mobile Card (Native App Card for Touch)
 ───────────────────────────────────────── */
 function MobileCard({ exp, index }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const ob = new IntersectionObserver(
@@ -567,71 +552,79 @@ function MobileCard({ exp, index }) {
       ref={ref}
       style={{
         display: "flex",
-        gap: "16px",
-        marginBottom: "32px",
+        gap: "12px",
+        marginBottom: "24px",
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateX(0)" : "translateX(-30px)",
-        transition: `opacity 0.6s ease ${index * 0.12}s, transform 0.6s ease ${index * 0.12}s`,
+        transform: visible ? "translateX(0)" : "translateX(-20px)",
+        transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
       }}
     >
       {/* Left: line + node */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
         {index !== 0 && (
-          <div style={{ width: "2px", height: "20px", background: `linear-gradient(to bottom, transparent, ${exp.color}50)` }} />
+          <div style={{ width: "2px", height: "16px", background: `linear-gradient(to bottom, transparent, ${exp.color}50)` }} />
         )}
         <div
           onClick={() => setExpanded(!expanded)}
+          className="active:scale-90 transition-transform"
           style={{
-            width: "40px", height: "40px",
+            width: "36px", height: "36px",
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${exp.color}22, #0a0a12)`,
+            background: `radial-gradient(circle, ${exp.color}25, #0a0a12)`,
             border: `2px solid ${exp.color}`,
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "16px", color: exp.color,
-            boxShadow: `0 0 16px ${exp.glow}`,
+            fontSize: "14px", color: exp.color,
+            boxShadow: `0 0 14px ${exp.glow}`,
             flexShrink: 0,
             cursor: "pointer",
           }}
         >
           {exp.symbol}
         </div>
-        <div style={{ flex: 1, width: "2px", background: `linear-gradient(to bottom, ${exp.color}50, transparent)`, minHeight: "40px" }} />
+        <div style={{ flex: 1, width: "2px", background: `linear-gradient(to bottom, ${exp.color}50, transparent)`, minHeight: "36px" }} />
       </div>
 
-      {/* Card */}
+      {/* Native Mobile App Touch Card */}
       <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
         onClick={() => setExpanded(!expanded)}
+        className="active:scale-98 transition-all"
         style={{
           flex: 1,
-          background: "rgba(10,10,20,0.97)",
-          border: `1px solid ${expanded || hovered ? exp.color : "rgba(255,255,255,0.07)"}`,
+          background: "rgba(12,12,24,0.95)",
+          border: `1px solid ${expanded ? exp.color : "rgba(255,255,255,0.09)"}`,
           borderRadius: "14px",
-          padding: "16px",
+          padding: "15px",
           cursor: "pointer",
-          boxShadow: hovered ? `0 12px 40px ${exp.glow}` : "0 4px 20px rgba(0,0,0,0.4)",
-          transition: "border 0.3s, box-shadow 0.3s",
+          boxShadow: expanded ? `0 10px 30px ${exp.glow}` : "0 4px 18px rgba(0,0,0,0.4)",
+          backdropFilter: "blur(10px)",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-          <span style={{ fontFamily: "monospace", fontSize: "8px", color: "rgba(255,255,255,0.25)", letterSpacing: "0.15em" }}>{exp.id}</span>
-          <span style={{ fontFamily: "monospace", fontSize: "8px", color: exp.color, letterSpacing: "0.15em" }}>{exp.highlight}</span>
-        </div>
-        <h3 style={{ fontSize: "14px", fontWeight: "800", color: "#fff", marginBottom: "3px" }}>{exp.title}</h3>
-        <p style={{ fontSize: "11px", color: exp.color, fontFamily: "monospace", marginBottom: "10px" }}>{exp.org}</p>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)", fontFamily: "monospace" }}>
-            {exp.period.from} — {exp.period.to}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+          <span style={{ fontFamily: "monospace", fontSize: "8px", color: "rgba(255,255,255,0.3)", letterSpacing: "0.15em" }}>{exp.id}</span>
+          <span style={{
+            fontFamily: "monospace", fontSize: "8px", color: exp.color,
+            background: `${exp.color}15`, border: `1px solid ${exp.color}30`,
+            padding: "2px 6px", borderRadius: "4px", letterSpacing: "0.12em"
+          }}>
+            {exp.highlight}
           </span>
-          <span style={{ fontSize: "16px", fontWeight: "900", color: exp.color }}>{exp.metric.value}</span>
         </div>
 
-        <div style={{ maxHeight: expanded ? "260px" : "0", overflow: "hidden", transition: "max-height 0.5s ease" }}>
-          <div style={{ height: "1px", background: `linear-gradient(90deg, transparent, ${exp.color}40, transparent)`, margin: "12px 0" }} />
-          <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", lineHeight: "1.7", marginBottom: "12px" }}>{exp.description}</p>
+        <h3 style={{ fontSize: "14px", fontWeight: "800", color: "#fff", marginBottom: "2px", lineHeight: "1.3" }}>{exp.title}</h3>
+        <p style={{ fontSize: "10px", color: exp.color, fontFamily: "monospace", marginBottom: "8px" }}>{exp.org}</p>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", pt: "4px" }}>
+          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", fontFamily: "monospace" }}>
+            {exp.period.from} — {exp.period.to}
+          </span>
+          <span style={{ fontSize: "15px", fontWeight: "900", color: exp.color }}>{exp.metric.value}</span>
+        </div>
+
+        <div style={{ maxHeight: expanded ? "300px" : "0", overflow: "hidden", transition: "max-height 0.4s ease" }}>
+          <div style={{ height: "1px", background: `linear-gradient(90deg, transparent, ${exp.color}40, transparent)`, margin: "10px 0" }} />
+          <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", lineHeight: "1.65", marginBottom: "10px" }}>{exp.description}</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-            {exp.skills.map((s, i) => <SkillChip key={s} label={s} color={exp.color} delay={i * 50} />)}
+            {exp.skills.map((s, i) => <SkillChip key={s} label={s} color={exp.color} delay={i * 40} />)}
           </div>
         </div>
       </div>
@@ -639,9 +632,6 @@ function MobileCard({ exp, index }) {
   );
 }
 
-/* ─────────────────────────────────────────
-   Main Export
-───────────────────────────────────────── */
 /* ─────────────────────────────────────────
    Scroll-driven floating particle
 ───────────────────────────────────────── */
@@ -665,6 +655,9 @@ function ScrollParticle({ x, y, color, size, delay }) {
   );
 }
 
+/* ─────────────────────────────────────────
+   Main Export Component
+───────────────────────────────────────── */
 export default function ExperiencePage() {
   const [isMobile, setIsMobile]   = useState(false);
   const [scrollPct, setScrollPct] = useState(0);   // 0-1 through section
@@ -687,7 +680,7 @@ export default function ExperiencePage() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Section visibility (for progress bar)
+  // Section visibility
   useEffect(() => {
     const ob = new IntersectionObserver(
       ([e]) => setSectionVisible(e.isIntersecting),
@@ -697,7 +690,7 @@ export default function ExperiencePage() {
     return () => ob.disconnect();
   }, []);
 
-  // ── Master scroll handler ──
+  // Master scroll handler
   useEffect(() => {
     const onScroll = () => {
       const el = sectionRef.current;
@@ -706,16 +699,13 @@ export default function ExperiencePage() {
       const secH    = el.offsetHeight;
       const vh      = window.innerHeight;
 
-      // Section scroll progress 0→1
       const rawPct = Math.max(0, Math.min(1, -rect.top / Math.max(secH - vh, 1)));
       setScrollPct(rawPct);
 
-      // Parallax offsets
       const scrolled = -rect.top;
       setOrbParallax(scrolled * 0.18);
-      setCardDrift(Math.sin(scrolled * 0.003) * 6); // gentle wave
+      setCardDrift(Math.sin(scrolled * 0.003) * 6);
 
-      // Active card: whose vertical center is closest to 42% viewport
       const target = vh * 0.42;
       let best = 0, bestDist = Infinity;
       cardRefs.current.forEach((el, i) => {
@@ -727,7 +717,6 @@ export default function ExperiencePage() {
       });
       setActiveIdx(best);
 
-      // Emit particles when active node changes
       if (best !== prevActive.current) {
         prevActive.current = best;
         const exp = EXPERIENCES[best];
@@ -744,11 +733,10 @@ export default function ExperiencePage() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // run once on mount
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active experience color for progress bar
   const activeColor = EXPERIENCES[activeIdx]?.color ?? "#818cf8";
 
   return (
@@ -778,26 +766,23 @@ export default function ExperiencePage() {
           0%,100% { opacity: 0.08; transform: scale(1); }
           50%      { opacity: 0.14; transform: scale(1.05); }
         }
-        /* Node pulse rings */
         @keyframes nodeRing1 {
           0%   { transform: scale(1);   opacity: 0.8; }
           100% { transform: scale(2.6); opacity: 0;   }
         }
-        /* Floating particles rise upward */
         @keyframes particleRise {
           0%   { opacity: 0;   transform: translateY(0)   scale(0.5); }
           20%  { opacity: 0.9; transform: translateY(-10px) scale(1);   }
           100% { opacity: 0;   transform: translateY(-80px) scale(0.3); }
         }
-        /* Scroll progress bar shimmer */
         @keyframes barShimmer {
           0%   { background-position: -100% 0; }
           100% { background-position:  200% 0; }
         }
       `}</style>
 
-      {/* ── SCROLL PROGRESS BAR (left edge, fixed) ── */}
-      {sectionVisible && (
+      {/* ── SCROLL PROGRESS BAR (left edge, desktop only) ── */}
+      {sectionVisible && !isMobile && (
         <div style={{
           position: "fixed",
           left: "12px",
@@ -810,7 +795,6 @@ export default function ExperiencePage() {
           zIndex: 9999,
           overflow: "hidden",
         }}>
-          {/* Track fill */}
           <div style={{
             position: "absolute",
             bottom: 0,
@@ -822,11 +806,10 @@ export default function ExperiencePage() {
             borderRadius: "3px",
             transition: "height 0.15s linear, background 0.5s ease, box-shadow 0.5s ease",
           }} />
-          {/* Shimmer sweep */}
           <div style={{
             position: "absolute",
             inset: 0,
-            background: `linear-gradient(to bottom, transparent, ${activeColor}60, transparent)`,
+            backgroundImage: `linear-gradient(to bottom, transparent, ${activeColor}60, transparent)`,
             backgroundSize: "100% 40%",
             animation: "barShimmer 2s linear infinite",
             opacity: 0.5,
@@ -835,7 +818,7 @@ export default function ExperiencePage() {
       )}
 
       {/* Step dots on progress bar */}
-      {sectionVisible && (
+      {sectionVisible && !isMobile && (
         <div style={{
           position: "fixed",
           left: "8px",
@@ -863,14 +846,14 @@ export default function ExperiencePage() {
         </div>
       )}
 
-      {/* ── Floating scroll particles ── */}
+      {/* Floating scroll particles */}
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 9998 }}>
         {particles.map(p => (
           <ScrollParticle key={p.id} {...p} />
         ))}
       </div>
 
-      {/* ── Drifting grid (parallax: slow) ── */}
+      {/* Drifting background grid */}
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         backgroundImage: "linear-gradient(rgba(129,140,248,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(129,140,248,0.03) 1px, transparent 1px)",
@@ -880,7 +863,7 @@ export default function ExperiencePage() {
         transition: "transform 0.1s linear",
       }} />
 
-      {/* ── Ambient orbs (parallax: medium) ── */}
+      {/* Ambient orbs */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div style={{
           position: "absolute", width: "600px", height: "600px",
@@ -891,46 +874,22 @@ export default function ExperiencePage() {
           transition: "background 0.6s ease, transform 0.1s linear",
           animation: "orbPulse 8s ease-in-out infinite",
         }} />
-        <div style={{
-          position: "absolute", width: "400px", height: "400px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(52,211,153,0.09) 0%, transparent 70%)",
-          bottom: "-100px", right: "-80px",
-          transform: `translateY(${orbParallax * 0.1}px)`,
-          transition: "transform 0.1s linear",
-          animation: "orbPulse 10s ease-in-out 3s infinite",
-        }} />
-
-        {/* Ghost text (parallax: fast) */}
-        <div style={{
-          position: "absolute", right: "-40px", top: "40%",
-          fontSize: "200px", fontWeight: "900",
-          color: "rgba(255,255,255,0.015)",
-          fontFamily: "monospace",
-          lineHeight: 1,
-          userSelect: "none",
-          transform: `rotate(-90deg) translateY(-50%) translateX(${orbParallax * 0.25}px)`,
-          transformOrigin: "right center",
-          letterSpacing: "-0.05em",
-          transition: "transform 0.1s linear",
-        }}>
-          EXP
-        </div>
       </div>
 
-      {/* ── Content ── */}
-      <div style={{ position: "relative", zIndex: 10, maxWidth: "1000px", margin: "0 auto", padding: "80px 20px 100px" }}>
-
-        {/* ── Section Header ── */}
-        <div style={{ textAlign: "center", marginBottom: "56px" }}>
-          {/* Eyebrow */}
+      {/* ── Main Content Container ── */}
+      <div style={{
+        position: "relative", zIndex: 10, maxWidth: "1000px", margin: "0 auto",
+        padding: isMobile ? "48px 16px 64px" : "80px 20px 100px"
+      }}>
+        {/* Section Header */}
+        <div style={{ textAlign: "center", marginBottom: isMobile ? "36px" : "56px" }}>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
-            padding: "6px 16px", borderRadius: "6px", marginBottom: "20px",
+            padding: "4px 14px", borderRadius: "6px", marginBottom: "16px",
             background: "rgba(129,140,248,0.08)",
             border: "1px solid rgba(129,140,248,0.2)",
             fontFamily: "monospace", fontSize: "10px",
-            letterSpacing: "0.25em", color: "rgba(129,140,248,0.8)",
+            letterSpacing: "0.22em", color: "rgba(129,140,248,0.9)",
           }}>
             <span style={{
               width: "5px", height: "5px", borderRadius: "50%",
@@ -940,33 +899,31 @@ export default function ExperiencePage() {
             PROFESSIONAL JOURNEY
           </div>
 
-          {/* Heading */}
           <h2 style={{
-            fontSize: "clamp(48px, 7vw, 80px)",
+            fontSize: "clamp(36px, 8vw, 80px)",
             fontWeight: "900",
             color: "#fff",
             letterSpacing: "-0.04em",
             lineHeight: 1,
-            marginBottom: "16px",
+            marginBottom: "12px",
             animation: "headerGlow 4s ease-in-out infinite",
           }}>
             Experience
           </h2>
 
           <p style={{
-            color: "rgba(255,255,255,0.3)",
-            fontSize: "13px",
+            color: "rgba(255,255,255,0.4)",
+            fontSize: "11px",
             fontFamily: "monospace",
-            letterSpacing: "0.1em",
+            letterSpacing: "0.08em",
           }}>
-            {'// TAP A NODE OR CARD TO EXPAND'}
+            {'// TAP A NODE OR CARD TO EXPAND DETAILS'}
           </p>
 
-          {/* Decorative line */}
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginTop: "20px" }}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", marginTop: "16px" }}>
             {EXPERIENCES.map((e) => (
               <div key={e.id} style={{
-                width: "28px", height: "3px",
+                width: "24px", height: "3px",
                 borderRadius: "3px",
                 background: e.color,
                 boxShadow: `0 0 8px ${e.color}`,
@@ -975,12 +932,12 @@ export default function ExperiencePage() {
           </div>
         </div>
 
-        {/* ── Career Arc ── */}
+        {/* Career Arc Bar */}
         <CareerArc />
 
-        {/* ── Timeline ── */}
+        {/* Timeline */}
         {isMobile ? (
-          <div style={{ paddingLeft: "4px" }}>
+          <div>
             {EXPERIENCES.map((exp, i) => (
               <MobileCard key={exp.id} exp={exp} index={i} />
             ))}
@@ -1001,12 +958,12 @@ export default function ExperiencePage() {
           </div>
         )}
 
-        {/* ── Bottom summary ── */}
+        {/* Bottom summary stats */}
         <div style={{
-          marginTop: "64px",
+          marginTop: isMobile ? "40px" : "64px",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-          gap: "12px",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "10px",
         }}>
           {[
             { label: "YEARS ACTIVE", value: "5+", color: "#818cf8" },
@@ -1015,14 +972,14 @@ export default function ExperiencePage() {
             { label: "STUDENTS TAUGHT", value: "30+", color: "#f472b6" },
           ].map((s) => (
             <div key={s.label} style={{
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: "rgba(255,255,255,0.025)",
+              border: "1px solid rgba(255,255,255,0.07)",
               borderRadius: "12px",
-              padding: "16px",
+              padding: "14px",
               textAlign: "center",
             }}>
               <div style={{
-                fontSize: "28px", fontWeight: "900",
+                fontSize: "24px", fontWeight: "900",
                 color: s.color,
                 textShadow: `0 0 16px ${s.color}60`,
                 fontFamily: "monospace",
@@ -1031,9 +988,9 @@ export default function ExperiencePage() {
               </div>
               <div style={{
                 fontFamily: "monospace", fontSize: "8px",
-                color: "rgba(255,255,255,0.25)",
-                letterSpacing: "0.18em",
-                marginTop: "4px",
+                color: "rgba(255,255,255,0.3)",
+                letterSpacing: "0.15em",
+                marginTop: "3px",
               }}>
                 {s.label}
               </div>

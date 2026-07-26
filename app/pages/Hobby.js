@@ -10,8 +10,8 @@ import { useCallback, useRef, useState } from "react";
 function EqBars() {
   const EQ = ["eq-a","eq-b","eq-c","eq-d","eq-e","eq-f","eq-g"];
   return (
-    <div className="absolute bottom-0 inset-x-0 h-24 flex items-end px-5 gap-[2.5px] pointer-events-none">
-      {Array.from({ length: 36 }).map((_, i) => (
+    <div className="absolute bottom-0 inset-x-0 h-20 sm:h-24 flex items-end px-4 sm:px-5 gap-[2px] sm:gap-[2.5px] pointer-events-none">
+      {Array.from({ length: 30 }).map((_, i) => (
         <div key={i} style={{
           flex: 1, borderRadius: "3px 3px 0 0", minHeight: 3,
           background: `hsl(${265 + (i % 25) * 4}, 80%, ${50 + (i % 10) * 3}%)`,
@@ -26,8 +26,8 @@ function EqBars() {
 // 📷 PHOTOGRAPHY — Spinning aperture
 function Aperture() {
   return (
-    <div className="absolute top-1/2 right-6 -translate-y-1/2 w-28 h-28 pointer-events-none flex items-center justify-center">
-      {[22, 40, 56].map((r, i) => (
+    <div className="absolute top-1/2 right-4 sm:right-6 -translate-y-1/2 w-24 sm:w-28 h-24 sm:h-28 pointer-events-none flex items-center justify-center">
+      {[20, 36, 50].map((r, i) => (
         <div key={i} className="absolute rounded-full border"
           style={{ width: r*2, height: r*2,
             borderColor: `rgba(236,72,153,${0.5 - i * 0.12})`,
@@ -36,13 +36,13 @@ function Aperture() {
       ))}
       {Array.from({ length: 6 }).map((_, i) => (
         <div key={i} className="absolute"
-          style={{ width: 2, height: 44,
+          style={{ width: 2, height: 40,
             background: "linear-gradient(to bottom, transparent, rgba(236,72,153,0.5), transparent)",
             transform: `rotate(${i * 60}deg)`,
             animation: "aperture-spin 6s linear infinite",
             transformOrigin: "center center" }} />
       ))}
-      <div className="w-4 h-4 rounded-full bg-pink-500/50 border border-pink-400/80"
+      <div className="w-3.5 h-3.5 rounded-full bg-pink-500/50 border border-pink-400/80"
         style={{ animation: "ring-pulse 1s ease-in-out infinite" }} />
     </div>
   );
@@ -52,18 +52,18 @@ function Aperture() {
 function FilmStrip() {
   const frames = Array.from({ length: 8 });
   return (
-    <div className="absolute bottom-0 inset-x-0 h-[52px] overflow-hidden pointer-events-none">
+    <div className="absolute bottom-0 inset-x-0 h-[46px] sm:h-[52px] overflow-hidden pointer-events-none">
       <div style={{ display: "flex", width: "max-content", animation: "film-scroll 7s linear infinite" }}>
         {[...frames, ...frames, ...frames].map((_, i) => (
-          <div key={i} style={{ flexShrink: 0, width: 40, height: 52,
+          <div key={i} style={{ flexShrink: 0, width: 36, height: 46,
             borderRight: "1px solid rgba(251,146,60,0.25)",
             display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "3px 4px" }}>
             <div style={{ display: "flex", gap: 2, justifyContent: "center" }}>
-              {[0,1,2].map(h => <div key={h} style={{ width: 7, height: 5, background: "rgba(251,146,60,0.45)", borderRadius: 1 }} />)}
+              {[0,1,2].map(h => <div key={h} style={{ width: 6, height: 4, background: "rgba(251,146,60,0.45)", borderRadius: 1 }} />)}
             </div>
-            <div style={{ flex: 1, margin: "3px 0", background: `rgba(251,146,60,${0.08 + (i % 4) * 0.05})`, borderRadius: 2 }} />
+            <div style={{ flex: 1, margin: "2px 0", background: `rgba(251,146,60,${0.08 + (i % 4) * 0.05})`, borderRadius: 2 }} />
             <div style={{ display: "flex", gap: 2, justifyContent: "center" }}>
-              {[0,1,2].map(h => <div key={h} style={{ width: 7, height: 5, background: "rgba(251,146,60,0.45)", borderRadius: 1 }} />)}
+              {[0,1,2].map(h => <div key={h} style={{ width: 6, height: 4, background: "rgba(251,146,60,0.45)", borderRadius: 1 }} />)}
             </div>
           </div>
         ))}
@@ -75,10 +75,10 @@ function FilmStrip() {
 // 🎮 GAMING — Radar scanner with blips
 function Radar() {
   return (
-    <div className="absolute top-4 right-4 w-32 h-32 pointer-events-none">
-      {[16, 32, 48, 64].map((r, i) => (
+    <div className="absolute top-3 sm:top-4 right-3 sm:right-4 w-28 sm:w-32 h-28 sm:h-32 pointer-events-none">
+      {[14, 28, 42, 56].map((r, i) => (
         <div key={i} className="absolute rounded-full"
-          style={{ width: r*2, height: r*2, top: 64-r, left: 64-r,
+          style={{ width: r*2, height: r*2, top: 56-r, left: 56-r,
             border: `1px solid rgba(16,185,129,${0.15 + i * 0.05})` }} />
       ))}
       <div className="absolute" style={{ top: "50%", insetInline: 0, height: 1, background: "rgba(16,185,129,0.2)", transform: "translateY(-50%)" }} />
@@ -90,7 +90,7 @@ function Radar() {
       </div>
       {[[38,22],[70,58],[18,65],[80,30]].map(([x,y], i) => (
         <div key={i} className="absolute rounded-full bg-emerald-400"
-          style={{ width: 5, height: 5, top: `${y}%`, left: `${x}%`,
+          style={{ width: 4, height: 4, top: `${y}%`, left: `${x}%`,
             boxShadow: "0 0 6px rgba(16,185,129,0.8)",
             animation: `blip ${1.8 + i * 0.4}s ease-in-out ${i * 0.5}s infinite` }} />
       ))}
@@ -98,7 +98,7 @@ function Radar() {
   );
 }
 
-// 📚 READING — Floating word cloud (for right panel)
+// 📚 READING — Floating word cloud
 const READ_WORDS = [
   { text: "Fiction",    x: 8,  delay: 0,   dur: 7,   size: 12, op: 0.75 },
   { text: "Philosophy", x: 42, delay: 1.4, dur: 9,   size: 10, op: 0.6  },
@@ -129,7 +129,7 @@ function BookWords() {
   );
 }
 
-// ✈️ TRAVEL — Vivid world map SVG (for right panel)
+// ✈️ TRAVEL — World map SVG
 function FlightPath() {
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -146,10 +146,8 @@ function FlightPath() {
           <filter id="pglow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           <filter id="cglow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
-        {/* Arcs */}
         <path d="M 30 140 Q 80 50 138 95" fill="none" stroke="rgba(14,165,233,0.8)" strokeWidth="2.2" strokeDasharray="7 4" />
         <path d="M 30 140 Q 60 155 105 148" fill="none" stroke="rgba(14,165,233,0.3)" strokeWidth="1" strokeDasharray="3 5" />
-        {/* Dhaka */}
         <g filter="url(#cglow)">
           <circle cx="30" cy="140" r="9" fill="rgba(14,165,233,0.2)" stroke="#38bdf8" strokeWidth="2">
             <animate attributeName="r" values="9;15;9" dur="2s" repeatCount="indefinite"/>
@@ -158,7 +156,6 @@ function FlightPath() {
           <circle cx="30" cy="140" r="4" fill="#7dd3fc"/>
         </g>
         <text x="38" y="136" fontSize="9" fill="#7dd3fc" fontWeight="800">Dhaka</text>
-        {/* Dubai */}
         <g filter="url(#cglow)">
           <circle cx="138" cy="95" r="9" fill="rgba(14,165,233,0.2)" stroke="#38bdf8" strokeWidth="2">
             <animate attributeName="r" values="9;15;9" dur="2.4s" begin="0.6s" repeatCount="indefinite"/>
@@ -167,7 +164,6 @@ function FlightPath() {
           <circle cx="138" cy="95" r="4" fill="#7dd3fc"/>
         </g>
         <text x="118" y="88" fontSize="9" fill="#7dd3fc" fontWeight="800">Dubai</text>
-        {/* Singapore */}
         <g filter="url(#cglow)">
           <circle cx="105" cy="148" r="7" fill="rgba(14,165,233,0.15)" stroke="rgba(14,165,233,0.8)" strokeWidth="1.5">
             <animate attributeName="r" values="7;12;7" dur="2.8s" begin="1.2s" repeatCount="indefinite"/>
@@ -175,7 +171,6 @@ function FlightPath() {
           <circle cx="105" cy="148" r="3" fill="#bae6fd"/>
         </g>
         <text x="112" y="145" fontSize="8" fill="rgba(14,165,233,0.9)" fontWeight="700">Singapore</text>
-        {/* Glowing plane */}
         <g filter="url(#pglow)">
           <circle r="12" fill="rgba(14,165,233,0.1)">
             <animateMotion dur="4s" repeatCount="indefinite" path="M 30 140 Q 80 50 138 95"/>
@@ -259,7 +254,7 @@ const hobbies = [
 ];
 
 /* ═══════════════════════════════════════════════
-   OVERLAY CARD  (original style — Music/Photo/Cinema/Gaming)
+   OVERLAY CARD
 ═══════════════════════════════════════════════ */
 function OverlayCard({ hobby, wide = true }) {
   const cardRef = useRef(null);
@@ -279,12 +274,12 @@ function OverlayCard({ hobby, wide = true }) {
       onMouseMove={onMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setPos(p => ({ ...p, opacity: 0 })); }}
-      className={`group relative overflow-hidden rounded-3xl border ${hobby.border} ${hobby.hoverBorder} ${hobby.cardBg}
-        transition-all duration-300 cursor-default
+      className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border ${hobby.border} ${hobby.hoverBorder} ${hobby.cardBg}
+        transition-all duration-300 cursor-default active:scale-98
         ${hobby.size === "large" && wide ? "sm:col-span-2" : ""}
         ${hovered ? "shadow-2xl -translate-y-1.5 scale-[1.01]" : ""}
       `}
-      style={{ minHeight: hobby.size === "large" ? 220 : 200 }}
+      style={{ minHeight: hobby.size === "large" ? 200 : 180 }}
     >
       {/* Mouse spotlight */}
       <div className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-3xl z-10"
@@ -294,32 +289,32 @@ function OverlayCard({ hobby, wide = true }) {
       <div className="absolute top-0 inset-x-0 h-px z-20"
         style={{ background: `linear-gradient(90deg, transparent, ${hobby.accent}90, transparent)`, opacity: hovered ? 1 : 0.4 }} />
 
-      {/* Animation — full overlay behind content */}
+      {/* Animation */}
       <div className={`absolute inset-0 z-0 transition-opacity duration-500 ${hovered ? "opacity-100" : "opacity-50"}`}>
         <Animation />
       </div>
 
       {/* Content */}
-      <div className={`relative z-20 p-7 flex gap-6 ${hobby.size === "large" ? "flex-row items-center" : "flex-col"}`}>
+      <div className={`relative z-20 p-5 sm:p-7 flex gap-4 sm:gap-6 ${hobby.size === "large" ? "flex-row items-center" : "flex-col"}`}>
         <div className="flex-shrink-0 transition-all duration-300"
-          style={{ transform: hovered ? "scale(1.2) rotate(-6deg)" : "scale(1)", fontSize: hobby.size === "large" ? "3.5rem" : "2.8rem", lineHeight: 1 }}>
+          style={{ transform: hovered ? "scale(1.2) rotate(-6deg)" : "scale(1)", fontSize: hobby.size === "large" ? "3rem" : "2.4rem", lineHeight: 1 }}>
           {hobby.emoji}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1.5">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-widest mb-0.5" style={{ color: hobby.accent }}>{hobby.subtitle}</p>
-              <h3 className="text-xl font-black text-white leading-tight">{hobby.title}</h3>
+              <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest mb-0.5" style={{ color: hobby.accent }}>{hobby.subtitle}</p>
+              <h3 className="text-lg sm:text-xl font-black text-white leading-tight">{hobby.title}</h3>
             </div>
             <div className="text-right flex-shrink-0">
-              <div className="text-2xl font-black leading-none" style={{ color: hobby.accent }}>{hobby.stat}</div>
-              <div className="text-[10px] text-slate-500 leading-tight mt-0.5">{hobby.statLabel}</div>
+              <div className="text-xl sm:text-2xl font-black leading-none" style={{ color: hobby.accent }}>{hobby.stat}</div>
+              <div className="text-[9px] sm:text-[10px] text-slate-500 leading-tight mt-0.5">{hobby.statLabel}</div>
             </div>
           </div>
-          <p className="text-sm text-slate-400 leading-relaxed mb-4">{hobby.description}</p>
+          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-3.5">{hobby.description}</p>
           <div className="flex flex-wrap gap-1.5">
             {hobby.tags.map(tag => (
-              <span key={tag} className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border"
+              <span key={tag} className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold border"
                 style={{ borderColor: `${hobby.accent}40`, background: `${hobby.accent}12`, color: hobby.accent }}>
                 {tag}
               </span>
@@ -336,7 +331,7 @@ function OverlayCard({ hobby, wide = true }) {
 }
 
 /* ═══════════════════════════════════════════════
-   SPLIT CARD  (text left | animation right — Reading & Travel only)
+   SPLIT CARD (Reading & Travel)
 ═══════════════════════════════════════════════ */
 function SplitCard({ hobby }) {
   const cardRef = useRef(null);
@@ -356,11 +351,11 @@ function SplitCard({ hobby }) {
       onMouseMove={onMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setPos(p => ({ ...p, opacity: 0 })); }}
-      className={`group relative overflow-hidden rounded-3xl border ${hobby.border} ${hobby.hoverBorder} ${hobby.cardBg}
-        transition-all duration-300 cursor-default
+      className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border ${hobby.border} ${hobby.hoverBorder} ${hobby.cardBg}
+        transition-all duration-300 cursor-default active:scale-98
         ${hovered ? "shadow-2xl -translate-y-1.5 scale-[1.01]" : ""}
       `}
-      style={{ minHeight: 200 }}
+      style={{ minHeight: 180 }}
     >
       {/* Mouse spotlight */}
       <div className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-3xl z-10"
@@ -371,32 +366,32 @@ function SplitCard({ hobby }) {
         style={{ background: `linear-gradient(90deg, transparent, ${hobby.accent}90, transparent)`, opacity: hovered ? 1 : 0.4 }} />
 
       {/* Two-zone row layout */}
-      <div className="relative flex flex-row h-full z-20">
+      <div className="relative flex flex-col sm:flex-row h-full z-20">
 
-        {/* LEFT — text content, always clean */}
-        <div className="flex-1 p-7 flex flex-col justify-between min-w-0">
+        {/* LEFT — text content */}
+        <div className="flex-1 p-5 sm:p-7 flex flex-col justify-between min-w-0">
           <div>
             <div className="flex items-start justify-between gap-2 mb-1.5">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-widest mb-0.5" style={{ color: hobby.accent }}>{hobby.subtitle}</p>
-                <div className="flex items-center gap-2.5">
-                  <span className="text-3xl leading-none flex-shrink-0 transition-all duration-300"
+                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest mb-0.5" style={{ color: hobby.accent }}>{hobby.subtitle}</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl sm:text-3xl leading-none flex-shrink-0 transition-all duration-300"
                     style={{ transform: hovered ? "scale(1.2) rotate(-6deg)" : "scale(1)" }}>
                     {hobby.emoji}
                   </span>
-                  <h3 className="text-xl font-black text-white leading-tight">{hobby.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-black text-white leading-tight">{hobby.title}</h3>
                 </div>
               </div>
               <div className="text-right flex-shrink-0">
-                <div className="text-2xl font-black leading-none" style={{ color: hobby.accent }}>{hobby.stat}</div>
-                <div className="text-[10px] text-slate-500 leading-tight mt-0.5">{hobby.statLabel}</div>
+                <div className="text-xl sm:text-2xl font-black leading-none" style={{ color: hobby.accent }}>{hobby.stat}</div>
+                <div className="text-[9px] sm:text-[10px] text-slate-500 leading-tight mt-0.5">{hobby.statLabel}</div>
               </div>
             </div>
-            <p className="text-sm text-slate-400 leading-relaxed mt-2 mb-4">{hobby.description}</p>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mt-1.5 mb-3.5">{hobby.description}</p>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {hobby.tags.map(tag => (
-              <span key={tag} className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border"
+              <span key={tag} className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold border"
                 style={{ borderColor: `${hobby.accent}40`, background: `${hobby.accent}12`, color: hobby.accent }}>
                 {tag}
               </span>
@@ -404,14 +399,13 @@ function SplitCard({ hobby }) {
           </div>
         </div>
 
-        {/* RIGHT — animation zone, fully clipped */}
-        <div className="relative w-52 xl:w-60 flex-shrink-0 overflow-hidden"
-          style={{ borderLeft: `1px solid ${hobby.accent}20` }}>
+        {/* RIGHT — animation zone */}
+        <div className="relative h-28 sm:h-auto w-full sm:w-48 xl:w-60 flex-shrink-0 overflow-hidden border-t sm:border-t-0 sm:border-l border-slate-800/60"
+          style={{ borderColor: `${hobby.accent}20` }}>
           <div className={`absolute inset-0 transition-opacity duration-500 ${hovered ? "opacity-100" : "opacity-60"}`}>
             <Animation />
           </div>
-          {/* Left-edge fade so animation blends smoothly */}
-          <div className="absolute inset-y-0 left-0 w-8 pointer-events-none z-10"
+          <div className="absolute inset-y-0 left-0 w-8 pointer-events-none z-10 hidden sm:block"
             style={{ background: "linear-gradient(to right, rgba(2,6,23,0.9), transparent)" }} />
         </div>
       </div>
@@ -428,7 +422,7 @@ function SplitCard({ hobby }) {
 ═══════════════════════════════════════════════ */
 export default function Hobbies() {
   return (
-    <section className="relative bg-slate-950 py-24 px-6 sm:px-10 lg:px-16 overflow-hidden">
+    <section className="relative bg-slate-950 py-12 sm:py-24 px-4 sm:px-10 lg:px-16 overflow-hidden">
       <style>{`
         /* Equalizer */
         @keyframes eq-a { 0%{height:4px}  100%{height:58px} }
@@ -467,23 +461,23 @@ export default function Hobbies() {
 
       <div className="relative max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-400 text-xs font-semibold uppercase tracking-widest mb-5">
-            <Heart className="w-3.5 h-3.5" />
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-400 text-xs font-semibold uppercase tracking-widest mb-4 sm:mb-5">
+            <Heart className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             Life Beyond Code
           </div>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 sm:mb-4 tracking-tight">
             My{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-400 to-sky-400">
               Hobbies
             </span>
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg max-w-lg mx-auto">
-            Hover each card — every one comes alive with its own world.
+          <p className="text-slate-400 text-sm sm:text-lg max-w-lg mx-auto px-2">
+            Interactive passion cards — tap or hover to experience each unique world.
           </p>
         </div>
 
-        {/* First row — Music and Photography share a wider first column */}
+        {/* First row — Music and Photography share a wider first column on PC */}
         <div className="grid gap-4">
           <div className="grid grid-cols-1 sm:[grid-template-columns:1.7fr_1fr] gap-4">
             {hobbies.slice(0, 2).map((h, i) =>
@@ -503,7 +497,7 @@ export default function Hobbies() {
           </div>
         </div>
 
-        <p className="text-center text-slate-700 text-sm mt-10">
+        <p className="text-center text-slate-500 text-xs sm:text-sm mt-8 sm:mt-10 font-mono">
           ✦ These keep me creative, curious, and human ✦
         </p>
       </div>

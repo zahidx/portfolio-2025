@@ -25,7 +25,6 @@ const programmingSkills = [
   { name: "Node.js",    icon: FaNodeJs,     level: 60, gradient: ["#68A063", "#3C873A"], glow: "rgba(104,160,99,0.4)" },
 ];
 
-// marquee rows (duplicated for infinite loop)
 const marqueeTools = [
   { name: "HTML5",       icon: FaHtml5,      color: "#E34F26" },
   { name: "CSS3",        icon: FaCss3Alt,    color: "#1572B6" },
@@ -101,9 +100,10 @@ function SkillCard({ skill, index }) {
       viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -5, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative rounded-2xl p-7 overflow-hidden cursor-default group"
+      className="relative rounded-2xl p-5 sm:p-7 overflow-hidden cursor-pointer active:scale-98 group transition-all"
       style={{
         background: "rgba(255,255,255,0.04)",
         border: "1px solid rgba(255,255,255,0.08)",
@@ -111,7 +111,6 @@ function SkillCard({ skill, index }) {
         boxShadow: hovered
           ? `0 0 36px ${skill.glow}, 0 10px 36px rgba(0,0,0,0.2)`
           : "0 4px 20px rgba(0,0,0,0.1)",
-        transition: "box-shadow 0.35s ease, background 0.3s ease",
       }}
     >
       {/* Glow blob on hover */}
@@ -123,25 +122,25 @@ function SkillCard({ skill, index }) {
       />
 
       {/* Icon + name */}
-      <div className="flex items-center gap-4 mb-5">
+      <div className="flex items-center gap-3.5 sm:gap-4 mb-4 sm:mb-5">
         <div>
           <Icon
-            className="text-4xl drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
+            className="text-3xl sm:text-4xl drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
             style={{ color: skill.gradient[0] }}
           />
         </div>
-        <span className="font-bold text-slate-800 dark:text-slate-100 text-base">
+        <span className="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base">
           {skill.name}
         </span>
       </div>
 
       {/* Progress track */}
-      <div className="w-full bg-slate-200 dark:bg-slate-700/60 rounded-full h-2.5 overflow-hidden">
+      <div className="w-full bg-slate-200 dark:bg-slate-700/60 rounded-full h-2 sm:h-2.5 overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: index * 0.05 }}
-          className="h-2.5 rounded-full relative"
+          className="h-2 sm:h-2.5 rounded-full relative"
           style={{
             background: `linear-gradient(90deg, ${g1}, ${g2})`,
             boxShadow: `0 0 10px ${skill.glow}`,
@@ -152,16 +151,16 @@ function SkillCard({ skill, index }) {
             className="absolute inset-0 rounded-full"
             animate={{ x: ["-100%", "200%"] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "linear", delay: 0.5 + index * 0.05 }}
-            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)", }}
+            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)" }}
           />
         </motion.div>
       </div>
 
       {/* Percentage counter */}
-      <div className="mt-3 flex justify-between items-center">
-        <span className="text-sm text-slate-500 dark:text-slate-400">Proficiency</span>
+      <div className="mt-2.5 sm:mt-3 flex justify-between items-center">
+        <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Proficiency</span>
         <span
-          className="text-base font-extrabold tabular-nums"
+          className="text-sm sm:text-base font-extrabold tabular-nums"
           style={{ color: skill.gradient[0] }}
         >
           <Counter target={skill.level} inView={inView} />%
@@ -171,7 +170,7 @@ function SkillCard({ skill, index }) {
   );
 }
 
-// ─── Infinite Marquee (pure CSS — GPU-composited, zero jitter) ───────────────
+// ─── Infinite Marquee ────────────────────────────────────────────────────────
 const marqueeKeyframes = `
   @keyframes marquee-ltr {
     0%   { transform: translateX(0); }
@@ -184,21 +183,20 @@ const marqueeKeyframes = `
 `;
 
 function InfiniteMarquee({ items, direction = 1 }) {
-  // duplicate once — CSS moves exactly 50% so the loop is seamless
   const doubled = [...items, ...items];
   const animName = direction > 0 ? "marquee-ltr" : "marquee-rtl";
   const duration = `${items.length * 2.8}s`;
 
   return (
-    <div className="relative overflow-hidden py-3">
+    <div className="relative overflow-hidden py-2 sm:py-3">
       <style>{marqueeKeyframes}</style>
 
       {/* Fade edges */}
-      <div className="absolute left-0 top-0 h-full w-24 z-10 pointer-events-none bg-gradient-to-r from-slate-50 dark:from-slate-900 to-transparent" />
-      <div className="absolute right-0 top-0 h-full w-24 z-10 pointer-events-none bg-gradient-to-l from-slate-50 dark:from-slate-900 to-transparent" />
+      <div className="absolute left-0 top-0 h-full w-12 sm:w-24 z-10 pointer-events-none bg-gradient-to-r from-slate-50 dark:from-slate-900 to-transparent" />
+      <div className="absolute right-0 top-0 h-full w-12 sm:w-24 z-10 pointer-events-none bg-gradient-to-l from-slate-50 dark:from-slate-900 to-transparent" />
 
       <div
-        className="flex gap-4"
+        className="flex gap-3 sm:gap-4"
         style={{
           width: "max-content",
           animation: `${animName} ${duration} linear infinite`,
@@ -210,9 +208,9 @@ function InfiniteMarquee({ items, direction = 1 }) {
           return (
             <div
               key={i}
-              className="flex flex-col items-center justify-center gap-3 px-7 py-5 rounded-2xl select-none"
+              className="flex flex-col items-center justify-center gap-2 sm:gap-3 px-5 sm:px-7 py-3.5 sm:py-5 rounded-xl sm:rounded-2xl select-none active:scale-95 transition-transform"
               style={{
-                minWidth: "130px",
+                minWidth: "105px",
                 background: "rgba(255,255,255,0.045)",
                 border: "1px solid rgba(255,255,255,0.08)",
                 backdropFilter: "blur(10px)",
@@ -222,12 +220,12 @@ function InfiniteMarquee({ items, direction = 1 }) {
               <Icon
                 style={{
                   color: tool.color,
-                  fontSize: "2.6rem",
+                  fontSize: "2.1rem",
                   filter: `drop-shadow(0 0 8px ${tool.color}99)`,
                   flexShrink: 0,
                 }}
               />
-              <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
                 {tool.name}
               </span>
             </div>
@@ -248,7 +246,8 @@ function SoftBadge({ skill, index }) {
       viewport={{ once: false, amount: 0.15 }}
       transition={{ duration: 0.5, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6, scale: 1.06, transition: { duration: 0.2, ease: "easeOut" } }}
-      className="flex flex-col items-center gap-3 p-6 rounded-2xl cursor-default"
+      whileTap={{ scale: 0.95 }}
+      className="flex flex-col items-center gap-2.5 sm:gap-3 p-4 sm:p-6 rounded-xl sm:rounded-2xl cursor-pointer active:scale-95"
       style={{
         background: skill.bg,
         border: `1px solid ${skill.color}33`,
@@ -256,9 +255,9 @@ function SoftBadge({ skill, index }) {
       }}
     >
       <div className="transition-transform duration-300 group-hover:scale-110">
-        <Icon style={{ color: skill.color, fontSize: "2.4rem", filter: `drop-shadow(0 0 7px ${skill.color}88)` }} />
+        <Icon style={{ color: skill.color, fontSize: "2rem", filter: `drop-shadow(0 0 7px ${skill.color}88)` }} />
       </div>
-      <span className="text-sm font-semibold text-center text-slate-700 dark:text-slate-200 leading-tight">
+      <span className="text-xs sm:text-sm font-semibold text-center text-slate-700 dark:text-slate-200 leading-tight">
         {skill.name}
       </span>
     </motion.div>
@@ -273,9 +272,9 @@ function SectionLabel({ children, accent }) {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: false, amount: 0.3 }}
       transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
-      className="text-xl sm:text-2xl font-extrabold mb-8 text-slate-800 dark:text-slate-100 flex items-center gap-3"
+      className="text-lg sm:text-2xl font-extrabold mb-6 sm:mb-8 text-slate-800 dark:text-slate-100 flex items-center gap-2.5 sm:gap-3"
     >
-      <span className="w-1.5 h-7 rounded-full inline-block" style={{ background: accent }} />
+      <span className="w-1.5 h-6 sm:h-7 rounded-full inline-block" style={{ background: accent }} />
       {children}
     </motion.h3>
   );
@@ -286,29 +285,23 @@ export default function SkillPage() {
   return (
     <section
       id="skills"
-      className="relative bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 py-24 overflow-hidden"
+      className="relative bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 py-14 sm:py-24 overflow-hidden px-4 sm:px-12 lg:px-16"
     >
       {/* ── Ambient background blobs ── */}
       <motion.div
-        className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none"
+        className="absolute -top-40 -left-40 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)", filter: "blur(60px)" }}
         animate={{ scale: [1, 1.15, 1], x: [0, 30, 0], y: [0, 20, 0] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute top-1/2 -right-40 w-[450px] h-[450px] rounded-full pointer-events-none"
+        className="absolute top-1/2 -right-40 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, rgba(236,72,153,0.10) 0%, transparent 70%)", filter: "blur(70px)" }}
         animate={{ scale: [1, 1.2, 1], x: [0, -20, 0], y: [0, 30, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
-      <motion.div
-        className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%)", filter: "blur(80px)" }}
-        animate={{ scale: [1, 1.1, 1], x: [0, 15, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-24">
+      <div className="relative z-10 max-w-7xl mx-auto space-y-14 sm:space-y-24">
 
         {/* ── Header ── */}
         <motion.div
@@ -320,20 +313,20 @@ export default function SkillPage() {
         >
           {/* Floating badge */}
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-4 border"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-3.5 border"
             style={{
               background: "rgba(99,102,241,0.08)",
               borderColor: "rgba(99,102,241,0.25)",
               color: "#818CF8",
             }}
-            animate={{ y: [0, -5, 0] }}
+            animate={{ y: [0, -4, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
             What I Know
           </motion.div>
 
-          <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
+          <h2 className="text-3xl sm:text-6xl font-extrabold tracking-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
               Skills &amp;
             </span>{" "}
@@ -341,13 +334,13 @@ export default function SkillPage() {
               Expertise
             </span>
           </h2>
-          <p className="mt-4 text-slate-500 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="mt-3 text-slate-500 dark:text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto px-2">
             Technologies and tools I use daily — from programming languages to professional people skills.
           </p>
 
           {/* Decorative line */}
           <motion.div
-            className="mx-auto mt-6 h-px w-24 rounded"
+            className="mx-auto mt-5 h-px w-20 sm:w-24 rounded"
             style={{ background: "linear-gradient(90deg, #6366F1, #EC4899, #06B6D4)" }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -361,7 +354,7 @@ export default function SkillPage() {
           <SectionLabel accent="linear-gradient(180deg,#6366F1,#8B5CF6)">
             Programming Languages &amp; Frameworks
           </SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {programmingSkills.map((skill, i) => (
               <SkillCard key={skill.name} skill={skill} index={i} />
             ))}
@@ -373,7 +366,7 @@ export default function SkillPage() {
           <SectionLabel accent="linear-gradient(180deg,#06B6D4,#3B82F6)">
             Web Technologies &amp; Tools
           </SectionLabel>
-          <div className="space-y-4 overflow-hidden rounded-2xl">
+          <div className="space-y-3 sm:space-y-4 overflow-hidden rounded-2xl">
             <InfiniteMarquee items={marqueeTools} direction={1} />
             <InfiniteMarquee items={[...marqueeTools].reverse()} direction={-1} />
           </div>
@@ -384,7 +377,7 @@ export default function SkillPage() {
           <SectionLabel accent="linear-gradient(180deg,#EC4899,#F43F5E)">
             Soft Skills
           </SectionLabel>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-5">
             {softSkills.map((skill, i) => (
               <SoftBadge key={skill.name} skill={skill} index={i} />
             ))}

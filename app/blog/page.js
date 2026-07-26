@@ -22,6 +22,7 @@ import {
 import Interest from "./Interest";
 import Quite from "./Quite";
 import Journey from "./Journey";
+import BlogFooter from "./BlogFooter";
 
 /* ─────────────────────────  Typewriter  ───────────────────────── */
 const ROLES = ["a developer", "a traveler", "a gamer", "a lifelong learner", "a creator"];
@@ -320,7 +321,7 @@ export default function Page() {
 
   return (
     <div
-      className={`relative min-h-screen bg-[#060613] text-white overflow-x-hidden transition-[filter] duration-700 ${
+      className={`relative min-h-screen bg-[#060613] text-white overflow-x-clip transition-[filter] duration-700 ${
         ambientOn ? "brightness-[0.92]" : ""
       }`}
     >
@@ -467,46 +468,9 @@ export default function Page() {
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Quite />
-
-          <motion.section
-            id="connect"
-            className="my-24"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="relative text-center py-16">
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <div className="w-96 h-40 bg-violet-600/20 blur-[90px]" />
-              </div>
-              <h2 className="relative text-3xl sm:text-5xl font-extrabold tracking-tight">
-                Enjoyed the vibe?
-              </h2>
-              <p className="relative mt-4 text-slate-400 max-w-xl mx-auto">
-                This is the human side of the portfolio. Projects, ideas, or just a hello —
-                my inbox is open.
-              </p>
-              <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  href="/#contact"
-                  data-cursor
-                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 font-semibold text-sm shadow-lg shadow-fuchsia-500/25 hover:scale-[1.03] transition-all duration-300"
-                >
-                  Let&apos;s connect
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/"
-                  data-cursor
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 text-sm font-semibold text-slate-300 hover:bg-white/5 transition-all duration-300"
-                >
-                  Back to portfolio
-                </Link>
-              </div>
-            </div>
-          </motion.section>
         </div>
+
+        <BlogFooter />
       </main>
 
       <AnimatePresence>

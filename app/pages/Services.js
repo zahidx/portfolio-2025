@@ -16,7 +16,7 @@ const MODULES = [
     color: "#00f0ff",
     shadow: "rgba(0,240,255,0.35)",
     accent2: "#0066ff",
-    size: "large", // spans 2 cols
+    size: "large", // spans 2 cols on desktop
     icon: "⬡",
     tag: "CORE MODULE",
   },
@@ -71,7 +71,7 @@ const MODULES = [
 ];
 
 /* ── SVG Circular Progress Ring ──────────────── */
-function RingProgress({ value, color, size = 80 }) {
+function RingProgress({ value, color, size = 72 }) {
   const r = (size - 10) / 2;
   const circ = 2 * Math.PI * r;
   const [progress, setProgress] = useState(0);
@@ -106,8 +106,8 @@ function Bracket({ color, pos }) {
     position: "absolute",
     [isTop ? "top" : "bottom"]: "10px",
     [isLeft ? "left" : "right"]: "10px",
-    width: "18px",
-    height: "18px",
+    width: "14px",
+    height: "14px",
     borderTop: isTop ? `2px solid ${color}` : "none",
     borderBottom: !isTop ? `2px solid ${color}` : "none",
     borderLeft: isLeft ? `2px solid ${color}` : "none",
@@ -115,19 +115,6 @@ function Bracket({ color, pos }) {
     opacity: 0.7,
   };
   return <div style={style} />;
-}
-
-/* ── Glitch Text ─────────────────────────────── */
-function GlitchText({ text, color }) {
-  return (
-    <span
-      className="glitch-text"
-      data-text={text}
-      style={{ color, "--glitch-color": color }}
-    >
-      {text}
-    </span>
-  );
 }
 
 /* ── Module Card ─────────────────────────────── */
@@ -167,8 +154,8 @@ function ModuleCard({ mod, index }) {
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
     setTilt({
-      x: ((e.clientY - cy) / (rect.height / 2)) * -10,
-      y: ((e.clientX - cx) / (rect.width / 2)) * 10,
+      x: ((e.clientY - cy) / (rect.height / 2)) * -8,
+      y: ((e.clientX - cx) / (rect.width / 2)) * 8,
     });
   };
 
@@ -178,7 +165,7 @@ function ModuleCard({ mod, index }) {
       className={`module-card ${mod.size === "large" ? "col-span-2" : "col-span-1"}`}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0) scale(1)" : "translateY(60px) scale(0.96)",
+        transform: visible ? "translateY(0) scale(1)" : "translateY(40px) scale(0.97)",
         transition: `opacity 0.7s ease ${index * 0.12}s, transform 0.7s ease ${index * 0.12}s`,
       }}
     >
@@ -186,19 +173,20 @@ function ModuleCard({ mod, index }) {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => { setTilt({ x: 0, y: 0 }); setHovered(false); }}
+        className="active:scale-98"
         style={{
           position: "relative",
           borderRadius: "16px",
-          padding: "28px",
+          padding: "20px 20px 24px",
           background: "linear-gradient(145deg, rgba(10,10,18,0.97), rgba(5,5,15,0.99))",
-          border: `1px solid ${hovered ? mod.color : "rgba(255,255,255,0.07)"}`,
+          border: `1px solid ${hovered ? mod.color : "rgba(255,255,255,0.08)"}`,
           boxShadow: hovered
-            ? `0 0 0 1px ${mod.color}33, 0 20px 80px ${mod.shadow}, inset 0 0 30px ${mod.color}08`
-            : "0 4px 40px rgba(0,0,0,0.6)",
-          transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovered ? 1.02 : 1})`,
+            ? `0 0 0 1px ${mod.color}33, 0 16px 60px ${mod.shadow}, inset 0 0 25px ${mod.color}08`
+            : "0 4px 30px rgba(0,0,0,0.6)",
+          transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovered ? 1.01 : 1})`,
           transition: "transform 0.2s ease, border 0.4s ease, box-shadow 0.4s ease",
           overflow: "hidden",
-          cursor: "default",
+          cursor: "pointer",
           height: "100%",
         }}
       >
@@ -232,16 +220,16 @@ function ModuleCard({ mod, index }) {
         />
 
         {/* Top row: ID + status */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <span
               style={{
                 fontFamily: "monospace",
-                fontSize: "10px",
-                letterSpacing: "0.2em",
+                fontSize: "9px",
+                letterSpacing: "0.18em",
                 color: "rgba(255,255,255,0.3)",
                 background: "rgba(255,255,255,0.05)",
-                padding: "3px 8px",
+                padding: "2px 6px",
                 borderRadius: "4px",
                 border: "1px solid rgba(255,255,255,0.08)",
               }}
@@ -251,10 +239,10 @@ function ModuleCard({ mod, index }) {
             <span
               style={{
                 fontFamily: "monospace",
-                fontSize: "9px",
-                letterSpacing: "0.15em",
+                fontSize: "8px",
+                letterSpacing: "0.12em",
                 color: mod.color,
-                opacity: 0.75,
+                opacity: 0.8,
               }}
             >
               {mod.tag}
@@ -262,7 +250,7 @@ function ModuleCard({ mod, index }) {
           </div>
 
           {/* Status pill */}
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <span
               style={{
                 width: "6px", height: "6px",
@@ -277,7 +265,7 @@ function ModuleCard({ mod, index }) {
                 fontFamily: "monospace",
                 fontSize: "9px",
                 color: mod.color,
-                letterSpacing: "0.2em",
+                letterSpacing: "0.18em",
               }}
             >
               {mod.status}
@@ -286,19 +274,18 @@ function ModuleCard({ mod, index }) {
         </div>
 
         {/* Icon + Title row */}
-        <div style={{ display: "flex", alignItems: "flex-start", gap: "16px", marginBottom: "16px" }}>
-          {/* Big icon */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", marginBottom: "14px" }}>
           <div
             style={{
               flexShrink: 0,
-              width: "56px", height: "56px",
-              borderRadius: "14px",
+              width: "48px", height: "48px",
+              borderRadius: "12px",
               background: `${mod.color}12`,
               border: `1px solid ${mod.color}33`,
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "24px",
+              fontSize: "20px",
               color: mod.color,
-              boxShadow: hovered ? `0 0 20px ${mod.color}30` : "none",
+              boxShadow: hovered ? `0 0 16px ${mod.color}30` : "none",
               transition: "box-shadow 0.4s ease",
             }}
           >
@@ -308,21 +295,21 @@ function ModuleCard({ mod, index }) {
             <p
               style={{
                 fontFamily: "monospace",
-                fontSize: "10px",
-                color: "rgba(255,255,255,0.3)",
-                letterSpacing: "0.2em",
-                marginBottom: "4px",
+                fontSize: "9px",
+                color: "rgba(255,255,255,0.35)",
+                letterSpacing: "0.18em",
+                marginBottom: "3px",
               }}
             >
               {mod.category}
             </p>
             <h3
               style={{
-                fontSize: mod.size === "large" ? "22px" : "18px",
+                fontSize: "17px",
                 fontWeight: "900",
                 color: "#fff",
                 letterSpacing: "-0.02em",
-                lineHeight: 1.1,
+                lineHeight: 1.15,
               }}
             >
               {mod.title}
@@ -333,17 +320,17 @@ function ModuleCard({ mod, index }) {
         {/* Description */}
         <p
           style={{
-            fontSize: "13px",
-            color: "rgba(255,255,255,0.55)",
-            lineHeight: "1.7",
-            marginBottom: "20px",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.6)",
+            lineHeight: "1.65",
+            marginBottom: "16px",
           }}
         >
           {mod.description}
         </p>
 
         {/* Bottom: specs + ring */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "16px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "12px" }}>
           {/* Specs list */}
           <div style={{ flex: 1 }}>
             {mod.specs.map((s, i) => (
@@ -352,13 +339,13 @@ function ModuleCard({ mod, index }) {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "5px",
+                  gap: "6px",
+                  marginBottom: "4px",
                 }}
               >
                 <span
                   style={{
-                    width: "4px", height: "4px",
+                    width: "3px", height: "3px",
                     borderRadius: "50%",
                     background: mod.color,
                     flexShrink: 0,
@@ -368,7 +355,7 @@ function ModuleCard({ mod, index }) {
                 <span
                   style={{
                     fontFamily: "monospace",
-                    fontSize: "11px",
+                    fontSize: "10px",
                     color: "rgba(255,255,255,0.5)",
                   }}
                 >
@@ -381,7 +368,7 @@ function ModuleCard({ mod, index }) {
           {/* Ring + label */}
           <div style={{ flexShrink: 0, textAlign: "center" }}>
             <div style={{ position: "relative", display: "inline-block" }}>
-              <RingProgress value={visible ? mod.progress : 0} color={mod.color} size={72} />
+              <RingProgress value={visible ? mod.progress : 0} color={mod.color} size={64} />
               <div
                 style={{
                   position: "absolute",
@@ -392,7 +379,7 @@ function ModuleCard({ mod, index }) {
                   flexDirection: "column",
                 }}
               >
-                <span style={{ fontFamily: "monospace", fontSize: "14px", fontWeight: "900", color: mod.color }}>
+                <span style={{ fontFamily: "monospace", fontSize: "12px", fontWeight: "900", color: mod.color }}>
                   {mod.progress}
                 </span>
                 <span style={{ fontFamily: "monospace", fontSize: "7px", color: "rgba(255,255,255,0.3)", letterSpacing: "0.1em" }}>
@@ -441,22 +428,22 @@ function BootLine({ text, delay, color = "rgba(255,255,255,0.4)" }) {
     <div
       style={{
         fontFamily: "monospace",
-        fontSize: "12px",
+        fontSize: "11px",
         color,
         letterSpacing: "0.05em",
-        lineHeight: "1.8",
+        lineHeight: "1.7",
         opacity: shown.length > 0 ? 1 : 0,
         transition: "opacity 0.2s",
       }}
     >
-      <span style={{ color: "rgba(255,255,255,0.2)", marginRight: "8px" }}>›</span>
+      <span style={{ color: "rgba(255,255,255,0.2)", marginRight: "6px" }}>›</span>
       {shown}
       {!done && <span className="cursor-blink">▋</span>}
     </div>
   );
 }
 
-/* ── Main Export ─────────────────────────────── */
+/* ── Main Export Component ─────────────────────────────── */
 export default function ServicePage() {
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState("");
@@ -513,11 +500,6 @@ export default function ServicePage() {
           to   { background-position: 40px 40px; }
         }
 
-        @keyframes rotateRing {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-
         @keyframes scanlineScroll {
           from { transform: translateY(-100%); }
           to   { transform: translateY(100vh); }
@@ -539,19 +521,8 @@ export default function ServicePage() {
           80% { clip-path: inset(80% 0 10% 0); transform: translate(-2px, 2px); }
         }
 
-        @keyframes neonPulse {
-          0%,100% { text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 40px #00f0ff; }
-          50%      { text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff; }
-        }
-
-        @keyframes borderRotate {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-
         .cursor-blink { animation: cursor-blink 0.8s step-end infinite; }
 
-        /* Glitch heading */
         .glitch-heading {
           position: relative;
           display: inline-block;
@@ -574,7 +545,6 @@ export default function ServicePage() {
           animation: glitchB 6s steps(1) infinite;
         }
 
-        /* CRT noise */
         .crt-noise {
           position: absolute;
           inset: 0;
@@ -585,7 +555,6 @@ export default function ServicePage() {
           background-size: 150px 150px;
         }
 
-        /* Hex grid bg */
         .hex-grid-bg {
           position: absolute;
           inset: 0;
@@ -595,7 +564,6 @@ export default function ServicePage() {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
-        /* Module card grid */
         .module-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -605,6 +573,7 @@ export default function ServicePage() {
         @media (max-width: 768px) {
           .module-grid {
             grid-template-columns: 1fr;
+            gap: 12px;
           }
           .module-card.col-span-2 {
             grid-column: span 1 !important;
@@ -613,19 +582,6 @@ export default function ServicePage() {
 
         .module-card { grid-column: span 1; }
         .module-card.col-span-2 { grid-column: span 2; }
-
-        /* Rotating border conic */
-        .rotating-border {
-          position: absolute;
-          inset: -1px;
-          border-radius: 18px;
-          background: conic-gradient(from var(--angle, 0deg), transparent 70%, #00f0ff 80%, transparent 90%);
-          animation: borderRotate 4s linear infinite;
-          opacity: 0;
-          transition: opacity 0.4s;
-          z-index: 0;
-          pointer-events: none;
-        }
       `}</style>
 
       {/* ── Global scanline ── */}
@@ -657,13 +613,13 @@ export default function ServicePage() {
       {/* ── Ambient orbs ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div style={{
-          position: "absolute", width: "500px", height: "500px", borderRadius: "50%",
+          position: "absolute", width: "400px", height: "400px", borderRadius: "50%",
           background: "radial-gradient(circle, rgba(0,240,255,0.06) 0%, transparent 70%)",
           top: "-100px", left: "-100px",
           animation: "flicker 8s ease-in-out infinite",
         }} />
         <div style={{
-          position: "absolute", width: "400px", height: "400px", borderRadius: "50%",
+          position: "absolute", width: "350px", height: "350px", borderRadius: "50%",
           background: "radial-gradient(circle, rgba(191,0,255,0.06) 0%, transparent 70%)",
           bottom: "-80px", right: "-80px",
           animation: "flicker 10s ease-in-out 3s infinite",
@@ -671,35 +627,35 @@ export default function ServicePage() {
       </div>
 
       {/* ── Main content ── */}
-      <div style={{ position: "relative", zIndex: 10, maxWidth: "1100px", margin: "0 auto", padding: "80px 20px 100px" }}>
+      <div style={{ position: "relative", zIndex: 10, maxWidth: "1100px", margin: "0 auto", padding: "48px 16px 80px" }}>
 
         {/* ── System header ── */}
-        <div style={{ marginBottom: "64px" }}>
+        <div style={{ marginBottom: "40px" }}>
 
           {/* Top bar */}
           <div style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: "32px",
-            padding: "10px 16px",
+            marginBottom: "24px",
+            padding: "8px 14px",
             background: "rgba(0,240,255,0.04)",
             border: "1px solid rgba(0,240,255,0.12)",
             borderRadius: "8px",
             fontFamily: "monospace",
           }}>
-            <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-              <span style={{ color: "#00ff88", fontSize: "10px", letterSpacing: "0.2em" }}>● SYSTEM ONLINE</span>
-              <span style={{ color: "rgba(255,255,255,0.2)", fontSize: "10px" }}>|</span>
-              <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "0.1em" }}>NEURAL-SVC-v4.2.1</span>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <span style={{ color: "#00ff88", fontSize: "10px", letterSpacing: "0.15em" }}>● SYSTEM ONLINE</span>
+              <span style={{ color: "rgba(255,255,255,0.2)", fontSize: "10px" }} className="hidden sm:inline">|</span>
+              <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "0.1em" }} className="hidden sm:inline">NEURAL-SVC-v4.2.1</span>
             </div>
-            <span style={{ color: "rgba(0,240,255,0.6)", fontSize: "11px", letterSpacing: "0.1em" }}>
+            <span style={{ color: "rgba(0,240,255,0.6)", fontSize: "10px", letterSpacing: "0.1em" }}>
               {time}
             </span>
           </div>
 
           {/* Boot lines */}
-          <div style={{ marginBottom: "24px", paddingLeft: "4px" }}>
+          <div style={{ marginBottom: "20px", paddingLeft: "4px" }}>
             <BootLine text="Initializing service modules..." delay={0} color="rgba(0,240,255,0.5)" />
             <BootLine text="Loading neural interface layer... [OK]" delay={600} color="rgba(0,255,136,0.5)" />
             <BootLine text="All 4 service modules operational." delay={1400} color="rgba(255,255,255,0.35)" />
@@ -711,16 +667,16 @@ export default function ServicePage() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "8px",
-                padding: "6px 16px",
+                gap: "6px",
+                padding: "4px 12px",
                 borderRadius: "6px",
                 background: "rgba(0,240,255,0.06)",
                 border: "1px solid rgba(0,240,255,0.15)",
                 fontFamily: "monospace",
                 fontSize: "10px",
-                letterSpacing: "0.25em",
+                letterSpacing: "0.2em",
                 color: "rgba(0,240,255,0.7)",
-                marginBottom: "20px",
+                marginBottom: "16px",
               }}
             >
               <span style={{
@@ -736,12 +692,12 @@ export default function ServicePage() {
               className="glitch-heading"
               data-text="Services"
               style={{
-                fontSize: "clamp(52px, 8vw, 88px)",
+                fontSize: "clamp(40px, 8vw, 88px)",
                 fontWeight: "900",
                 color: "#fff",
                 letterSpacing: "-0.04em",
                 lineHeight: 1,
-                marginBottom: "16px",
+                marginBottom: "12px",
                 animation: "flicker 12s ease-in-out infinite",
               }}
             >
@@ -749,8 +705,8 @@ export default function ServicePage() {
             </h2>
 
             <p style={{
-              color: "rgba(255,255,255,0.3)",
-              fontSize: "14px",
+              color: "rgba(255,255,255,0.35)",
+              fontSize: "12px",
               fontFamily: "monospace",
               letterSpacing: "0.08em",
             }}>
@@ -766,20 +722,9 @@ export default function ServicePage() {
           ))}
         </div>
 
-        {/* ── Footer bar ── */}
+        {/* ── Footer bar - Mobile Grid App Style ── */}
         <div
-          style={{
-            marginTop: "48px",
-            padding: "16px 20px",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: "12px",
-            background: "rgba(255,255,255,0.02)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "12px",
-          }}
+          className="grid grid-cols-2 sm:flex justify-between items-center gap-3 mt-10 p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-md"
         >
           {[
             { label: "MODULES ACTIVE", value: "04", color: "#00f0ff" },
@@ -787,11 +732,11 @@ export default function ServicePage() {
             { label: "UPTIME", value: "99.9%", color: "#bf00ff" },
             { label: "PROJECTS DEPLOYED", value: "50+", color: "#ffaa00" },
           ].map((s) => (
-            <div key={s.label} style={{ textAlign: "center", flex: "1 1 80px" }}>
+            <div key={s.label} style={{ textAlign: "center" }} className="p-2">
               <div
                 style={{
                   fontFamily: "monospace",
-                  fontSize: "22px",
+                  fontSize: "18px",
                   fontWeight: "900",
                   color: s.color,
                   textShadow: `0 0 12px ${s.color}`,
@@ -799,7 +744,15 @@ export default function ServicePage() {
               >
                 {s.value}
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: "9px", color: "rgba(255,255,255,0.25)", letterSpacing: "0.15em", marginTop: "2px" }}>
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: "8px",
+                  color: "rgba(255,255,255,0.3)",
+                  letterSpacing: "0.12em",
+                  marginTop: "2px",
+                }}
+              >
                 {s.label}
               </div>
             </div>
