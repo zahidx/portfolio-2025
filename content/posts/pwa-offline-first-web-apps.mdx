@@ -1,0 +1,87 @@
+---
+title: "Building Offline-First Progressive Web Apps with Service Workers & IndexedDB"
+excerpt: "Transform your web applications into desktop and mobile installable PWAs with resilient offline caching strategies and background synchronization."
+date: "2026-01-12"
+readTime: "6 min read"
+category: "Web Dev"
+tags: ["PWA", "Service Worker", "Next.js", "IndexedDB"]
+author: "Zahidul Islam"
+featured: false
+coverColor: "from-teal-600 via-emerald-600 to-cyan-600"
+---
+
+# Building Offline-First Progressive Web Apps with Service Workers & IndexedDB
+
+Progressive Web Apps (PWAs) combine the reach of the open web with the native capabilities of mobile and desktop applications.
+
+With a well-configured Service Worker and offline caching strategy, web apps remain functional even when users lose network connectivity.
+
+---
+
+## 1. Service Worker Caching Strategies
+
+Depending on the nature of your data, select the appropriate caching strategy:
+
+- **Cache First (Static Assets)**: Fonts, icons, and compiled CSS/JS bundles.
+- **Network First (Dynamic Content)**: Live user data or search results with fallbacks.
+- **Stale-While-Revalidate (API Feeds)**: Return cached data instantly while updating in the background.
+
+```javascript
+// public/sw.js - Cache First for static assets
+const CACHE_NAME = "portfolio-v1";
+const ASSETS_TO_CACHE = [
+  "/",
+  "/blog",
+  "/favicon.ico",
+  "/globals.css",
+];
+
+self.addEventListener("install", (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+  );
+});
+
+self.addEventListener("fetch", (e) => {
+  e.respondWith(
+    caches.match(e.request).then((cachedResponse) => {
+      if (cachedResponse) return cachedResponse;
+      return fetch(e.request);
+    })
+  );
+});
+```
+
+---
+
+## 2. Web App Manifest Setup
+
+```json
+{
+  "name": "Zahidul Islam Portfolio",
+  "short_name": "Zahid DEV",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060613",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+```
+
+---
+
+## Key Takeaways
+
+1. **Standalone Display**: Setting `"display": "standalone"` removes browser URL address bars for a native app experience.
+2. **Handle `beforeinstallprompt`**: Capture the install event to prompt users at optimal engagement moments.

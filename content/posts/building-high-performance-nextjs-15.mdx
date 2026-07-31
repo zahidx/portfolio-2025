@@ -1,0 +1,92 @@
+---
+title: "Building High-Performance Web Applications with Next.js 15 & Turbopack"
+excerpt: "An in-depth guide on leveraging Turbopack, App Router caching strategies, server components, and dynamic bundle optimization for sub-second page loads."
+date: "2026-02-15"
+readTime: "6 min read"
+category: "Web Dev"
+tags: ["Next.js", "React", "Performance", "Turbopack"]
+author: "Zahidul Islam"
+featured: true
+coverColor: "from-indigo-600 via-purple-600 to-pink-600"
+---
+
+# Building High-Performance Web Applications with Next.js 15 & Turbopack
+
+Modern web applications require instantaneous initial render times, seamless client transitions, and minimal JS bundle footprints. With **Next.js 15** and **Turbopack**, front-end architecture has reached a new milestone in speed and developer productivity.
+
+In this article, we explore the core architectural patterns required to build production-grade Next.js applications optimized for maximum Lighthouse scores and optimal User Experience (UX).
+
+---
+
+## 1. React Server Components (RSC) Architecture
+
+The key paradigm shift in Next.js 15 is prioritizing **Server Components by default**. By moving data fetching, heavy dependency parsing, and HTML rendering to the server edge, we dramatically shrink client JavaScript execution.
+
+```javascript
+// Example: Async Server Component data fetching without hydration overhead
+export default async function ProjectCatalog() {
+  const projects = await fetchProjectsFromDatabase();
+
+  return (
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <ProjectCard key={project.id} data={project} />
+      ))}
+    </section>
+  );
+}
+```
+
+### Key Benefits:
+- **Zero Client Bundle Impact**: Libraries used inside Server Components (such as heavy Markdown parsers or date utilities) stay on the server.
+- **Direct Database Access**: Query databases directly using Prisma or Firebase Admin SDK without exposing API endpoints.
+
+---
+
+## 2. Turbopack Bundling & Hot Module Replacement (HMR)
+
+Turbopack is Rust-powered and optimized specifically for incremental compilation. In Next.js 15, dev server boot times are up to **76% faster** compared to Webpack, with HMR updates executing in under **10ms**.
+
+### Optimized `next.config.mjs` setup:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  experimental: {
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
+};
+
+export default nextConfig;
+```
+
+---
+
+## 3. Dynamic Imports & Code Splitting
+
+For heavy interactive components (such as 3D WebGL canvases or particle systems), use Next.js `dynamic()` imports to delay loading until the component is actually required:
+
+```javascript
+import dynamic from 'next/dynamic';
+
+const ParticleCanvas = dynamic(() => import('./ParticleCanvas'), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-slate-900 animate-pulse rounded-2xl" />,
+});
+```
+
+---
+
+## Summary & Key Takeaways
+
+1. **Leverage RSC First**: Keep interactive client components (`"use client"`) at the leaves of your component tree.
+2. **Optimize Image Assets**: Always use `next/image` with explicit `priority` flags for hero imagery.
+3. **Audit Third-Party Scripts**: Defer non-critical scripts with `next/script`.

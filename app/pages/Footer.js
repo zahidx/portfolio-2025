@@ -41,12 +41,18 @@ export default function Footer() {
     setIsLoading(true);
     setError("");
     try {
-      await addDoc(collection(db, "newsletter"), {
-        email,
-        timestamp: new Date(),
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
       });
-      setSubscribed(true);
-      setEmail("");
+      const data = await res.json();
+      if (res.ok) {
+        setSubscribed(true);
+        setEmail("");
+      } else {
+        setError(data.error || "Failed to subscribe. Try again.");
+      }
     } catch (err) {
       console.error("Error subscribing:", err);
       setError("Something went wrong. Try again.");

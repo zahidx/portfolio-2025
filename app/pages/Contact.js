@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { db, addDoc, collection } from "../components/firebase";
 import {
   Mail, Phone, MapPin, Send, CheckCircle2, Github,
-  Linkedin, Twitter, MessageSquare, Clock, ArrowRight,
+  Linkedin, Twitter, MessageSquare, Clock, ArrowRight, Calendar, Video, ArrowUpRight
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import CalendlyModal from "../components/CalendlyModal";
 
 const contactInfo = [
   {
@@ -63,6 +64,7 @@ export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -91,6 +93,8 @@ export default function Contact() {
       id="contact"
       className="relative bg-slate-950 py-12 sm:py-24 px-4 sm:px-10 lg:px-16 overflow-hidden"
     >
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
+
       {/* Background glows */}
       <div className="absolute top-0 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-72 sm:w-80 h-72 sm:h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -99,10 +103,10 @@ export default function Contact() {
 
       <div className="relative max-w-7xl mx-auto">
         {/* Section header */}
-        <div className="text-center mb-10 sm:mb-16">
+        <div className="text-center mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-xs font-semibold uppercase tracking-widest mb-3.5 sm:mb-5">
             <MessageSquare className="w-3.5 h-3.5" />
-            Contact
+            Contact &amp; Booking
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 sm:mb-4 tracking-tight">
             Get in{" "}
@@ -111,8 +115,50 @@ export default function Contact() {
             </span>
           </h2>
           <p className="text-slate-400 text-sm sm:text-lg max-w-xl mx-auto px-2">
-            Have a project in mind or just want to say hello? My inbox is always open.
+            Schedule a 1-on-1 discovery call directly or send a direct message below.
           </p>
+        </div>
+
+        {/* ── High-Converting Calendly Direct Booking Banner ── */}
+        <div className="mb-10 p-6 sm:p-8 rounded-3xl border border-indigo-500/30 bg-gradient-to-r from-indigo-950/70 via-purple-950/60 to-slate-950/80 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl shadow-indigo-950/50">
+          <div className="flex items-center gap-4 text-center sm:text-left">
+            <div className="w-14 h-14 shrink-0 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/20">
+              <Calendar className="w-7 h-7" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 justify-center sm:justify-start mb-1">
+                <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full uppercase">
+                  ⚡ HIGHEST CONVERSION
+                </span>
+                <span className="text-xs text-slate-400 font-mono hidden sm:inline">• Instant Calendar Lock</span>
+              </div>
+              <h3 className="text-xl font-extrabold text-white">Prefer a 1-on-1 Call? Schedule on Calendly</h3>
+              <p className="text-xs text-slate-300 mt-1 max-w-xl">
+                Pick a 15-min discovery or 30-min technical consultation slot directly on my calendar. No back-and-forth emails required.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full sm:w-auto">
+            <button
+              onClick={() => setIsCalendlyOpen(true)}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-widest shadow-xl shadow-indigo-500/30 transition-all active:scale-95"
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Book Call via Calendly</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
+
+            <a
+              href="https://calendly.com/zahidxislam"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl border border-white/15 bg-white/[0.04] text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 transition-all"
+            >
+              <span>External Link</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8 xl:gap-12">

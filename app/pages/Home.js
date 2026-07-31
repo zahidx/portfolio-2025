@@ -11,6 +11,7 @@ import {
   FaCode,
   FaRobot,
   FaLaptopCode,
+  FaCalendarAlt,
 } from "react-icons/fa";
 
 export default function Home() {
@@ -55,8 +56,7 @@ export default function Home() {
               Passionate Computer Science professional skilled in full-stack web development, database engineering, and computer vision research. Focused on crafting responsive, high-performance web applications and intuitive digital experiences.
             </p>
 
-            {/* Action CTAs - Mobile App Touch Dock */}
-            <div className="profile_buttons flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full sm:w-auto">
+            <div className="profile_buttons flex flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full sm:w-auto">
               <a
                 href="#contact"
                 className="group relative inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-95 text-white font-semibold py-3.5 sm:py-3.5 px-7 sm:px-8 rounded-xl shadow-lg shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-0.5"
@@ -66,10 +66,20 @@ export default function Home() {
               </a>
 
               <a
+                href="https://calendly.com/zahidxislam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2.5 bg-emerald-600/90 hover:bg-emerald-500/90 active:scale-95 border border-emerald-500/50 text-white font-semibold py-3.5 sm:py-3.5 px-6 sm:px-7 rounded-xl shadow-lg shadow-emerald-600/20 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5"
+              >
+                <FaCalendarAlt className="text-emerald-200 text-sm" />
+                <span>Book 1-on-1 Call</span>
+              </a>
+
+              <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 bg-slate-800/90 hover:bg-slate-700/90 active:scale-95 border border-slate-700 text-white font-semibold py-3.5 sm:py-3.5 px-7 sm:px-8 rounded-xl backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2.5 bg-slate-800/90 hover:bg-slate-700/90 active:scale-95 border border-slate-700 text-white font-semibold py-3.5 sm:py-3.5 px-6 sm:px-7 rounded-xl backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 <FaFileDownload className="text-indigo-400 text-sm" />
                 <span>View Resume</span>

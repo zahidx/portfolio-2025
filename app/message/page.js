@@ -133,15 +133,31 @@ export default function Messages() {
 
           {/* Newsletter Subscription Section - Emails from Firestore */}
           <div className="mt-20 max-w-4xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-xl">
-            <h2 className="text-3xl font-bold text-center text-indigo-400 mb-6">
-              Emails Subscribed for News & Updates
+            <h2 className="text-3xl font-bold text-center text-indigo-400 mb-2">
+              Newsletter Subscribers ({emails.length})
             </h2>
-            <div className="space-y-4">
+            <p className="text-xs text-center text-gray-400 mb-6">
+              Live email updates and subscriber list from Firestore
+            </p>
+
+            {/* Newsletter Broadcast Sender Form */}
+            <div className="mb-8 p-6 rounded-xl bg-gray-900 border border-indigo-500/30">
+              <h3 className="text-xl font-bold text-indigo-300 mb-2">
+                📢 Broadcast Email Update to All Subscribers
+              </h3>
+              <p className="text-xs text-gray-400 mb-4">
+                Compose and send a newsletter email update directly to all {emails.length} subscriber inbox addresses.
+              </p>
+              
+              <BroadcastForm password={password} emailsCount={emails.length} />
+            </div>
+
+            <div className="space-y-3">
               {emails.length > 0 ? (
                 emails.map((emailData, index) => (
-                  <div key={index} className="bg-gray-700 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <p className="text-gray-300">{emailData.email}</p>
-                    <p className="text-xs text-gray-500">
+                  <div key={index} className="bg-gray-700 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between">
+                    <p className="text-gray-200 font-mono text-sm">{emailData.email}</p>
+                    <p className="text-xs text-gray-400 font-mono">
                       Subscribed {formatDistanceToNow(new Date(emailData.timestamp * 1000), { addSuffix: true })}
                     </p>
                   </div>
@@ -154,5 +170,85 @@ export default function Messages() {
         </div>
       )}
     </div>
+  );
+}
+
+function BroadcastForm({ password, emailsCount }) {
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [statusMsg, setStatusMsg] = useState("");
+
+  const handleSendBroadcast = async (e) => {
+    e.preventDefault();
+    if (!subject || !message) return;
+    setSending(true);
+    setStatusMsg("");
+    try {
+      const res = await fetch("/api/newsletter/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subject,
+          message,
+          accessCode: password || "8209",
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setStatusMsg(`✅ ${data.message || `Successfully broadcast to ${emailsCount} subscribers!`}`);
+        setSubject("");
+        setMessage("");
+      } else {
+        setStatusMsg(`❌ ${data.error || "Failed to send broadcast."}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setStatusMsg("❌ Network error. Failed to dispatch broadcast.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSendBroadcast} className="space-y-4">
+      <div>
+        <label className="block text-xs font-semibold text-gray-300 mb-1">Email Subject Line</label>
+        <input
+          type="text"
+          placeholder="e.g. New Article: Building Scalable Web Apps"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:outline-none focus:border-indigo-500"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold text-gray-300 mb-1">Newsletter Message Content</label>
+        <textarea
+          rows={4}
+          placeholder="Write your email announcement or article summary here..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:outline-none focus:border-indigo-500"
+          required
+        />
+      </div>
+
+      {statusMsg && (
+        <div className="p-3 rounded-lg text-xs font-mono bg-gray-800 border border-indigo-500/40">
+          {statusMsg}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={sending}
+        className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md shadow-indigo-600/30"
+      >
+        {sending ? "Dispatching Email Broadcast..." : `Send Email Broadcast (${emailsCount} Recipients)`}
+      </button>
+    </form>
   );
 }

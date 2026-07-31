@@ -10,6 +10,7 @@ import Hobby from "./pages/Hobby";
 import Contact from "./pages/Contact";
 import Footer from "./pages/Footer";
 import Home from "./pages/Home";
+import GithubActivityGraph from "./components/GithubActivityGraph";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Page() {
@@ -85,6 +86,7 @@ export default function Page() {
         <Home />
         <About />
         <Skills />
+        <GithubActivityGraph />
         <Experience />
         <Services />
         <Project />

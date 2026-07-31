@@ -1,260 +1,383 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Quote, Shuffle, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import {
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  Shuffle,
+  Film,
+  Play,
+  Pause,
+  Sparkles,
+} from "lucide-react";
 
-const QUOTES = [
+/* ── Dark & Vibrant Accent Quotes Collection ── */
+const IMAX_QUOTES = [
   {
-    text: "The only limit to our realization of tomorrow is our doubts of today.",
+    id: "q1",
+    quote: "The only limit to our realization of tomorrow is our doubts of today.",
     author: "Franklin D. Roosevelt",
+    role: "32nd U.S. President",
+    genre: "VISION & DESTINY",
+    gradientText: "from-indigo-300 via-purple-300 to-pink-400",
+    borderGlow: "rgba(129, 140, 248, 0.35)",
+    bgGlow: "rgba(99, 102, 241, 0.22)",
+    accentColor: "#818cf8",
   },
   {
-    text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+    id: "q2",
+    quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
     author: "Winston Churchill",
+    role: "Statesman & Author",
+    genre: "RESILIENCE",
+    gradientText: "from-rose-300 via-amber-300 to-yellow-400",
+    borderGlow: "rgba(244, 63, 94, 0.35)",
+    bgGlow: "rgba(244, 63, 94, 0.22)",
+    accentColor: "#f43f5e",
   },
   {
-    text: "Do what you can, with what you have, where you are.",
+    id: "q3",
+    quote: "Do what you can, with what you have, where you are.",
     author: "Theodore Roosevelt",
+    role: "26th U.S. President",
+    genre: "ACTION & DRIVE",
+    gradientText: "from-emerald-300 via-teal-300 to-cyan-400",
+    borderGlow: "rgba(52, 211, 153, 0.35)",
+    bgGlow: "rgba(16, 185, 129, 0.22)",
+    accentColor: "#34d399",
   },
   {
-    text: "Believe you can, and you're halfway there.",
+    id: "q4",
+    quote: "Believe you can, and you're halfway there.",
     author: "Theodore Roosevelt",
+    role: "26th U.S. President",
+    genre: "MINDSET",
+    gradientText: "from-blue-300 via-indigo-300 to-violet-400",
+    borderGlow: "rgba(96, 165, 250, 0.35)",
+    bgGlow: "rgba(59, 130, 246, 0.22)",
+    accentColor: "#60a5fa",
   },
   {
-    text: "Stay hungry. Stay foolish.",
+    id: "q5",
+    quote: "Stay hungry. Stay foolish.",
     author: "Steve Jobs",
+    role: "Co-Founder, Apple Inc.",
+    genre: "CURIOSITY",
+    gradientText: "from-fuchsia-300 via-purple-300 to-pink-400",
+    borderGlow: "rgba(232, 121, 249, 0.35)",
+    bgGlow: "rgba(217, 70, 239, 0.22)",
+    accentColor: "#e879f9",
   },
   {
-    text: "Simplicity is the ultimate sophistication.",
+    id: "q6",
+    quote: "Simplicity is the ultimate sophistication.",
     author: "Leonardo da Vinci",
+    role: "Polymath & Artist",
+    genre: "DESIGN PHILOSOPHY",
+    gradientText: "from-cyan-300 via-sky-300 to-indigo-400",
+    borderGlow: "rgba(56, 189, 248, 0.35)",
+    bgGlow: "rgba(34, 211, 238, 0.22)",
+    accentColor: "#38bdf8",
   },
 ];
 
-const MANIFESTO = [
-  { k: "01", label: "Learn daily", v: "One new idea, every single day." },
-  { k: "02", label: "Explore widely", v: "Cultures, places, and wild ideas." },
-  { k: "03", label: "Create first", v: "Creativity sits at the center." },
-  { k: "04", label: "Solve hard things", v: "Tech is the craft; problems are the game." },
-  { k: "05", label: "Ship often", v: "Ideas are cheap. Finished work isn't." },
-  { k: "06", label: "Share freely", v: "Open source, mentor, give feedback." },
-];
+/* ── Dark 3D IMAX Card Component ── */
+function IMAXCard({ item, index, activeIndex, total, onSelect }) {
+  const cardRef = useRef(null);
+  const offset = index - activeIndex;
+  const isActive = offset === 0;
 
-const AUTOPLAY_MS = 7000;
+  // Ultra-smooth mouse tilt spring physics
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
 
-function KineticQuote({ text }) {
-  const words = text.split(" ");
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), {
+    stiffness: 140,
+    damping: 22,
+    mass: 0.5,
+  });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-12, 12]), {
+    stiffness: 140,
+    damping: 22,
+    mass: 0.5,
+  });
+
+  const handleMouseMove = (e) => {
+    if (!isActive || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  };
+
+  // 3D positioning transform values
+  const translateX = offset * 215;
+  const translateZ = isActive ? 0 : -200 - Math.abs(offset) * 80;
+  const rotateYOffset = offset < 0 ? 24 : offset > 0 ? -24 : 0;
+  const opacity = isActive ? 1 : Math.max(0.18, 0.55 - Math.abs(offset) * 0.22);
+  const scale = isActive ? 1 : Math.max(0.75, 0.86 - Math.abs(offset) * 0.08);
+
   return (
-    <p className="text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.25] tracking-tight max-w-4xl mx-auto">
-      {words.map((word, i) => (
-        <motion.span
-          key={`${word}-${i}`}
-          className="inline-block mr-[0.3em] text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-slate-500"
-          initial={{ opacity: 0, y: 28, rotateX: 40 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          transition={{
-            duration: 0.45,
-            delay: i * 0.05,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          {word}
-        </motion.span>
-      ))}
-    </p>
+    <motion.div
+      ref={cardRef}
+      onClick={() => onSelect(index)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={false}
+      animate={{
+        x: translateX,
+        z: translateZ,
+        rotateY: isActive ? rotateY.get() : rotateYOffset,
+        rotateX: isActive ? rotateX.get() : 0,
+        scale,
+        opacity,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 120,
+        damping: 20,
+        mass: 0.7,
+      }}
+      style={{
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      className={`absolute w-full max-w-lg cursor-pointer select-none rounded-[2rem] transition-all duration-500 ${
+        isActive
+          ? "z-30 shadow-[0_20px_60px_rgba(0,0,0,0.85)]"
+          : "z-10 hover:opacity-80"
+      }`}
+    >
+      <div
+        className="relative overflow-hidden rounded-[2rem] p-6 sm:p-7 border backdrop-blur-3xl"
+        style={{
+          background: isActive
+            ? "linear-gradient(145deg, rgba(14, 13, 30, 0.96) 0%, rgba(9, 8, 20, 0.95) 100%)"
+            : "linear-gradient(145deg, rgba(10, 9, 22, 0.85) 0%, rgba(6, 5, 14, 0.9) 100%)",
+          borderColor: isActive ? item.borderGlow : "rgba(255, 255, 255, 0.08)",
+          boxShadow: isActive
+            ? `0 0 40px ${item.bgGlow}, inset 0 0 20px rgba(255, 255, 255, 0.03)`
+            : "none",
+        }}
+      >
+        {/* Subtle Ambient Color Burst inside Dark Card */}
+        <div
+          className="pointer-events-none absolute -top-14 -right-14 w-40 h-40 rounded-full blur-3xl opacity-20"
+          style={{ background: item.accentColor }}
+        />
+
+        {/* Specular Flare on Mouse Hover */}
+        {isActive && (
+          <motion.div
+            className="pointer-events-none absolute inset-0 rounded-[2rem]"
+            style={{
+              background: `radial-gradient(circle at ${mouseX.get() * 100}% ${
+                mouseY.get() * 100
+              }%, rgba(255, 255, 255, 0.08) 0%, transparent 60%)`,
+            }}
+          />
+        )}
+
+        {/* Card Header */}
+        <div className="relative z-10 flex items-center justify-between gap-3 mb-4 border-b border-white/[0.08] pb-3">
+          <div className="flex items-center gap-2">
+            <span
+              className="w-2 h-2 rounded-full animate-ping"
+              style={{ background: item.accentColor }}
+            />
+            <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-slate-400 uppercase">
+              FRAME // 0{index + 1}
+            </span>
+          </div>
+
+          <div
+            className="px-2.5 py-0.5 rounded-full border text-[9px] font-mono font-extrabold uppercase tracking-widest"
+            style={{
+              borderColor: `${item.accentColor}40`,
+              backgroundColor: `${item.accentColor}12`,
+              color: item.accentColor,
+            }}
+          >
+            {item.genre}
+          </div>
+        </div>
+
+        {/* Quote Content */}
+        <div className="relative z-10 min-h-[90px] flex items-center">
+          <Quote className="absolute -top-3 -left-2 w-12 h-12 text-white/[0.03] rotate-180 pointer-events-none" />
+          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-snug">
+            &ldquo;{item.quote}&rdquo;
+          </h3>
+        </div>
+
+        {/* Author Footer */}
+        <div className="relative z-10 mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between gap-3">
+          <div>
+            <p
+              className={`text-base font-extrabold text-transparent bg-clip-text bg-gradient-to-r ${item.gradientText}`}
+            >
+              {item.author}
+            </p>
+            <p className="text-[10px] text-slate-400 font-mono">{item.role}</p>
+          </div>
+
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/10 text-slate-300 font-mono text-[10px]">
+            <Sparkles className="w-3 h-3" style={{ color: item.accentColor }} />
+            <span>0{index + 1}/0{total}</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
+/* ── Main IMAX Quotes Component ── */
 export default function Quite() {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [activeFact, setActiveFact] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-  const next = useCallback(() => setIndex((i) => (i + 1) % QUOTES.length), []);
-  const prev = useCallback(
-    () => setIndex((i) => (i - 1 + QUOTES.length) % QUOTES.length),
-    []
-  );
-  const shuffle = useCallback(() => {
-    setIndex((i) => {
-      if (QUOTES.length < 2) return i;
-      let n = i;
-      while (n === i) n = Math.floor(Math.random() * QUOTES.length);
-      return n;
-    });
-  }, []);
+  const next = () => setActiveIndex((prev) => (prev + 1) % IMAX_QUOTES.length);
+  const prev = () => setActiveIndex((prev) => (prev - 1 + IMAX_QUOTES.length) % IMAX_QUOTES.length);
+  const shuffle = () => {
+    let nextIdx = activeIndex;
+    while (nextIdx === activeIndex) {
+      nextIdx = Math.floor(Math.random() * IMAX_QUOTES.length);
+    }
+    setActiveIndex(nextIdx);
+  };
 
+  // Autoplay
   useEffect(() => {
-    if (paused) return;
-    const t = setInterval(next, AUTOPLAY_MS);
-    return () => clearInterval(t);
-  }, [paused, next, index]);
+    if (!isPlaying) return;
+    const interval = setInterval(next, 6000);
+    return () => clearInterval(interval);
+  }, [isPlaying, activeIndex]);
 
-  // manifesto auto-highlight
-  useEffect(() => {
-    const t = setInterval(
-      () => setActiveFact((i) => (i + 1) % MANIFESTO.length),
-      2800
-    );
-    return () => clearInterval(t);
-  }, []);
-
-  const quote = QUOTES[index];
+  const activeQuote = IMAX_QUOTES[activeIndex];
 
   return (
-    <section className="py-8" id="words">
+    <section className="relative py-6 overflow-hidden select-none" id="words">
+      {/* Dynamic Ambient Background Aura */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <motion.div
+          animate={{
+            scale: [1, 1.25, 1],
+            opacity: [0.25, 0.45, 0.25],
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-[520px] h-[320px] rounded-full blur-[120px] transition-colors duration-1000"
+          style={{ background: activeQuote.bgGlow }}
+        />
+      </div>
+
+      {/* Header */}
       <motion.div
-        className="mb-12 text-center"
-        initial={{ opacity: 0, y: 24 }}
+        className="relative z-10 mb-5 text-center"
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
       >
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-fuchsia-400">
-          Kinetic theater
-        </span>
-        <h2 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-[10px] font-mono uppercase tracking-widest mb-1.5">
+          <Film className="w-3 h-3 text-indigo-400" />
+          3D IMAX Cinema Reel
+        </div>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
           Words that{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-indigo-400">
-            move me
+          <span
+            className={`text-transparent bg-clip-text bg-gradient-to-r ${activeQuote.gradientText} transition-all duration-700`}
+          >
+            Shape Mindset
           </span>
         </h2>
       </motion.div>
 
-      {/* immersive quote stage */}
-      <div
-        className="relative py-16 sm:py-24"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        <Quote className="absolute top-4 left-4 sm:left-8 w-20 h-20 text-white/[0.04] rotate-180 pointer-events-none" />
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="w-[70%] h-[70%] rounded-full bg-fuchsia-600/10 blur-[100px]" />
-        </div>
-
-        <div className="relative text-center px-4 min-h-[200px] sm:min-h-[240px] flex flex-col items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              <KineticQuote text={quote.text} />
-              <motion.p
-                className="mt-8 text-xs sm:text-sm uppercase tracking-[0.35em] text-fuchsia-300/80"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                — {quote.author}
-              </motion.p>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        <div className="relative mt-10 flex items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={prev}
-            className="p-2.5 rounded-full border border-white/10 text-slate-400 hover:text-white hover:border-white/30 transition-colors"
-            aria-label="Previous quote"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={shuffle}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/15 text-xs uppercase tracking-widest text-slate-300 hover:text-white hover:border-fuchsia-400/40 hover:bg-fuchsia-500/10 transition-all"
-          >
-            <Shuffle className="w-3.5 h-3.5" />
-            Shuffle
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            className="p-2.5 rounded-full border border-white/10 text-slate-400 hover:text-white hover:border-white/30 transition-colors"
-            aria-label="Next quote"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="mt-6 flex justify-center gap-2">
-          {QUOTES.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIndex(i)}
-              className={`h-1 rounded-full transition-all duration-500 ${
-                i === index ? "w-10 bg-fuchsia-400" : "w-2 bg-white/20"
-              }`}
-              aria-label={`Quote ${i + 1}`}
+      {/* Compact 3D IMAX Stage Viewport */}
+      <div className="relative h-[245px] sm:h-[260px] flex items-center justify-center perspective-[1000px]">
+        <div className="relative w-full max-w-2xl h-full flex items-center justify-center">
+          {IMAX_QUOTES.map((item, idx) => (
+            <IMAXCard
+              key={item.id}
+              item={item}
+              index={idx}
+              activeIndex={activeIndex}
+              total={IMAX_QUOTES.length}
+              onSelect={setActiveIndex}
             />
           ))}
         </div>
       </div>
 
-      {/* manifesto — editorial list, not cards */}
-      <div className="mt-20 max-w-3xl mx-auto">
-        <div className="flex items-end justify-between mb-8 px-1">
-          <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight">
-            Life manifesto
-          </h3>
-          <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500">
-            Auto-highlight
-          </span>
+      {/* Compact 3D IMAX Controls Bar */}
+      <div className="relative z-20 mt-3 flex flex-col items-center gap-2.5">
+        {/* Navigation Controls */}
+        <div className="flex items-center gap-2.5 p-1.5 rounded-full border border-white/10 bg-slate-950/85 backdrop-blur-2xl shadow-2xl">
+          <button
+            onClick={prev}
+            className="p-2.5 rounded-full hover:bg-white/10 text-slate-300 hover:text-white transition-all active:scale-90"
+            title="Previous"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="p-2.5 rounded-full hover:bg-white/10 text-slate-300 hover:text-white transition-all active:scale-90"
+            title={isPlaying ? "Pause" : "Play"}
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <Pause className="w-4 h-4 text-indigo-400" />
+            ) : (
+              <Play className="w-4 h-4 text-emerald-400" />
+            )}
+          </button>
+
+          <button
+            onClick={shuffle}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold text-[11px] uppercase tracking-widest shadow-lg shadow-indigo-500/25 transition-all active:scale-95"
+          >
+            <Shuffle className="w-3 h-3" />
+            Shuffle Reel
+          </button>
+
+          <button
+            onClick={next}
+            className="p-2.5 rounded-full hover:bg-white/10 text-slate-200 hover:text-white transition-all active:scale-90"
+            title="Next"
+            aria-label="Next"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
 
-        <ul className="divide-y divide-white/[0.06]">
-          {MANIFESTO.map((item, i) => {
-            const on = i === activeFact;
-            return (
-              <li key={item.k}>
-                <button
-                  type="button"
-                  onMouseEnter={() => setActiveFact(i)}
-                  onFocus={() => setActiveFact(i)}
-                  onClick={() => setActiveFact(i)}
-                  className="w-full text-left py-5 sm:py-6 flex items-baseline gap-4 sm:gap-8 group transition-colors"
-                >
-                  <span
-                    className={`font-mono text-xs sm:text-sm transition-colors duration-300 ${
-                      on ? "text-fuchsia-400" : "text-slate-600"
-                    }`}
-                  >
-                    {item.k}
-                  </span>
-                  <span className="flex-1 min-w-0">
-                    <span
-                      className={`block text-lg sm:text-2xl font-bold tracking-tight transition-all duration-300 ${
-                        on
-                          ? "text-white translate-x-1 sm:translate-x-2"
-                          : "text-slate-500 group-hover:text-slate-300"
-                      }`}
-                    >
-                      {item.label}
-                    </span>
-                    <AnimatePresence>
-                      {on && (
-                        <motion.span
-                          className="block mt-1 text-sm text-slate-400"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25 }}
-                        >
-                          {item.v}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        {/* Filmstrip Progress Indicators */}
+        <div className="flex items-center gap-1.5">
+          {IMAX_QUOTES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                i === activeIndex
+                  ? "w-8 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 shadow-md shadow-indigo-500/40"
+                  : "w-1.5 bg-white/20 hover:bg-white/40"
+              }`}
+              aria-label={`Go to frame ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

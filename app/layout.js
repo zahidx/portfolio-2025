@@ -1,6 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./pages/Nav";
+import AnalyticsTracker from "./components/AnalyticsTracker";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,10 +74,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
         {/* Navbar */}
         <Nav />
 
         {children}
+
+        {/* Vercel Web Analytics & Speed Performance Telemetry */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

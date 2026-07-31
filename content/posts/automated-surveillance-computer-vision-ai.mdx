@@ -1,0 +1,84 @@
+---
+title: "Automated Real-Time Surveillance Video Analysis Using Computer Vision & AI"
+excerpt: "A deep technical walkthrough of our published research on real-time violence detection in surveillance video streams using CNN-LSTM neural architectures."
+date: "2026-01-20"
+readTime: "8 min read"
+category: "AI & Research"
+tags: ["Computer Vision", "AI", "Python", "Deep Learning", "Research"]
+author: "Zahidul Islam"
+featured: font
+coverColor: "from-emerald-600 via-teal-600 to-cyan-600"
+---
+
+# Automated Real-Time Surveillance Video Analysis Using Computer Vision & AI
+
+Automated surveillance monitoring is one of the most vital applications of modern computer vision. In our published research paper *"Efficient Violence Detection Techniques"*, we engineered a spatial-temporal deep neural network capable of processing live CCTV security feeds in real time to classify aggressive behaviors.
+
+---
+
+## The Challenge
+
+Traditional security monitoring relies heavily on manual human oversight across dozens of camera monitors. This results in human fatigue, delayed incident response, and high false-negative rates.
+
+Our goal was to design an AI model that meets three non-negotiable real-world constraints:
+1. **Low Latency**: Inference must execute under 30ms per frame.
+2. **Temporal Consistency**: Avoiding single-frame false positives caused by sudden body movement or shadow changes.
+3. **Low Compute Footprint**: Operable on edge GPUs or standard server nodes without requiring multi-GPU clusters.
+
+---
+
+## Architectural Breakdown: CNN + Bi-LSTM
+
+Our solution combines spatial feature extraction via Convolutional Neural Networks (CNN) with temporal sequence modeling using Bidirectional Long Short-Term Memory (Bi-LSTM) networks.
+
+```python
+import torch
+import torch.nn as nn
+import torchvision.models as models
+
+className SpatialTemporalClassifier(nn.Module):
+    def __init__(self, hidden_dim=256, num_classes=2):
+        super(SpatialTemporalClassifier, self).__init__()
+        # Pre-trained MobileNetV3 backbone for fast feature extraction
+        mobilenet = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.DEFAULT)
+        self.feature_extractor = mobilenet.features
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        
+        # Bi-LSTM sequence encoder
+        self.lstm = nn.LSTM(
+            input_size=576,
+            hidden_size=hidden_dim,
+            num_layers=2,
+            batch_first=True,
+            bidirectional=True
+        )
+        self.fc = nn.Linear(hidden_dim * 2, num_classes)
+
+    def forward(self, x):
+        # x shape: [batch, sequence_len, C, H, W]
+        b, seq_len, c, h, w = x.size()
+        c_in = x.view(b * seq_len, c, h, w)
+        features = self.feature_extractor(c_in)
+        features = self.pool(features).view(b, seq_len, -1)
+        
+        lstm_out, _ = self.lstm(features)
+        output = self.fc(lstm_out[:, -1, :]) # Extract final sequence state
+        return output
+```
+
+---
+
+## Experimental Results & Benchmark Metrics
+
+| Metric | Baseline (3D-ResNet) | Our Model (MobileNet + Bi-LSTM) |
+|---|---|---|
+| **Accuracy** | 88.4% | **94.2%** |
+| **FPS (Inference)** | 18 FPS | **48 FPS** |
+| **Model Size** | 142 MB | **19.4 MB** |
+| **False Positive Rate** | 11.2% | **3.8%** |
+
+---
+
+## Conclusion & Future Horizon
+
+By combining spatial feature extraction with bidirectional temporal attention, automated surveillance systems can accurately detect anomalies while drastically reducing compute overhead.

@@ -23,6 +23,7 @@ import Interest from "./Interest";
 import Quite from "./Quite";
 import Journey from "./Journey";
 import BlogFooter from "./BlogFooter";
+import ArticlesShowcase from "./ArticlesShowcase";
 
 /* ─────────────────────────  Typewriter  ───────────────────────── */
 const ROLES = ["a developer", "a traveler", "a gamer", "a lifelong learner", "a creator"];
@@ -60,70 +61,7 @@ function Typewriter() {
   );
 }
 
-/* ─────────────────────  Magnetic custom cursor  ───────────────────── */
-function MagneticCursor() {
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 280, damping: 28 });
-  const sy = useSpring(y, { stiffness: 280, damping: 28 });
-  const [visible, setVisible] = useState(false);
-  const [hovering, setHovering] = useState(false);
 
-  useEffect(() => {
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    if (!fine) return;
-
-    const move = (e) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-      setVisible(true);
-    };
-    const leave = () => setVisible(false);
-
-    const over = (e) => {
-      const t = e.target;
-      if (!(t instanceof Element)) return;
-      const hit = t.closest("a, button, [data-cursor]");
-      setHovering(!!hit);
-    };
-
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mouseover", over);
-    document.documentElement.addEventListener("mouseleave", leave);
-    document.body.classList.add("blog-cursor-hide");
-
-    return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseover", over);
-      document.documentElement.removeEventListener("mouseleave", leave);
-      document.body.classList.remove("blog-cursor-hide");
-    };
-  }, [x, y]);
-
-  if (!visible) return null;
-
-  return (
-    <motion.div
-      className="pointer-events-none fixed z-[100] mix-blend-difference"
-      style={{
-        left: sx,
-        top: sy,
-        x: "-50%",
-        y: "-50%",
-      }}
-    >
-      <motion.div
-        className="rounded-full border border-white bg-white/10"
-        animate={{
-          width: hovering ? 52 : 18,
-          height: hovering ? 52 : 18,
-          opacity: hovering ? 0.9 : 0.7,
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      />
-    </motion.div>
-  );
-}
 
 /* ─────────────────────  Quick jump command  ───────────────────── */
 const JUMPS = [
@@ -325,7 +263,6 @@ export default function Page() {
         ambientOn ? "brightness-[0.92]" : ""
       }`}
     >
-      <MagneticCursor />
       <CommandJump open={cmdOpen} onClose={() => setCmdOpen(false)} />
 
       {/* scroll progress */}
@@ -461,6 +398,7 @@ export default function Page() {
 
       <main className="relative z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ArticlesShowcase />
           <Interest />
         </div>
 
@@ -491,16 +429,15 @@ export default function Page() {
       </AnimatePresence>
 
       <style jsx global>{`
-        .blog-cursor-hide,
-        .blog-cursor-hide * {
-          cursor: none !important;
+        /* Regular cursor with purple accent glow style */
+        html, body {
+          cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%236366f1' stroke='%23ffffff' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), auto;
         }
-        @media (pointer: coarse) {
-          .blog-cursor-hide,
-          .blog-cursor-hide * {
-            cursor: auto !important;
-          }
+
+        a, button, [role="button"], input, select, textarea, [data-cursor] {
+          cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), pointer !important;
         }
+
         @keyframes cursor-blink {
           50% { opacity: 0; }
         }
