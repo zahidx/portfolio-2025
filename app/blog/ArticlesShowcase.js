@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Search,
-  BookOpen,
-  Calendar,
-  Clock,
-  ArrowRight,
-  Tag,
-  Sparkles,
+    ArrowRight,
+    BookOpen,
+    Calendar,
+    Clock,
+    Search
 } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 export default function ArticlesShowcase({ posts: initialPosts = [] }) {
   const [posts, setPosts] = useState(initialPosts);
@@ -21,7 +19,7 @@ export default function ArticlesShowcase({ posts: initialPosts = [] }) {
   useEffect(() => {
     if (initialPosts.length === 0) {
       fetch("/api/posts")
-        .then((res) => res.json())
+        .then((res) => (res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`))))
         .then((data) => {
           if (Array.isArray(data)) setPosts(data);
         })

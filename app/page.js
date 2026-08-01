@@ -1,17 +1,19 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import About from "./pages/About";
-import Skills from "./pages/Skill";
-import Experience from "./pages/Experience";
-import Services from "./pages/Services";
-import Project from "./pages/Project";
-import Extra from "./pages/Extra";
-import Hobby from "./pages/Hobby";
-import Contact from "./pages/Contact";
-import Footer from "./pages/Footer";
-import Home from "./pages/Home";
-import GithubActivityGraph from "./components/GithubActivityGraph";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { Download } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import GithubActivityGraph from "./components/GithubActivityGraph";
+import VisitorGlobe from "./components/VisitorGlobe";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Experience from "./pages/Experience";
+import Extra from "./pages/Extra";
+import Footer from "./pages/Footer";
+import Hobby from "./pages/Hobby";
+import Home from "./pages/Home";
+import Project from "./pages/Project";
+import Services from "./pages/Services";
+import Skills from "./pages/Skill";
 
 export default function Page() {
   const [showInstallButton, setShowInstallButton] = useState(false);
@@ -87,6 +89,7 @@ export default function Page() {
         <About />
         <Skills />
         <GithubActivityGraph />
+        <VisitorGlobe />
         <Experience />
         <Services />
         <Project />
@@ -99,9 +102,11 @@ export default function Page() {
         {showInstallButton && (
           <button
             onClick={handleInstallClick}
-            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-3  text-white rounded-lg shadow-xl transition-transform duration-300 transform hover:scale-105 "
+            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-95 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
+            aria-label="Install this app"
           >
-            
+            <Download className="w-4 h-4" />
+            <span>Install App</span>
           </button>
         )}
       </div>

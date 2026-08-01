@@ -417,7 +417,7 @@ export default function Page() {
             key="back-to-top"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             data-cursor
-            className="fixed bottom-6 right-6 z-50 p-3 rounded-full border border-white/15 bg-[#0a0a1c]/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-fuchsia-400/50 transition-colors"
+            className="fixed bottom-6 right-44 sm:right-48 z-50 p-3 rounded-full border border-white/15 bg-[#0a0a1c]/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-fuchsia-400/50 transition-colors"
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.8 }}

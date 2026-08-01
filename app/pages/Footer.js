@@ -1,14 +1,28 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
 import {
-  FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaGithub, FaWhatsapp,
-} from "react-icons/fa";
-import {
-  MapPin, Mail, Phone, ArrowUp, Send, ExternalLink,
-  Home, User, Briefcase, Layers, FolderOpen, MessageSquare, BookOpen,
+    ArrowUp,
+    BookOpen,
+    Briefcase,
+    ExternalLink,
+    FolderOpen,
+    Home,
+    Layers,
+    Mail,
+    MapPin,
+    MessageSquare,
+    Phone,
+    Send,
+    User,
 } from "lucide-react";
-import { db, collection, addDoc } from "../components/firebase";
+import Link from "next/link";
+import { useState } from "react";
+import {
+    FaFacebookF,
+    FaGithub,
+    FaInstagram, FaLinkedinIn,
+    FaTwitter,
+    FaWhatsapp,
+} from "react-icons/fa";
 
 const socialLinks = [
   { icon: FaGithub,    href: "https://github.com/zahidx",        label: "GitHub",    color: "hover:text-white hover:bg-gray-700" },
@@ -46,7 +60,12 @@ export default function Footer() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json();
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        // Non-JSON error body — fall back to generic error below.
+      }
       if (res.ok) {
         setSubscribed(true);
         setEmail("");
@@ -230,7 +249,7 @@ export default function Footer() {
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Back to top"
-            className="group flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-slate-700/60 text-xs text-slate-400 hover:text-indigo-400 active:scale-95 transition-all duration-200"
+            className="group flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-slate-700/60 text-xs text-slate-400 hover:text-indigo-400 active:scale-95 transition-all duration-200 mr-36 sm:mr-44"
           >
             <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
             <span>Back to top</span>

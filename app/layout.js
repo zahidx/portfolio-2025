@@ -1,10 +1,11 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Nav from "./pages/Nav";
-import AnalyticsTracker from "./components/AnalyticsTracker";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
+import AnalyticsTracker from "./components/AnalyticsTracker";
+import LazyModals from "./components/LazyModals";
+import "./globals.css";
+import Nav from "./pages/Nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +78,7 @@ export default function RootLayout({ children }) {
         <Suspense fallback={null}>
           <AnalyticsTracker />
         </Suspense>
+        <LazyModals />
         {/* Navbar */}
         <Nav />
 

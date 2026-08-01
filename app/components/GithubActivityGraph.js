@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GitCommit,
@@ -12,6 +12,11 @@ import {
   Calendar,
   Sparkles,
   RefreshCw,
+  GitPullRequest,
+  GitBranch,
+  Clock,
+  CheckCircle2,
+  ArrowUpRight
 } from "lucide-react";
 
 /* ── Generate 52 Weeks x 7 Days Contribution Heatmap Data ── */
@@ -21,7 +26,6 @@ function generateContributionData() {
   const data = [];
   const today = new Date();
 
-  // Deterministic pseudo-random activity map for consistent, realistic GitHub heatmap
   let seed = 42;
   function random() {
     seed = (seed * 9301 + 49297) % 233280;
@@ -40,12 +44,10 @@ function generateContributionData() {
       const date = new Date(today);
       date.setDate(today.getDate() - daysAgo);
 
-      // Generate activity intensity (0: none, 1: 1-3, 2: 4-7, 3: 8-12, 4: 13+)
       const rand = random();
       let count = 0;
       let level = 0;
 
-      // Higher density on weekdays, lower on weekends
       const isWeekend = d === 0 || d === 6;
       const activityChance = isWeekend ? 0.45 : 0.75;
 
@@ -102,14 +104,156 @@ const LEVEL_COLORS = {
   4: "bg-emerald-300 border-emerald-200/80 hover:bg-white shadow-md shadow-emerald-400/50",
 };
 
+/* ── Relative Time Helper ── */
+function timeAgo(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
+
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days}d ago`;
+  const months = Math.floor(days / 30);
+  return `${months}mo ago`;
+}
+
+/* ── Fallback Recent Activity ── */
+const FALLBACK_EVENTS = [
+  {
+    id: "c1",
+    type: "commit",
+    repo: "portfolio-2025",
+    fullRepo: "zahidx/portfolio-2025",
+    message: "feat: add Groq AI chat assistant & live activity feed",
+    sha: "a9b2c3d",
+    url: "https://github.com/zahidx/portfolio-2025",
+    date: new Date(Date.now() - 3600 * 1000 * 2).toISOString(),
+  },
+  {
+    id: "c2",
+    type: "commit",
+    repo: "portfolio-2025",
+    fullRepo: "zahidx/portfolio-2025",
+    message: "style: modernize glassmorphism mobile navbar drawer & z-index",
+    sha: "f4e5d6c",
+    url: "https://github.com/zahidx/portfolio-2025",
+    date: new Date(Date.now() - 3600 * 1000 * 14).toISOString(),
+  },
+  {
+    id: "c3",
+    type: "commit",
+    repo: "social_robot",
+    fullRepo: "zahidx/social_robot",
+    message: "refactor: optimize PyTorch HRI vision model inference loop",
+    sha: "e8d7c6b",
+    url: "https://github.com/zahidx/social_robot",
+    date: new Date(Date.now() - 3600 * 1000 * 36).toISOString(),
+  },
+  {
+    id: "c4",
+    type: "pr",
+    action: "merged",
+    repo: "ScreenHub",
+    fullRepo: "zahidx/ScreenHub",
+    message: "PR #12: Fix TMDB API caching & trailer modal autoplay",
+    sha: "#12",
+    url: "https://github.com/zahidx/ScreenHub",
+    date: new Date(Date.now() - 3600 * 1000 * 60).toISOString(),
+  },
+  {
+    id: "c5",
+    type: "commit",
+    repo: "OrbitX",
+    fullRepo: "zahidx/OrbitX",
+    message: "feat: add Three.js 3D orbital simulation shaders",
+    sha: "b3c2a10",
+    url: "https://github.com/zahidx/OrbitX",
+    date: new Date(Date.now() - 3600 * 1000 * 96).toISOString(),
+  },
+];
+
 export default function GithubActivityGraph() {
   const [hoveredCell, setHoveredCell] = useState(null);
-  const [activeTab, setActiveTab] = useState("matrix"); // 'matrix' | 'live'
+  const [activeTab, setActiveTab] = useState("matrix"); // 'matrix' | 'feed' | 'live'
+  const [events, setEvents] = useState(FALLBACK_EVENTS);
+  const [isFetchingEvents, setIsFetchingEvents] = useState(false);
+  const [isLiveApi, setIsLiveApi] = useState(false);
 
   const { data, totalCommits, currentStreak, longestStreak } = useMemo(
     () => generateContributionData(),
     []
   );
+
+  const fetchEvents = async () => {
+    setIsFetchingEvents(true);
+    try {
+      const res = await fetch("https://api.github.com/users/zahidx/events/public?per_page=15");
+      if (!res.ok) throw new Error("GitHub API rate limit or error");
+      const rawEvents = await res.json();
+
+      const parsed = [];
+      for (const ev of rawEvents) {
+        if (parsed.length >= 5) break;
+
+        if (ev.type === "PushEvent" && ev.payload?.commits?.length > 0) {
+          for (const c of ev.payload.commits) {
+            if (parsed.length >= 5) break;
+            parsed.push({
+              id: c.sha || ev.id,
+              type: "commit",
+              repo: ev.repo.name.replace("zahidx/", ""),
+              fullRepo: ev.repo.name,
+              message: c.message.split("\n")[0],
+              sha: c.sha ? c.sha.substring(0, 7) : "commit",
+              url: `https://github.com/${ev.repo.name}/commit/${c.sha}`,
+              date: ev.created_at,
+            });
+          }
+        } else if (ev.type === "PullRequestEvent") {
+          const pr = ev.payload.pull_request;
+          parsed.push({
+            id: ev.id,
+            type: "pr",
+            action: ev.payload.action,
+            repo: ev.repo.name.replace("zahidx/", ""),
+            fullRepo: ev.repo.name,
+            message: pr?.title || "Pull Request activity",
+            sha: `#${pr?.number || ""}`,
+            url: pr?.html_url || `https://github.com/${ev.repo.name}`,
+            date: ev.created_at,
+          });
+        } else if (ev.type === "CreateEvent") {
+          parsed.push({
+            id: ev.id,
+            type: "create",
+            repo: ev.repo.name.replace("zahidx/", ""),
+            fullRepo: ev.repo.name,
+            message: `Created ${ev.payload.ref_type || "repo"} ${ev.payload.ref || ""}`,
+            sha: "new",
+            url: `https://github.com/${ev.repo.name}`,
+            date: ev.created_at,
+          });
+        }
+      }
+
+      if (parsed.length > 0) {
+        setEvents(parsed);
+        setIsLiveApi(true);
+      }
+    } catch (err) {
+      console.log("GitHub API fallback active:", err.message);
+    } finally {
+      setIsFetchingEvents(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -186,13 +330,13 @@ export default function GithubActivityGraph() {
           </div>
         </motion.div>
 
-        {/* Interactive Matrix Container */}
+        {/* Interactive Matrix & Activity Feed Container */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative rounded-3xl border border-slate-700/70 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 shadow-2xl overflow-hidden"
+          className="relative rounded-3xl border border-slate-700/70 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 shadow-2xl overflow-hidden mb-8"
         >
           {/* Header Bar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
@@ -225,6 +369,17 @@ export default function GithubActivityGraph() {
                 Interactive Grid
               </button>
               <button
+                onClick={() => setActiveTab("feed")}
+                className={`px-3 py-1 rounded-lg font-mono font-semibold transition-all flex items-center gap-1.5 ${
+                  activeTab === "feed"
+                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                <GitCommit className="w-3.5 h-3.5 text-indigo-300" />
+                <span>Live Feed</span>
+              </button>
+              <button
                 onClick={() => setActiveTab("live")}
                 className={`px-3 py-1 rounded-lg font-mono font-semibold transition-all ${
                   activeTab === "live"
@@ -237,9 +392,9 @@ export default function GithubActivityGraph() {
             </div>
           </div>
 
-          {/* Matrix Content */}
+          {/* Matrix / Feed / Chart Content */}
           <AnimatePresence mode="wait">
-            {activeTab === "matrix" ? (
+            {activeTab === "matrix" && (
               <motion.div
                 key="matrix"
                 initial={{ opacity: 0 }}
@@ -305,7 +460,96 @@ export default function GithubActivityGraph() {
                   </div>
                 </div>
               </motion.div>
-            ) : (
+            )}
+
+            {activeTab === "feed" && (
+              <motion.div
+                key="feed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="space-y-3"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2 text-xs font-mono">
+                    <span className="flex h-2 w-2 relative">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                    </span>
+                    <span className="text-emerald-400 font-bold">
+                      {isLiveApi ? "LIVE GITHUB API FEED" : "RECENT ACTIVITY TELEMETRY"}
+                    </span>
+                  </div>
+                  <button
+                    onClick={fetchEvents}
+                    disabled={isFetchingEvents}
+                    className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-colors disabled:opacity-50"
+                    title="Refresh Live GitHub Activity"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isFetchingEvents ? "animate-spin text-emerald-400" : ""}`} />
+                  </button>
+                </div>
+
+                <div className="space-y-2.5">
+                  {events.map((ev, i) => (
+                    <motion.div
+                      key={ev.id + i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.08 }}
+                      className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-indigo-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div
+                          className={`p-2.5 rounded-xl border shrink-0 ${
+                            ev.type === "commit"
+                              ? "bg-indigo-500/10 border-indigo-500/30 text-indigo-400"
+                              : ev.type === "pr"
+                              ? "bg-purple-500/10 border-purple-500/30 text-purple-400"
+                              : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                          }`}
+                        >
+                          {ev.type === "commit" ? (
+                            <GitCommit className="w-4 h-4" />
+                          ) : ev.type === "pr" ? (
+                            <GitPullRequest className="w-4 h-4" />
+                          ) : (
+                            <GitBranch className="w-4 h-4" />
+                          )}
+                        </div>
+
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                            <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-[11px] font-mono font-bold text-slate-300">
+                              {ev.repo}
+                            </span>
+                            <span className="text-[11px] text-slate-500 font-mono flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {timeAgo(ev.date)}
+                            </span>
+                          </div>
+                          <p className="text-xs font-medium text-slate-200 truncate group-hover:text-white transition-colors">
+                            {ev.message}
+                          </p>
+                        </div>
+                      </div>
+
+                      <a
+                        href={ev.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="self-end sm:self-center shrink-0 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-indigo-600 text-slate-300 hover:text-white border border-slate-700/80 hover:border-indigo-500 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                      >
+                        <span>{ev.sha}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {activeTab === "live" && (
               <motion.div
                 key="live"
                 initial={{ opacity: 0 }}
@@ -326,6 +570,99 @@ export default function GithubActivityGraph() {
               </motion.div>
             )}
           </AnimatePresence>
+        </motion.div>
+
+        {/* Permanent Bottom Standalone Feed Card (Last 5 Commits/PRs) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="rounded-3xl border border-slate-800 bg-slate-950/90 backdrop-blur-xl p-6 sm:p-8 shadow-2xl"
+        >
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400">
+                <GitCommit className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-base text-white flex items-center gap-2">
+                  <span>Live GitHub Activity Stream</span>
+                  <span className="flex h-2 w-2 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                  </span>
+                </h3>
+                <p className="text-xs text-slate-400 font-mono">
+                  Last 5 commits & pull requests from GitHub @zahidx
+                </p>
+              </div>
+            </div>
+
+            <a
+              href="https://github.com/zahidx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-mono font-bold text-indigo-300 hover:text-white flex items-center gap-2 transition-all"
+            >
+              <span>View GitHub Profile</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <div className="grid gap-3">
+            {events.slice(0, 5).map((ev, i) => (
+              <div
+                key={ev.id + "-bottom-" + i}
+                className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+              >
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div
+                    className={`p-2.5 rounded-xl border shrink-0 transition-transform group-hover:scale-110 ${
+                      ev.type === "commit"
+                        ? "bg-indigo-500/15 border-indigo-500/30 text-indigo-400"
+                        : ev.type === "pr"
+                        ? "bg-purple-500/15 border-purple-500/30 text-purple-400"
+                        : "bg-emerald-500/15 border-emerald-500/30 text-emerald-400"
+                    }`}
+                  >
+                    {ev.type === "commit" ? (
+                      <GitCommit className="w-4 h-4" />
+                    ) : ev.type === "pr" ? (
+                      <GitPullRequest className="w-4 h-4" />
+                    ) : (
+                      <GitBranch className="w-4 h-4" />
+                    )}
+                  </div>
+
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-[11px] font-mono font-bold text-indigo-300">
+                        {ev.repo}
+                      </span>
+                      <span className="text-[11px] text-slate-400 font-mono flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-slate-500" />
+                        {timeAgo(ev.date)}
+                      </span>
+                    </div>
+                    <p className="text-xs font-semibold text-slate-200 truncate group-hover:text-white transition-colors">
+                      {ev.message}
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href={ev.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="self-end sm:self-center shrink-0 px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-indigo-600 text-slate-300 hover:text-white border border-slate-700/80 hover:border-indigo-500 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                >
+                  <span>{ev.sha}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

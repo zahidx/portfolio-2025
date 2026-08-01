@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Home, User, Laptop, Archive, Folder, Phone, Edit } from "lucide-react";
+import { Home, User, Laptop, Archive, Folder, Phone, Edit, Terminal } from "lucide-react";
 import DarkModeToggle from "../components/DarkModeToggle";
 import MobileNav from "./mobile-nav";
 
@@ -144,7 +144,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile nav */}
-        <MobileNav />
+        <MobileNav activeSection={activeSection} />
       </div>
     );
   }
@@ -216,7 +216,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        <MobileNav />
+        <MobileNav activeSection={activeSection} />
       </div>
     </header>
   );

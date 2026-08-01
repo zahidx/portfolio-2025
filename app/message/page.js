@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { db, collection, getDocs } from "../components/firebase"; // Import Firestore methods
-import { Oval } from "react-loader-spinner"; // Import the loader
 import { formatDistanceToNow } from "date-fns"; // Import date-fns for time formatting
+import { useEffect, useState } from "react";
+import { Oval } from "react-loader-spinner"; // Import the loader
+import { collection, db, getDocs } from "../components/firebase"; // Import Firestore methods
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -194,7 +194,12 @@ function BroadcastForm({ password, emailsCount }) {
           accessCode: password || "8209",
         }),
       });
-      const data = await res.json();
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        // Non-JSON error body — fall back to generic message below.
+      }
       if (res.ok) {
         setStatusMsg(`✅ ${data.message || `Successfully broadcast to ${emailsCount} subscribers!`}`);
         setSubject("");
