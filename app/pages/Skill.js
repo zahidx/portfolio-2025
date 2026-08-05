@@ -242,11 +242,11 @@ function FeaturedBentoCard({ skill, index }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4 }}
-      className="group relative rounded-3xl p-6 sm:p-7 overflow-hidden cursor-pointer bg-slate-950/90 border border-slate-800/90 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1.5 shadow-xl hover:shadow-2xl flex flex-col justify-between"
+      className="group relative rounded-3xl p-6 sm:p-7 overflow-hidden cursor-pointer bg-slate-950/40 border border-slate-800/80 hover:border-slate-700 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 shadow-xl hover:shadow-2xl flex flex-col justify-between"
     >
       {/* Background Accent Gradient Aura */}
       <div
-        className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-15 group-hover:opacity-45 transition-opacity duration-500 pointer-events-none"
+        className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-10 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none"
         style={{ background: skill.glow }}
       />
       <div
@@ -259,9 +259,8 @@ function FeaturedBentoCard({ skill, index }) {
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3.5">
             <div
-              className="w-13 h-13 rounded-2xl flex items-center justify-center border shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+              className="w-13 h-13 rounded-2xl flex items-center justify-center border shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 bg-slate-900/50"
               style={{
-                background: `rgba(15, 23, 42, 0.9)`,
                 borderColor: `${g1}44`,
                 boxShadow: `0 0 16px ${skill.glow}`,
               }}
@@ -277,7 +276,7 @@ function FeaturedBentoCard({ skill, index }) {
                   className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase border flex items-center gap-1 shrink-0"
                   style={{
                     color: g1,
-                    background: `${g1}18`,
+                    background: `${g1}12`,
                     borderColor: `${g1}44`,
                   }}
                 >
@@ -296,11 +295,7 @@ function FeaturedBentoCard({ skill, index }) {
 
         {/* Feature Highlight Description */}
         <p
-          className="text-xs sm:text-sm text-slate-200 leading-relaxed font-light mb-5 p-3 rounded-xl border backdrop-blur-md"
-          style={{
-            background: `${g1}0D`,
-            borderColor: `${g1}25`,
-          }}
+          className="text-xs sm:text-sm text-slate-200 leading-relaxed font-light mb-5 p-3 rounded-xl border border-slate-800/60 bg-transparent"
         >
           <span style={{ color: g1 }}>✦</span> {skill.highlight}
         </p>
@@ -356,7 +351,7 @@ function CompactSkillCard({ skill, index }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 15 }}
       transition={{ duration: 0.35, delay: index * 0.04 }}
-      className="group relative rounded-2xl p-4 sm:p-5 overflow-hidden cursor-pointer bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-xl"
+      className="group relative rounded-2xl p-4 sm:p-5 overflow-hidden cursor-pointer bg-slate-950/40 border border-slate-800/80 hover:border-slate-700 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-xl"
     >
       <div
         className="absolute top-0 inset-x-0 h-[2px] opacity-30 group-hover:opacity-100 transition-opacity duration-300"
@@ -366,9 +361,8 @@ function CompactSkillCard({ skill, index }) {
       <div className="flex items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-105"
+            className="w-10 h-10 rounded-xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-105 bg-slate-900/50"
             style={{
-              background: `rgba(15, 23, 42, 0.9)`,
               borderColor: `${g1}33`,
               boxShadow: `0 0 10px ${skill.glow}`,
             }}
