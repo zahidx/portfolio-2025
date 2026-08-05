@@ -51,8 +51,8 @@ const programmingSkills = [
     level: 80, 
     tag: "Full-Stack Framework", 
     rank: "Advanced", 
-    gradient: ["#e2e8f0", "#64748b"], 
-    glow: "rgba(226,232,240,0.3)",
+    gradient: ["#38BDF8", "#818CF8"], 
+    glow: "rgba(56,189,248,0.4)",
     isFeatured: true,
     highlight: "App Router, SSR, Turbopack & API Routes",
     badge: "Full-Stack Engine",
@@ -273,8 +273,15 @@ function FeaturedBentoCard({ skill, index }) {
                 <h4 className="font-extrabold text-lg sm:text-xl text-white group-hover:text-indigo-300 transition-colors">
                   {skill.name}
                 </h4>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
-                  <FaStar className="text-[8px] text-amber-400" />
+                <span
+                  className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase border flex items-center gap-1 shrink-0"
+                  style={{
+                    color: g1,
+                    background: `${g1}18`,
+                    borderColor: `${g1}44`,
+                  }}
+                >
+                  <FaStar className="text-[8px]" style={{ color: g1 }} />
                   {skill.badge}
                 </span>
               </div>
@@ -288,8 +295,14 @@ function FeaturedBentoCard({ skill, index }) {
         </div>
 
         {/* Feature Highlight Description */}
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-5 bg-slate-900/60 p-3 rounded-xl border border-slate-800/60">
-          ✦ {skill.highlight}
+        <p
+          className="text-xs sm:text-sm text-slate-200 leading-relaxed font-light mb-5 p-3 rounded-xl border backdrop-blur-md"
+          style={{
+            background: `${g1}0D`,
+            borderColor: `${g1}25`,
+          }}
+        >
+          <span style={{ color: g1 }}>✦</span> {skill.highlight}
         </p>
       </div>
 
