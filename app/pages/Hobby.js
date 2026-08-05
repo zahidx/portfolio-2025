@@ -217,7 +217,7 @@ const hobbies = [
     stat: "300+", statLabel: "films watched",
     accent: "#f97316", spotlight: "rgba(249,115,22,0.18)",
     tags: ["Sci-fi", "Thriller", "Indie"],
-    Animation: FilmStrip, size: "small", layout: "overlay",
+    Animation: FilmStrip, size: "small", layout: "split",
     cardBg: "bg-gradient-to-br from-orange-950/60 via-slate-900/80 to-slate-900/90",
     border: "border-orange-800/30", hoverBorder: "hover:border-orange-500/50",
   },
@@ -295,7 +295,7 @@ function OverlayCard({ hobby, wide = true }) {
       </div>
 
       {/* Content */}
-      <div className={`relative z-20 p-5 sm:p-7 flex gap-4 sm:gap-6 ${hobby.size === "large" ? "flex-row items-center" : "flex-col"}`}>
+      <div className={`relative z-20 p-5 sm:p-7 pb-14 sm:pb-16 flex gap-4 sm:gap-6 ${hobby.size === "large" ? "flex-row items-center" : "flex-col"}`}>
         <div className="flex-shrink-0 transition-all duration-300"
           style={{ transform: hovered ? "scale(1.2) rotate(-6deg)" : "scale(1)", fontSize: hobby.size === "large" ? "3rem" : "2.4rem", lineHeight: 1 }}>
           {hobby.emoji}
@@ -314,8 +314,8 @@ function OverlayCard({ hobby, wide = true }) {
           <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-3.5">{hobby.description}</p>
           <div className="flex flex-wrap gap-1.5">
             {hobby.tags.map(tag => (
-              <span key={tag} className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold border"
-                style={{ borderColor: `${hobby.accent}40`, background: `${hobby.accent}12`, color: hobby.accent }}>
+              <span key={tag} className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold border backdrop-blur-md"
+                style={{ borderColor: `${hobby.accent}40`, background: `${hobby.accent}18`, color: hobby.accent }}>
                 {tag}
               </span>
             ))}

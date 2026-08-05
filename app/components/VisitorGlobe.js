@@ -474,48 +474,48 @@ export default function VisitorGlobe() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8"
         >
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-3.5">
-            <div className="p-2.5 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400">
+          <div className="p-3 sm:p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+            <div className="p-2.5 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400 shrink-0">
               <Users className="w-5 h-5" />
             </div>
-            <div>
-              <p className="text-xl font-black text-white">{visitorList.length}+</p>
-              <p className="text-xs text-slate-400 font-mono">Global Visitors</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg sm:text-xl font-black text-white truncate">{visitorList.length}+</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Global Visitors</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-3.5">
-            <div className="p-2.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400">
+          <div className="p-3 sm:p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+            <div className="p-2.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400 shrink-0">
               <Compass className="w-5 h-5" />
             </div>
-            <div>
-              <p className="text-xl font-black text-white">{totalCountries}</p>
-              <p className="text-xs text-slate-400 font-mono">Countries Reached</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg sm:text-xl font-black text-white truncate">{totalCountries}</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Countries Reached</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-3.5">
-            <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+          <div className="p-3 sm:p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+            <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shrink-0">
               <MapPin className="w-5 h-5" />
             </div>
-            <div>
-              <p className="text-xl font-black text-white">Dhaka, BD</p>
-              <p className="text-xs text-slate-400 font-mono">Primary Engineering HQ</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm sm:text-xl font-black text-white truncate">Dhaka, BD</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Engineering HQ</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-3.5">
-            <div className="p-2.5 rounded-xl bg-pink-500/15 border border-pink-500/30 text-pink-400">
+          <div className="p-3 sm:p-4 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+            <div className="p-2.5 rounded-xl bg-pink-500/15 border border-pink-500/30 text-pink-400 shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <div>
-              <p className="text-xl font-black text-emerald-400 flex items-center gap-1.5 text-base">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Live Sync</span>
-              </p>
-              <p className="text-xs text-slate-400 font-mono">Firebase Firestore</p>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 text-sm sm:text-lg font-black text-emerald-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="truncate">Live Sync</span>
+              </div>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Firebase Firestore</p>
             </div>
           </div>
         </motion.div>
@@ -529,29 +529,29 @@ export default function VisitorGlobe() {
           className="relative rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950/95 backdrop-blur-2xl p-4 sm:p-8 shadow-2xl overflow-hidden flex flex-col items-center"
         >
           {/* Controls Overlay Bar */}
-          <div className="w-full flex items-center justify-between gap-4 mb-4 z-10">
+          <div className="w-full flex flex-wrap items-center justify-between gap-2 sm:gap-4 mb-4 z-10">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs font-mono font-bold text-slate-300 flex items-center gap-2">
-                <Navigation className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Drag to Rotate 3D Globe</span>
+              <span className="px-2.5 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-[10px] sm:text-xs font-mono font-bold text-slate-300 flex items-center gap-1.5 whitespace-nowrap">
+                <Navigation className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-indigo-400 shrink-0" />
+                <span>Drag to Rotate <span className="hidden sm:inline">3D Globe</span></span>
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <button
                 onClick={() => setIsSpinning((prev) => !prev)}
-                className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border text-[11px] sm:text-xs font-mono font-bold transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                   isSpinning
                     ? "bg-indigo-600/30 border-indigo-500/50 text-indigo-300"
                     : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
                 }`}
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${isSpinning ? "animate-spin" : ""}`} />
-                <span>{isSpinning ? "Auto-Spin ON" : "Auto-Spin OFF"}</span>
+                <RefreshCw className={`w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 ${isSpinning ? "animate-spin" : ""}`} />
+                <span>{isSpinning ? "Auto-Spin" : "Manual"}</span>
               </button>
               <button
                 onClick={() => setRotation({ x: 0.3, y: 0 })}
-                className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-400 hover:text-white text-xs font-mono font-bold transition-all"
+                className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-400 hover:text-white text-[11px] sm:text-xs font-mono font-bold transition-all whitespace-nowrap shrink-0"
                 title="Reset View"
               >
                 Reset

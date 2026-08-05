@@ -40,60 +40,63 @@ export default function Home() {
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
           {/* Profile Details Column */}
           <div className="profile_info text-center lg:text-left max-w-2xl w-full">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 sm:mb-4 leading-tight">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 sm:mb-4 leading-tight whitespace-nowrap">
               Hi, I am{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-pink-400">
                 Zahidul Islam
               </span>
             </h1>
 
-            <h2 className="text-lg sm:text-2xl font-semibold text-indigo-300 mb-4 sm:mb-6 flex items-center justify-center lg:justify-start gap-2">
-              <FaLaptopCode className="text-pink-400 text-base sm:text-xl" />
-              <span>Software Engineer & Full-Stack Developer</span>
+            <h2 className="text-base sm:text-2xl font-semibold text-indigo-300 mb-4 sm:mb-6 text-center lg:text-left">
+              <span className="inline-flex items-center justify-center lg:justify-start gap-2 flex-wrap">
+                <FaLaptopCode className="text-pink-400 text-lg sm:text-xl shrink-0" />
+                <span>Software Engineer &amp; Full-Stack Developer</span>
+              </span>
             </h2>
 
             <p className="text-gray-300 text-sm sm:text-lg leading-relaxed mb-6 sm:mb-8 px-2 sm:px-0">
               Passionate Computer Science professional skilled in full-stack web development, database engineering, and computer vision research. Focused on crafting responsive, high-performance web applications and intuitive digital experiences.
             </p>
 
-            <div className="profile_buttons flex flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full sm:w-auto">
+            <div className="profile_buttons flex flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4">
               <a
                 href="#contact"
-                className="group relative inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-95 text-white font-semibold py-3.5 sm:py-3.5 px-7 sm:px-8 rounded-xl shadow-lg shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-0.5"
+                className="group relative inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-950 via-slate-900 to-purple-950 hover:from-indigo-900 hover:to-purple-900 active:scale-95 text-white font-semibold py-3.5 px-6 sm:px-7 rounded-xl border border-indigo-500/40 hover:border-indigo-400 shadow-lg shadow-indigo-950/60 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap"
               >
                 <span>Get In Touch</span>
-                <FaArrowRight className="text-xs sm:text-sm transition-transform duration-300 group-hover:translate-x-1" />
+                <FaArrowRight className="text-xs sm:text-sm text-indigo-400 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
 
               <a
                 href="https://calendly.com/zahidxislam"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 bg-emerald-600/90 hover:bg-emerald-500/90 active:scale-95 border border-emerald-500/50 text-white font-semibold py-3.5 sm:py-3.5 px-6 sm:px-7 rounded-xl shadow-lg shadow-emerald-600/20 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5"
+                className="group inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 hover:from-emerald-900 hover:to-teal-900 active:scale-95 border border-emerald-500/40 hover:border-emerald-400 text-white font-semibold py-3.5 px-6 sm:px-7 rounded-xl shadow-lg shadow-emerald-950/60 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap"
               >
-                <FaCalendarAlt className="text-emerald-200 text-sm" />
-                <span>Book 1-on-1 Call</span>
+                <FaCalendarAlt className="text-emerald-400 text-sm transition-transform duration-300 group-hover:scale-110" />
+                <span>Book 1 Call</span>
               </a>
 
               <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 bg-slate-800/90 hover:bg-slate-700/90 active:scale-95 border border-slate-700 text-white font-semibold py-3.5 sm:py-3.5 px-6 sm:px-7 rounded-xl backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5"
+                className="group inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950 hover:from-slate-800 hover:to-indigo-900 active:scale-95 border border-slate-700 hover:border-slate-500 text-white font-semibold py-3.5 px-6 sm:px-7 rounded-xl shadow-lg shadow-slate-950/60 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap"
               >
-                <FaFileDownload className="text-indigo-400 text-sm" />
+                <FaFileDownload className="text-indigo-400 text-sm transition-transform duration-300 group-hover:scale-110" />
                 <span>View Resume</span>
               </a>
             </div>
 
-            {/* Quick Links - Mobile Native Pill Bar */}
-            <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-6 mt-6 sm:mt-8 text-gray-400">
+            {/* Quick Links - Left Aligned */}
+            <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-5 mt-6 sm:mt-8">
               <a
                 href="https://github.com/zahidx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 sm:p-0 rounded-full bg-slate-800/80 sm:bg-transparent border border-slate-700/60 sm:border-none hover:text-indigo-400 active:scale-90 text-xl transition-all"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-slate-600 text-slate-300 hover:text-white flex items-center justify-center text-xl sm:text-2xl shadow-lg hover:shadow-indigo-500/20 active:scale-95 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-md"
                 aria-label="GitHub Profile"
+                title="GitHub"
               >
                 <FaGithub />
               </a>
@@ -101,15 +104,17 @@ export default function Home() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 sm:p-0 rounded-full bg-slate-800/80 sm:bg-transparent border border-slate-700/60 sm:border-none hover:text-indigo-400 active:scale-90 text-xl transition-all"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-blue-500/50 text-slate-300 hover:text-blue-400 flex items-center justify-center text-xl sm:text-2xl shadow-lg hover:shadow-blue-500/20 active:scale-95 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-md"
                 aria-label="LinkedIn Profile"
+                title="LinkedIn"
               >
                 <FaLinkedin />
               </a>
               <a
                 href="mailto:zahid.imx@gmail.com"
-                className="p-3 sm:p-0 rounded-full bg-slate-800/80 sm:bg-transparent border border-slate-700/60 sm:border-none hover:text-indigo-400 active:scale-90 text-xl transition-all"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-pink-500/50 text-slate-300 hover:text-pink-400 flex items-center justify-center text-xl sm:text-2xl shadow-lg hover:shadow-pink-500/20 active:scale-95 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-md"
                 aria-label="Email Me"
+                title="Email"
               >
                 <FaEnvelope />
               </a>

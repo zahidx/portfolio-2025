@@ -126,7 +126,7 @@ const NODES = [
   },
 ];
 
-const ORBIT_R = { 1: 38, 2: 58 }; // % of container
+const ORBIT_R = { 1: 27, 2: 41 }; // % of container (keeps all outer planets inside bounds on mobile)
 
 export default function Interest() {
   const [active, setActive] = useState(NODES[0].name);
@@ -155,7 +155,7 @@ export default function Interest() {
   }, [active]);
 
   return (
-    <section className="py-8 sm:py-12" id="constellation">
+    <section className="py-8 sm:py-12 overflow-hidden px-3 sm:px-6" id="constellation">
       <motion.div
         className="mb-6 text-center"
         initial={{ opacity: 0, y: 24 }}
@@ -163,7 +163,7 @@ export default function Interest() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6 }}
       >
-        <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400">
+        <span className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-indigo-400">
           <Orbit className="w-3.5 h-3.5" />
           Interactive constellation
         </span>
@@ -174,13 +174,13 @@ export default function Interest() {
           </span>
         </h2>
         <p className="mt-1.5 text-slate-400 text-xs sm:text-sm max-w-lg mx-auto">
-          Hover or click a planet. Use ← → keys. Pause the orbit anytime.
+          Tap or hover a planet to explore. Pause the orbit anytime.
         </p>
       </motion.div>
 
       <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 lg:gap-10 items-center">
         {/* ── Orbital map ── */}
-        <div className="relative mx-auto w-full max-w-[420px] aspect-square select-none">
+        <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[420px] aspect-square select-none">
           {/* rings */}
           {[ORBIT_R[1], ORBIT_R[2]].map((r) => (
             <div

@@ -287,45 +287,47 @@ export default function GithubActivityGraph() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8"
         >
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+          <div className="p-3 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-2.5 sm:gap-4 min-w-0">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shrink-0">
               <GitCommit className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <p className="text-xl sm:text-2xl font-black text-white">{totalCommits}+</p>
-              <p className="text-xs text-slate-400 font-mono">Total Commits (Year)</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg sm:text-2xl font-black text-white truncate">{totalCommits}+</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Total Commits</p>
             </div>
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-orange-500/15 border border-orange-500/30 text-orange-400">
+          <div className="p-3 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-2.5 sm:gap-4 min-w-0">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-orange-500/15 border border-orange-500/30 text-orange-400 shrink-0">
               <Flame className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <p className="text-xl sm:text-2xl font-black text-white">{currentStreak} Days</p>
-              <p className="text-xs text-slate-400 font-mono">Current Streak</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg sm:text-2xl font-black text-white truncate">{currentStreak} Days</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Current Streak</p>
             </div>
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400">
+          <div className="p-3 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-2.5 sm:gap-4 min-w-0">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400 shrink-0">
               <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <p className="text-xl sm:text-2xl font-black text-white">{longestStreak} Days</p>
-              <p className="text-xs text-slate-400 font-mono">Longest Streak</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg sm:text-2xl font-black text-white truncate">{longestStreak} Days</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Longest Streak</p>
             </div>
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400">
+          <div className="p-3 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/70 backdrop-blur-md flex items-center gap-2.5 sm:gap-4 min-w-0">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400 shrink-0">
               <Code className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <p className="text-xl sm:text-2xl font-black text-white">JavaScript / Next</p>
-              <p className="text-xs text-slate-400 font-mono">Primary Language</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm sm:text-xl lg:text-2xl font-black text-white truncate leading-tight" title="JS / Next.js">
+                JS / Next.js
+              </p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-mono leading-tight truncate">Primary Tech</p>
             </div>
           </div>
         </motion.div>
