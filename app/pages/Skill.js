@@ -273,7 +273,7 @@ function FeaturedBentoCard({ skill, index }) {
                   {skill.name}
                 </h4>
                 <span
-                  className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase border flex items-center gap-1 shrink-0"
+                  className="hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase border items-center gap-1 shrink-0"
                   style={{
                     color: g1,
                     background: `${g1}12`,
