@@ -154,30 +154,50 @@ function FastSkillCard({ skill, index }) {
         </span>
       </div>
 
-      {/* Progress Track & Level % */}
-      <div className="space-y-1.5">
+      {/* High-Tech Progress Bar & Level Metric */}
+      <div className="space-y-2 mt-4">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-400 text-[11px]">Proficiency</span>
-          <span className="font-extrabold text-xs sm:text-sm" style={{ color: g1 }}>
-            {inView ? <Counter target={skill.level} inView={inView} /> : 0}%
-          </span>
-        </div>
-
-        <div className="w-full bg-slate-900 rounded-full h-2.5 p-0.5 border border-slate-800/80 overflow-hidden relative">
+          <span className="text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Proficiency Gauge</span>
           <div
-            className="h-full rounded-full transition-all duration-1000 ease-out relative"
+            className="px-2.5 py-0.5 rounded-lg text-xs font-black font-mono border flex items-center gap-0.5 shadow-sm"
             style={{
-              width: inView ? `${skill.level}%` : "0%",
-              background: `linear-gradient(90deg, ${g1}, ${g2})`,
+              color: g1,
+              borderColor: `${g1}44`,
+              background: `${g1}15`,
               boxShadow: `0 0 10px ${skill.glow}`,
             }}
           >
-            {/* Lightweight CSS Shimmer Pass */}
+            <span>{inView ? <Counter target={skill.level} inView={inView} /> : 0}%</span>
+          </div>
+        </div>
+
+        {/* Cyber Neon Track Container with Ticks */}
+        <div className="relative w-full bg-slate-900/90 rounded-xl h-3.5 p-0.5 border border-slate-800/90 overflow-hidden shadow-inner shadow-black/80">
+          {/* Subtle Grid Ticks */}
+          <div className="absolute inset-0 flex justify-between px-3 pointer-events-none z-10">
+            <span className="w-px h-full bg-slate-800/50" />
+            <span className="w-px h-full bg-slate-800/50" />
+            <span className="w-px h-full bg-slate-800/50" />
+          </div>
+
+          {/* Animated Neon Progress Fill */}
+          <div
+            className="h-full rounded-lg transition-all duration-1000 ease-out relative flex items-center justify-end overflow-hidden"
+            style={{
+              width: inView ? `${skill.level}%` : "0%",
+              background: `linear-gradient(90deg, ${g1}, ${g2})`,
+              boxShadow: `0 0 14px ${skill.glow}`,
+            }}
+          >
+            {/* Leading Illuminated Photon Tip */}
+            <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#ffffff] mr-0.5 shrink-0 z-20" />
+
+            {/* Hardware-Accelerated CSS Shimmer Sweep */}
             <div
-              className="absolute inset-0 rounded-full opacity-60 pointer-events-none"
+              className="absolute inset-0 opacity-70 pointer-events-none"
               style={{
-                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)",
-                animation: "shimmer-pass 3s ease-in-out infinite",
+                background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+                animation: "shimmer-pass 2.8s ease-in-out infinite",
               }}
             />
           </div>
