@@ -542,7 +542,7 @@ export default function TerminalModal({ isOpen: extOpen, onClose: extClose }) {
           <motion.button
             initial={{ opacity: 0, scale: 0.8, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.8 }}
             onClick={() => setInternalOpen(true)}
-            className="fixed bottom-20 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full border shadow-lg backdrop-blur-md text-xs font-mono font-bold group transition-all active:scale-95"
+            className="fixed bottom-20 right-6 z-50 hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-full border shadow-lg backdrop-blur-md text-xs font-mono font-bold group transition-all active:scale-95"
             style={{ background:"rgba(9,8,26,0.92)", borderColor:"#6366f1aa", color:"#818cf8", boxShadow:"0 0 20px rgba(99,102,241,0.2)" }}
             title="Open Developer Terminal (Ctrl + Shift + T)"
           >
