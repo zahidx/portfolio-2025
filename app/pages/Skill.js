@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import {
   FaJava, FaPython, FaJs, FaReact, FaNodeJs, FaGitAlt, FaGithub, FaBootstrap, FaVuejs,
@@ -63,7 +63,7 @@ function Counter({ target, inView }) {
   useEffect(() => {
     if (!inView) { setCount(0); return; }
     let start = 0;
-    const duration = 1200;
+    const duration = 1000;
     const step = Math.ceil(target / (duration / 16));
     const timer = setInterval(() => {
       start += step;
@@ -75,41 +75,23 @@ function Counter({ target, inView }) {
   return <>{count}</>;
 }
 
-// ─── 3D Interactive Tilt Skill Card ─────────────────────────────────────────
-function TiltSkillCard({ skill, index }) {
-  const ref = useRef(null);
+// ─── Lightweight High-Performance Skill Card ─────────────────────────────────
+function FastSkillCard({ skill, index }) {
   const [inView, setInView] = useState(false);
-  const [hovered, setHovered] = useState(false);
-
-  // 3D Tilt Motion Values
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x);
-  const mouseYSpring = useSpring(y);
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
-
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    x.set(mouseX / width - 0.5);
-    y.set(mouseY / height - 0.5);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    setHovered(false);
-  };
+  const ref = useRef(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.2 });
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          obs.disconnect(); // Disconnect immediately to save CPU/GPU cycles!
+        }
+      },
+      { threshold: 0.15 }
+    );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -120,91 +102,85 @@ function TiltSkillCard({ skill, index }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 35, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: false, amount: 0.15 }}
-      transition={{ duration: 0.6, delay: index * 0.07, type: "spring", stiffness: 110, damping: 16 }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative rounded-3xl p-6 sm:p-7 overflow-hidden cursor-pointer group transition-all duration-300 bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 backdrop-blur-xl shadow-xl hover:shadow-2xl"
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.45, delay: index * 0.05, ease: "easeOut" }}
+      className="group relative rounded-2xl p-5 sm:p-6 overflow-hidden cursor-pointer bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1.5 shadow-lg hover:shadow-xl will-change-transform"
     >
-      {/* Background Radial Ambient Glow */}
+      {/* Top Accent Gradient Border Glow */}
       <div
-        className="absolute -top-12 -right-12 w-36 h-36 rounded-full blur-3xl opacity-20 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none"
+        className="absolute top-0 inset-x-0 h-[2px] opacity-40 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: `linear-gradient(90deg, transparent, ${g1}, transparent)` }}
+      />
+
+      {/* Ambient Radial Hover Glow (Pure CSS Opacity) */}
+      <div
+        className="absolute -top-10 -right-10 w-28 h-28 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"
         style={{ background: skill.glow }}
       />
 
-      {/* Top Header: Icon + Name + Category Tag */}
-      <div className="flex items-start justify-between gap-3 mb-5" style={{ transform: "translateZ(20px)" }}>
-        <div className="flex items-center gap-3.5">
+      {/* Header: Icon + Title + Rank */}
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex items-center gap-3">
           <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center border shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+            className="w-11 h-11 rounded-xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3"
             style={{
-              background: `radial-gradient(circle, ${g1}22 0%, rgba(15,23,42,0.9) 100%)`,
-              borderColor: `${g1}44`,
-              boxShadow: `0 0 16px ${skill.glow}`,
+              background: `rgba(15, 23, 42, 0.9)`,
+              borderColor: `${g1}33`,
+              boxShadow: `0 0 12px ${skill.glow}`,
             }}
           >
-            <Icon className="text-2xl drop-shadow" style={{ color: g1 }} />
+            <Icon className="text-2xl" style={{ color: g1 }} />
           </div>
           <div>
-            <h4 className="font-extrabold text-base text-white group-hover:text-indigo-300 transition-colors">
+            <h4 className="font-extrabold text-sm sm:text-base text-white group-hover:text-indigo-300 transition-colors">
               {skill.name}
             </h4>
-            <span className="text-[11px] font-mono text-slate-400 block mt-0.5">
+            <span className="text-[10px] sm:text-[11px] font-mono text-slate-400 block mt-0.5">
               {skill.tag}
             </span>
           </div>
         </div>
 
         <span
-          className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border shrink-0"
+          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider border shrink-0"
           style={{
             color: g1,
-            borderColor: `${g1}44`,
-            background: `${g1}11`,
+            borderColor: `${g1}33`,
+            background: `${g1}10`,
           }}
         >
           {skill.rank}
         </span>
       </div>
 
-      {/* Modern Neon Progress Track & Percentage Counter */}
-      <div className="space-y-2.5" style={{ transform: "translateZ(15px)" }}>
+      {/* Progress Track & Level % */}
+      <div className="space-y-1.5">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-400 font-medium">Proficiency</span>
-          <span className="font-extrabold text-sm sm:text-base tracking-tight" style={{ color: g1 }}>
-            <Counter target={skill.level} inView={inView} />%
+          <span className="text-slate-400 text-[11px]">Proficiency</span>
+          <span className="font-extrabold text-xs sm:text-sm" style={{ color: g1 }}>
+            {inView ? <Counter target={skill.level} inView={inView} /> : 0}%
           </span>
         </div>
 
-        <div className="w-full bg-slate-900 rounded-full h-3 p-0.5 border border-slate-800 overflow-hidden relative">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
-            transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
-            className="h-full rounded-full relative flex items-center justify-end"
+        <div className="w-full bg-slate-900 rounded-full h-2.5 p-0.5 border border-slate-800/80 overflow-hidden relative">
+          <div
+            className="h-full rounded-full transition-all duration-1000 ease-out relative"
             style={{
+              width: inView ? `${skill.level}%` : "0%",
               background: `linear-gradient(90deg, ${g1}, ${g2})`,
-              boxShadow: `0 0 14px ${skill.glow}`,
+              boxShadow: `0 0 10px ${skill.glow}`,
             }}
           >
-            {/* Glowing Leading Pulse Energy Dot */}
-            <span className="w-2.5 h-2.5 rounded-full bg-white shadow-md shadow-white mr-0.5 animate-ping opacity-75 shrink-0" />
-            <span className="w-2 h-2 rounded-full bg-white shadow-md shadow-white mr-0.5 shrink-0" />
-
-            {/* Continuous Shimmer Light Sweep */}
-            <motion.span
-              className="absolute inset-0 rounded-full"
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "linear", delay: index * 0.1 }}
+            {/* Lightweight CSS Shimmer Pass */}
+            <div
+              className="absolute inset-0 rounded-full opacity-60 pointer-events-none"
               style={{
-                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)",
+                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)",
+                animation: "shimmer-pass 3s ease-in-out infinite",
               }}
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -220,6 +196,10 @@ const marqueeKeyframes = `
   @keyframes marquee-rtl {
     0%   { transform: translateX(-50%); }
     100% { transform: translateX(0); }
+  }
+  @keyframes shimmer-pass {
+    0%   { transform: translateX(-100%); }
+    50%, 100% { transform: translateX(200%); }
   }
 `;
 
@@ -282,13 +262,13 @@ function SoftBadge({ skill, index }) {
   const Icon = skill.icon;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.15 }}
-      transition={{ duration: 0.5, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -6, scale: 1.06, transition: { duration: 0.2, ease: "easeOut" } }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
+      whileHover={{ y: -5, scale: 1.05, transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.95 }}
-      className="flex flex-col items-center gap-2.5 sm:gap-3 p-4 sm:p-6 rounded-2xl cursor-pointer active:scale-95"
+      className="flex flex-col items-center gap-2.5 sm:gap-3 p-4 sm:p-5 rounded-2xl cursor-pointer active:scale-95"
       style={{
         background: skill.bg,
         border: `1px solid ${skill.color}33`,
@@ -296,7 +276,7 @@ function SoftBadge({ skill, index }) {
       }}
     >
       <div className="transition-transform duration-300 group-hover:scale-110">
-        <Icon style={{ color: skill.color, fontSize: "2rem", filter: `drop-shadow(0 0 7px ${skill.color}88)` }} />
+        <Icon style={{ color: skill.color, fontSize: "1.9rem", filter: `drop-shadow(0 0 6px ${skill.color}88)` }} />
       </div>
       <span className="text-xs sm:text-sm font-semibold text-center text-slate-200 leading-tight">
         {skill.name}
@@ -309,10 +289,10 @@ function SoftBadge({ skill, index }) {
 function SectionLabel({ children, accent }) {
   return (
     <motion.h3
-      initial={{ opacity: 0, x: -24 }}
+      initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: false, amount: 0.3 }}
-      transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="text-lg sm:text-2xl font-extrabold mb-6 sm:mb-8 text-white flex items-center gap-2.5 sm:gap-3"
     >
       <span className="w-1.5 h-6 sm:h-7 rounded-full inline-block" style={{ background: accent }} />
@@ -329,43 +309,37 @@ export default function SkillPage() {
       className="relative bg-slate-900 text-slate-100 py-14 sm:py-24 overflow-hidden px-4 sm:px-12 lg:px-16"
     >
       {/* ── Ambient background blobs ── */}
-      <motion.div
-        className="absolute -top-40 -left-40 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full pointer-events-none"
+      <div
+        className="absolute -top-40 -left-40 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full pointer-events-none opacity-40"
         style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)", filter: "blur(60px)" }}
-        animate={{ scale: [1, 1.15, 1], x: [0, 30, 0], y: [0, 20, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute top-1/2 -right-40 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] rounded-full pointer-events-none"
+      <div
+        className="absolute top-1/2 -right-40 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] rounded-full pointer-events-none opacity-40"
         style={{ background: "radial-gradient(circle, rgba(236,72,153,0.10) 0%, transparent 70%)", filter: "blur(70px)" }}
-        animate={{ scale: [1, 1.2, 1], x: [0, -20, 0], y: [0, 30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-14 sm:space-y-24">
 
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.7, type: "spring" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center"
         >
           {/* Floating badge */}
-          <motion.div
+          <div
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-3.5 border"
             style={{
               background: "rgba(99,102,241,0.08)",
               borderColor: "rgba(99,102,241,0.25)",
               color: "#818CF8",
             }}
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
             What I Know
-          </motion.div>
+          </div>
 
           <h2 className="text-3xl sm:text-6xl font-extrabold tracking-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
@@ -380,13 +354,9 @@ export default function SkillPage() {
           </p>
 
           {/* Decorative line */}
-          <motion.div
+          <div
             className="mx-auto mt-5 h-px w-20 sm:w-24 rounded"
             style={{ background: "linear-gradient(90deg, #6366F1, #EC4899, #06B6D4)" }}
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8, delay: 0.3 }}
           />
         </motion.div>
 
@@ -395,9 +365,9 @@ export default function SkillPage() {
           <SectionLabel accent="linear-gradient(180deg,#6366F1,#8B5CF6)">
             Programming Languages &amp; Frameworks
           </SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {programmingSkills.map((skill, i) => (
-              <TiltSkillCard key={skill.name} skill={skill} index={i} />
+              <FastSkillCard key={skill.name} skill={skill} index={i} />
             ))}
           </div>
         </div>
