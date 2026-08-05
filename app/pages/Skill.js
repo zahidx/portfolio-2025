@@ -1,12 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, useMemo } from "react";
 import {
   FaJava, FaPython, FaJs, FaReact, FaNodeJs, FaGitAlt, FaGithub, FaBootstrap, FaVuejs,
   FaHtml5, FaCss3Alt, FaDatabase,
   FaLightbulb, FaUsers, FaComments, FaClock, FaBrain, FaLeaf, FaCrown, FaPalette,
-  FaChartLine, FaHandshake, FaSearch, FaBullseye,
+  FaChartLine, FaHandshake, FaSearch, FaBullseye, FaCode, FaLayerGroup, FaStar
 } from "react-icons/fa";
 import {
   SiTypescript, SiMongodb, SiNextdotjs, SiTailwindcss, SiFirebase, SiCplusplus,
@@ -15,14 +15,113 @@ import {
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const programmingSkills = [
-  { name: "JavaScript", icon: FaJs,         level: 90, tag: "Core Language", rank: "Expert",     gradient: ["#F7DF1E", "#F0A500"], glow: "rgba(247,223,30,0.4)" },
-  { name: "React JS",   icon: FaReact,      level: 85, tag: "Frontend Library", rank: "Advanced", gradient: ["#61DAFB", "#0891B2"], glow: "rgba(97,218,251,0.4)" },
-  { name: "Java",       icon: FaJava,       level: 80, tag: "Backend / OOP", rank: "Proficient", gradient: ["#F89820", "#EA2D2E"], glow: "rgba(234,45,46,0.35)" },
-  { name: "Next.js",    icon: SiNextdotjs,  level: 80, tag: "Full-Stack Framework", rank: "Advanced", gradient: ["#e2e8f0", "#64748b"], glow: "rgba(226,232,240,0.3)" },
-  { name: "C++",        icon: SiCplusplus,  level: 75, tag: "System / Algorithmic", rank: "Proficient", gradient: ["#659BD3", "#1A4F8A"], glow: "rgba(101,155,211,0.4)" },
-  { name: "Python",     icon: FaPython,     level: 70, tag: "AI / Data Science", rank: "Proficient", gradient: ["#4B8BBE", "#FFE873"], glow: "rgba(75,139,190,0.4)" },
-  { name: "TypeScript", icon: SiTypescript, level: 65, tag: "Typed JavaScript", rank: "Proficient", gradient: ["#3178C6", "#235A97"], glow: "rgba(49,120,198,0.4)" },
-  { name: "Node.js",    icon: FaNodeJs,     level: 60, tag: "Backend Runtime", rank: "Intermediate", gradient: ["#68A063", "#3C873A"], glow: "rgba(104,160,99,0.4)" },
+  { 
+    id: "js",
+    name: "JavaScript", 
+    category: "frontend",
+    icon: FaJs,         
+    level: 90, 
+    tag: "Core Language", 
+    rank: "Expert",     
+    gradient: ["#F7DF1E", "#F0A500"], 
+    glow: "rgba(247,223,30,0.4)",
+    isFeatured: true,
+    highlight: "Primary web engine & Async ES6+",
+    badge: "Daily Driver",
+  },
+  { 
+    id: "react",
+    name: "React JS",   
+    category: "frontend",
+    icon: FaReact,      
+    level: 85, 
+    tag: "Frontend Library", 
+    rank: "Advanced", 
+    gradient: ["#61DAFB", "#0891B2"], 
+    glow: "rgba(97,218,251,0.4)",
+    isFeatured: true,
+    highlight: "Component Architecture, Hooks & Redux",
+    badge: "Production Ready",
+  },
+  { 
+    id: "next",
+    name: "Next.js",    
+    category: "frontend",
+    icon: SiNextdotjs,  
+    level: 80, 
+    tag: "Full-Stack Framework", 
+    rank: "Advanced", 
+    gradient: ["#e2e8f0", "#64748b"], 
+    glow: "rgba(226,232,240,0.3)",
+    isFeatured: true,
+    highlight: "App Router, SSR, Turbopack & API Routes",
+    badge: "Full-Stack Engine",
+  },
+  { 
+    id: "java",
+    name: "Java",       
+    category: "backend",
+    icon: FaJava,       
+    level: 80, 
+    tag: "Backend / OOP", 
+    rank: "Proficient", 
+    gradient: ["#F89820", "#EA2D2E"], 
+    glow: "rgba(234,45,46,0.35)",
+    isFeatured: false,
+    highlight: "Enterprise OOP & Multithreading",
+  },
+  { 
+    id: "cpp",
+    name: "C++",        
+    category: "system",
+    icon: SiCplusplus,  
+    level: 75, 
+    tag: "System / Algorithmic", 
+    rank: "Proficient", 
+    gradient: ["#659BD3", "#1A4F8A"], 
+    glow: "rgba(101,155,211,0.4)",
+    isFeatured: false,
+    highlight: "Memory Management & Data Structures",
+  },
+  { 
+    id: "python",
+    name: "Python",     
+    category: "system",
+    icon: FaPython,     
+    level: 70, 
+    tag: "AI / Data Science", 
+    rank: "Proficient", 
+    gradient: ["#4B8BBE", "#FFE873"], 
+    glow: "rgba(75,139,190,0.4)",
+    isFeatured: false,
+    highlight: "Computer Vision & Scripting",
+  },
+  { 
+    id: "ts",
+    name: "TypeScript", 
+    category: "frontend",
+    icon: SiTypescript, 
+    level: 65, 
+    tag: "Typed JavaScript", 
+    rank: "Proficient", 
+    gradient: ["#3178C6", "#235A97"], 
+    glow: "rgba(49,120,198,0.4)",
+    isFeatured: false,
+    highlight: "Strict Typing & Interfaces",
+  },
+  { 
+    id: "node",
+    name: "Node.js",    
+    category: "backend",
+    icon: FaNodeJs,     
+    level: 60, 
+    tag: "Backend Runtime", 
+    rank: "Intermediate", 
+    gradient: ["#68A063", "#3C873A"], 
+    glow: "rgba(104,160,99,0.4)",
+    isFeatured: false,
+    highlight: "REST APIs & Express Servers",
+  },
 ];
 
 const marqueeTools = [
@@ -75,23 +174,59 @@ function Counter({ target, inView }) {
   return <>{count}</>;
 }
 
-// ─── Lightweight High-Performance Skill Card ─────────────────────────────────
-function FastSkillCard({ skill, index }) {
+// ─── Circular SVG Radial Progress Ring ────────────────────────────────────────
+function RadialGauge({ level, color, glow, inView }) {
+  const radius = 28;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = inView ? circumference - (level / 100) * circumference : circumference;
+
+  return (
+    <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
+      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
+        {/* Track Ring */}
+        <circle
+          cx="32"
+          cy="32"
+          r={radius}
+          stroke="rgba(255,255,255,0.08)"
+          strokeWidth="4"
+          fill="transparent"
+        />
+        {/* Progress Ring */}
+        <circle
+          cx="32"
+          cy="32"
+          r={radius}
+          stroke={color}
+          strokeWidth="4"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          fill="transparent"
+          style={{
+            transition: "stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+            filter: `drop-shadow(0 0 6px ${glow})`,
+          }}
+        />
+      </svg>
+      <div className="absolute font-mono font-black text-xs text-white">
+        {inView ? <Counter target={level} inView={inView} /> : 0}%
+      </div>
+    </div>
+  );
+}
+
+// ─── Featured Hero Bento Card Component ──────────────────────────────────────
+function FeaturedBentoCard({ skill, index }) {
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setInView(true);
-          obs.disconnect(); // Disconnect immediately to save CPU/GPU cycles!
-        }
-      },
-      { threshold: 0.15 }
-    );
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setInView(true); obs.disconnect(); }
+    }, { threshold: 0.15 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -102,85 +237,70 @@ function FastSkillCard({ skill, index }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.45, delay: index * 0.05, ease: "easeOut" }}
-      className="group relative rounded-2xl p-5 sm:p-6 overflow-hidden cursor-pointer bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1.5 shadow-lg hover:shadow-xl will-change-transform"
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4 }}
+      className="group relative rounded-3xl p-6 sm:p-7 overflow-hidden cursor-pointer bg-slate-950/90 border border-slate-800/90 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1.5 shadow-xl hover:shadow-2xl flex flex-col justify-between"
     >
-      {/* Top Accent Gradient Border Glow */}
+      {/* Background Accent Gradient Aura */}
       <div
-        className="absolute top-0 inset-x-0 h-[2px] opacity-40 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-15 group-hover:opacity-45 transition-opacity duration-500 pointer-events-none"
+        style={{ background: skill.glow }}
+      />
+      <div
+        className="absolute top-0 inset-x-0 h-[2px] opacity-60 group-hover:opacity-100 transition-opacity duration-300"
         style={{ background: `linear-gradient(90deg, transparent, ${g1}, transparent)` }}
       />
 
-      {/* Ambient Radial Hover Glow (Pure CSS Opacity) */}
-      <div
-        className="absolute -top-10 -right-10 w-28 h-28 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"
-        style={{ background: skill.glow }}
-      />
+      <div>
+        {/* Header Row */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex items-center gap-3.5">
+            <div
+              className="w-13 h-13 rounded-2xl flex items-center justify-center border shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+              style={{
+                background: `rgba(15, 23, 42, 0.9)`,
+                borderColor: `${g1}44`,
+                boxShadow: `0 0 16px ${skill.glow}`,
+              }}
+            >
+              <Icon className="text-3xl" style={{ color: g1 }} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h4 className="font-extrabold text-lg sm:text-xl text-white group-hover:text-indigo-300 transition-colors">
+                  {skill.name}
+                </h4>
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                  <FaStar className="text-[8px] text-amber-400" />
+                  {skill.badge}
+                </span>
+              </div>
+              <span className="text-xs font-mono text-slate-400 block mt-0.5">
+                {skill.tag}
+              </span>
+            </div>
+          </div>
 
-      {/* Header: Icon + Title + Rank */}
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-11 h-11 rounded-xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3"
-            style={{
-              background: `rgba(15, 23, 42, 0.9)`,
-              borderColor: `${g1}33`,
-              boxShadow: `0 0 12px ${skill.glow}`,
-            }}
-          >
-            <Icon className="text-2xl" style={{ color: g1 }} />
-          </div>
-          <div>
-            <h4 className="font-extrabold text-sm sm:text-base text-white group-hover:text-indigo-300 transition-colors">
-              {skill.name}
-            </h4>
-            <span className="text-[10px] sm:text-[11px] font-mono text-slate-400 block mt-0.5">
-              {skill.tag}
-            </span>
-          </div>
+          <RadialGauge level={skill.level} color={g1} glow={skill.glow} inView={inView} />
         </div>
 
-        <span
-          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider border shrink-0"
-          style={{
-            color: g1,
-            borderColor: `${g1}33`,
-            background: `${g1}10`,
-          }}
-        >
-          {skill.rank}
-        </span>
+        {/* Feature Highlight Description */}
+        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-5 bg-slate-900/60 p-3 rounded-xl border border-slate-800/60">
+          ✦ {skill.highlight}
+        </p>
       </div>
 
-      {/* High-Tech Progress Bar & Level Metric */}
-      <div className="space-y-2 mt-4">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Proficiency Gauge</span>
-          <div
-            className="px-2.5 py-0.5 rounded-lg text-xs font-black font-mono border flex items-center gap-0.5 shadow-sm"
-            style={{
-              color: g1,
-              borderColor: `${g1}44`,
-              background: `${g1}15`,
-              boxShadow: `0 0 10px ${skill.glow}`,
-            }}
-          >
-            <span>{inView ? <Counter target={skill.level} inView={inView} /> : 0}%</span>
-          </div>
+      {/* Cyber Neon Track Container */}
+      <div className="space-y-1.5 mt-2">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
+          <span>PROFICIENCY GAUGE</span>
+          <span className="font-bold uppercase tracking-wider" style={{ color: g1 }}>{skill.rank}</span>
         </div>
 
-        {/* Cyber Neon Track Container with Ticks */}
-        <div className="relative w-full bg-slate-900/90 rounded-xl h-3.5 p-0.5 border border-slate-800/90 overflow-hidden shadow-inner shadow-black/80">
-          {/* Subtle Grid Ticks */}
-          <div className="absolute inset-0 flex justify-between px-3 pointer-events-none z-10">
-            <span className="w-px h-full bg-slate-800/50" />
-            <span className="w-px h-full bg-slate-800/50" />
-            <span className="w-px h-full bg-slate-800/50" />
-          </div>
-
-          {/* Animated Neon Progress Fill */}
+        <div className="relative w-full bg-slate-900 rounded-xl h-3 p-0.5 border border-slate-800/90 overflow-hidden shadow-inner">
           <div
             className="h-full rounded-lg transition-all duration-1000 ease-out relative flex items-center justify-end overflow-hidden"
             style={{
@@ -189,17 +309,95 @@ function FastSkillCard({ skill, index }) {
               boxShadow: `0 0 14px ${skill.glow}`,
             }}
           >
-            {/* Leading Illuminated Photon Tip */}
             <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#ffffff] mr-0.5 shrink-0 z-20" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
-            {/* Hardware-Accelerated CSS Shimmer Sweep */}
-            <div
-              className="absolute inset-0 opacity-70 pointer-events-none"
-              style={{
-                background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
-                animation: "shimmer-pass 2.8s ease-in-out infinite",
-              }}
-            />
+// ─── Compact Skill Card Component ────────────────────────────────────────────
+function CompactSkillCard({ skill, index }) {
+  const [inView, setInView] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setInView(true); obs.disconnect(); }
+    }, { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const Icon = skill.icon;
+  const [g1, g2] = skill.gradient;
+
+  return (
+    <motion.div
+      ref={ref}
+      layout
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 15 }}
+      transition={{ duration: 0.35, delay: index * 0.04 }}
+      className="group relative rounded-2xl p-4 sm:p-5 overflow-hidden cursor-pointer bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-xl"
+    >
+      <div
+        className="absolute top-0 inset-x-0 h-[2px] opacity-30 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: `linear-gradient(90deg, transparent, ${g1}, transparent)` }}
+      />
+
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-105"
+            style={{
+              background: `rgba(15, 23, 42, 0.9)`,
+              borderColor: `${g1}33`,
+              boxShadow: `0 0 10px ${skill.glow}`,
+            }}
+          >
+            <Icon className="text-xl" style={{ color: g1 }} />
+          </div>
+          <div>
+            <h4 className="font-extrabold text-sm text-white group-hover:text-indigo-300 transition-colors">
+              {skill.name}
+            </h4>
+            <span className="text-[10px] font-mono text-slate-400 block mt-0.5">
+              {skill.tag}
+            </span>
+          </div>
+        </div>
+
+        <span
+          className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider border shrink-0"
+          style={{ color: g1, borderColor: `${g1}33`, background: `${g1}10` }}
+        >
+          {skill.rank}
+        </span>
+      </div>
+
+      <div className="space-y-1">
+        <div className="flex items-center justify-between text-[11px] font-mono">
+          <span className="text-slate-400">Proficiency</span>
+          <span className="font-extrabold" style={{ color: g1 }}>
+            {inView ? <Counter target={skill.level} inView={inView} /> : 0}%
+          </span>
+        </div>
+
+        <div className="w-full bg-slate-900 rounded-full h-2.5 p-0.5 border border-slate-800/80 overflow-hidden relative">
+          <div
+            className="h-full rounded-full transition-all duration-1000 ease-out relative flex items-center justify-end"
+            style={{
+              width: inView ? `${skill.level}%` : "0%",
+              background: `linear-gradient(90deg, ${g1}, ${g2})`,
+              boxShadow: `0 0 10px ${skill.glow}`,
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff] mr-0.5 shrink-0" />
           </div>
         </div>
       </div>
@@ -217,10 +415,6 @@ const marqueeKeyframes = `
     0%   { transform: translateX(-50%); }
     100% { transform: translateX(0); }
   }
-  @keyframes shimmer-pass {
-    0%   { transform: translateX(-100%); }
-    50%, 100% { transform: translateX(200%); }
-  }
 `;
 
 function InfiniteMarquee({ items, direction = 1 }) {
@@ -232,7 +426,6 @@ function InfiniteMarquee({ items, direction = 1 }) {
     <div className="relative overflow-hidden py-2 sm:py-3">
       <style>{marqueeKeyframes}</style>
 
-      {/* Fade edges */}
       <div className="absolute left-0 top-0 h-full w-12 sm:w-24 z-10 pointer-events-none bg-gradient-to-r from-slate-900 to-transparent" />
       <div className="absolute right-0 top-0 h-full w-12 sm:w-24 z-10 pointer-events-none bg-gradient-to-l from-slate-900 to-transparent" />
 
@@ -323,12 +516,22 @@ function SectionLabel({ children, accent }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function SkillPage() {
+  const [filter, setFilter] = useState("all"); // 'all' | 'frontend' | 'backend' | 'system'
+
+  const filteredSkills = useMemo(() => {
+    if (filter === "all") return programmingSkills;
+    return programmingSkills.filter((s) => s.category === filter);
+  }, [filter]);
+
+  const featuredSkills = useMemo(() => filteredSkills.filter((s) => s.isFeatured), [filteredSkills]);
+  const regularSkills = useMemo(() => filteredSkills.filter((s) => !s.isFeatured), [filteredSkills]);
+
   return (
     <section
       id="skills"
       className="relative bg-slate-900 text-slate-100 py-14 sm:py-24 overflow-hidden px-4 sm:px-12 lg:px-16"
     >
-      {/* ── Ambient background blobs ── */}
+      {/* Ambient background blobs */}
       <div
         className="absolute -top-40 -left-40 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full pointer-events-none opacity-40"
         style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)", filter: "blur(60px)" }}
@@ -348,7 +551,6 @@ export default function SkillPage() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center"
         >
-          {/* Floating badge */}
           <div
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-3.5 border"
             style={{
@@ -373,22 +575,65 @@ export default function SkillPage() {
             Technologies and tools I use daily — from programming languages to professional people skills.
           </p>
 
-          {/* Decorative line */}
           <div
             className="mx-auto mt-5 h-px w-20 sm:w-24 rounded"
             style={{ background: "linear-gradient(90deg, #6366F1, #EC4899, #06B6D4)" }}
           />
         </motion.div>
 
-        {/* ── Programming Skills Grid ── */}
+        {/* ── Programming Skills Bento Grid & Filter ── */}
         <div>
-          <SectionLabel accent="linear-gradient(180deg,#6366F1,#8B5CF6)">
-            Programming Languages &amp; Frameworks
-          </SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {programmingSkills.map((skill, i) => (
-              <FastSkillCard key={skill.name} skill={skill} index={i} />
-            ))}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+            <SectionLabel accent="linear-gradient(180deg,#6366F1,#8B5CF6)">
+              Programming Languages &amp; Frameworks
+            </SectionLabel>
+
+            {/* Interactive Category Filter Pills */}
+            <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-950/90 border border-slate-800/90 text-xs font-mono backdrop-blur-md self-stretch sm:self-auto">
+              {[
+                { id: "all", label: `All (${programmingSkills.length})` },
+                { id: "frontend", label: "Frontend" },
+                { id: "backend", label: "Backend" },
+                { id: "system", label: "AI & System" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFilter(tab.id)}
+                  className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl font-bold transition-all duration-200 whitespace-nowrap ${
+                    filter === tab.id
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400/30"
+                      : "text-slate-400 hover:text-white hover:bg-slate-900"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Dynamic Bento Layout */}
+          <div className="space-y-5">
+            {/* Top Row: Spotlight Featured Bento Cards */}
+            {featuredSkills.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <AnimatePresence mode="popLayout">
+                  {featuredSkills.map((skill, i) => (
+                    <FeaturedBentoCard key={skill.id} skill={skill} index={i} />
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {/* Bottom Row: Compact Skill Cards Grid */}
+            {regularSkills.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <AnimatePresence mode="popLayout">
+                  {regularSkills.map((skill, i) => (
+                    <CompactSkillCard key={skill.id} skill={skill} index={i} />
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
           </div>
         </div>
 
